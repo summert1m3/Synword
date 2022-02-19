@@ -11,7 +11,7 @@
 
 1. Определение строки подключения
 
-    ```json
+    ```
     dotnet user-secrets set "UserDataConnection" "Server=Server=(localdb)\\mssqllocaldb;Integrated Security=true;Initial Catalog=Synword.UserDataDb"
     ```
 
