@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Synword.ApplicationCore.Entities.UserAggregate;
@@ -12,6 +13,11 @@ public class SynonymConfiguration : IEntityTypeConfiguration<Synonym>
         var splitStringConverter = new ValueConverter<IReadOnlyCollection<string>, string>(
             v => string.Join(";", v), 
             v => v.Split(new[] { ';' }));
-        builder.Property(s => s.Synonyms).HasConversion(splitStringConverter);
+        var splitStringValueComparer = new ValueComparer<IReadOnlyCollection<string>>(
+            (c1, c2) => new HashSet<string>(c1!).SetEquals(new HashSet<string>(c2!)),
+            c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+            c => c.ToList()
+        );
+        builder.Property(s => s.Synonyms).HasConversion(splitStringConverter, splitStringValueComparer);
     }
 }

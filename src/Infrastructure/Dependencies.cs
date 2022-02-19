@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Synword.Infrastructure.Data;
+using Synword.Infrastructure.Identity;
 
 namespace Synword.Infrastructure;
 
@@ -15,5 +16,7 @@ public static class Dependencies
             c.UseSqlServer(configuration["DictionaryConnection"]));
         services.AddDbContext<PricesContext>(c =>
             c.UseSqlServer(configuration["PricesConnection"]));
+        services.AddDbContext<AppIdentityDbContext>(options =>
+            options.UseSqlServer(configuration["IdentityConnection"]));
     }
 }

@@ -7,11 +7,11 @@ public class ExternalSignIn
         // required by EF
     }
     
-    public ExternalSignIn(ExternalSignInType type, string externalKey)
+    public ExternalSignIn(ExternalSignInType type, string externalId)
     {
-        ExternalSignInType = type;
-        ExternalKey = externalKey;
+        Type = type;
+        Id = externalId;
     }
-    public ExternalSignInType ExternalSignInType { get; private set; }
-    public string ExternalKey { get; private set; }
+    public ExternalSignInType Type { get; private set; }
+    public string Id { get; private set; }
 }

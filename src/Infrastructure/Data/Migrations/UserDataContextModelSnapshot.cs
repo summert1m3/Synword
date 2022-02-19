@@ -120,8 +120,8 @@ namespace Synword.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -148,8 +148,8 @@ namespace Synword.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -173,8 +173,8 @@ namespace Synword.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -238,17 +238,15 @@ namespace Synword.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Synword.ApplicationCore.Entities.UserAggregate.User", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int?>("MetadataId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
+                    b.Property<string>("Roles")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UsageDataId")
                         .HasColumnType("int");
@@ -314,9 +312,7 @@ namespace Synword.Infrastructure.Data.Migrations
                 {
                     b.HasOne("Synword.ApplicationCore.Entities.UserAggregate.User", "User")
                         .WithMany("PlagiarismCheckHistory")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
@@ -325,9 +321,7 @@ namespace Synword.Infrastructure.Data.Migrations
                 {
                     b.HasOne("Synword.ApplicationCore.Entities.UserAggregate.User", "User")
                         .WithMany("RephraseHistory")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
@@ -353,8 +347,8 @@ namespace Synword.Infrastructure.Data.Migrations
 
                     b.OwnsOne("Synword.ApplicationCore.Entities.UserAggregate.ValueObjects.Coins", "Coins", b1 =>
                         {
-                            b1.Property<int>("UserId")
-                                .HasColumnType("int");
+                            b1.Property<string>("UserId")
+                                .HasColumnType("nvarchar(450)");
 
                             b1.Property<int>("Value")
                                 .HasColumnType("int")
@@ -370,14 +364,13 @@ namespace Synword.Infrastructure.Data.Migrations
 
                     b.OwnsOne("Synword.ApplicationCore.Entities.UserAggregate.ValueObjects.ExternalSignIn", "ExternalSignIn", b1 =>
                         {
-                            b1.Property<int>("UserId")
-                                .HasColumnType("int");
+                            b1.Property<string>("UserId")
+                                .HasColumnType("nvarchar(450)");
 
-                            b1.Property<string>("ExternalKey")
-                                .IsRequired()
+                            b1.Property<string>("Id")
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.Property<int>("ExternalSignInType")
+                            b1.Property<int>("Type")
                                 .HasColumnType("int");
 
                             b1.HasKey("UserId");
@@ -390,8 +383,8 @@ namespace Synword.Infrastructure.Data.Migrations
 
                     b.OwnsOne("Synword.ApplicationCore.Entities.UserAggregate.ValueObjects.Ip", "Ip", b1 =>
                         {
-                            b1.Property<int>("UserId")
-                                .HasColumnType("int");
+                            b1.Property<string>("UserId")
+                                .HasColumnType("nvarchar(450)");
 
                             b1.Property<string>("Value")
                                 .IsRequired()

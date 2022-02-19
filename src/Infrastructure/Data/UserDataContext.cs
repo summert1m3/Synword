@@ -24,5 +24,6 @@ public class UserDataContext : DbContext
     {
         base.OnModelCreating(builder);
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        builder.Entity<User>().Navigation(u => u.UsageData).AutoInclude();
     }
 }

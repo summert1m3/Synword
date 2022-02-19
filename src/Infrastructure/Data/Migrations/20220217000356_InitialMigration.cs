@@ -46,12 +46,11 @@ namespace Synword.Infrastructure.Data.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ExternalSignIn_ExternalSignInType = table.Column<int>(type: "int", nullable: true),
-                    ExternalSignIn_ExternalKey = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ExternalSignIn_Type = table.Column<int>(type: "int", nullable: true),
+                    ExternalSignIn_Id = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Ip = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Role = table.Column<int>(type: "int", nullable: false),
+                    Roles = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Coins = table.Column<int>(type: "int", nullable: false),
                     UsageDataId = table.Column<int>(type: "int", nullable: false),
                     MetadataId = table.Column<int>(type: "int", nullable: true)
@@ -81,7 +80,7 @@ namespace Synword.Infrastructure.Data.Migrations
                     ProductId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PurchaseToken = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -102,7 +101,7 @@ namespace Synword.Infrastructure.Data.Migrations
                     Error = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Percent = table.Column<float>(type: "real", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -111,8 +110,7 @@ namespace Synword.Infrastructure.Data.Migrations
                         name: "FK_PlagiarismCheckHistories_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -123,7 +121,7 @@ namespace Synword.Infrastructure.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SourceText = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RephrasedText = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -132,8 +130,7 @@ namespace Synword.Infrastructure.Data.Migrations
                         name: "FK_RephraseHistories_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(

@@ -28,7 +28,13 @@
     ```
     update-database -Context UserDataContext
     ```
+1. IdentityDB:
 
-## Database model
+    ```
+    add-migration InitialMigration -Context AppIdentityDbContext -OutputDir "Identity/Migrations"
+    
+    update-database -Context AppIdentityDbContext
+    ```
+## Domain database model
 
 ![db_screen](docs/db_model.png)

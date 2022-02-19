@@ -13,6 +13,8 @@ public class Coins
     {
         Guard.Against.Negative(coins, nameof(coins));
         Guard.Against.OutOfRange(coins, nameof(coins), 0, int.MaxValue);
+
+        Value = coins;
     }
     public int Value { get; private set; }
 }
