@@ -5,7 +5,7 @@
     <RootNamespace>Synword.PublicApi</RootNamespace>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>5b6aef88-d7aa-42b4-a070-74ddeac767f5</UserSecretsId>
+    <UserSecretsId>d1aab802-1f7e-49a5-a5f1-8359757e46af</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

@@ -4,7 +4,7 @@ using MinimalApi.Endpoint;
 using Synword.ApplicationCore.Interfaces;
 using Synword.Infrastructure.Identity;
 
-namespace Synword.PublicApi.AuthEndpoints.Guest;
+namespace Synword.PublicApi.AuthEndpoints.GuestEndpoints;
 
 public class GuestAuthenticateEndpoint : IEndpoint<IResult, GuestAuthenticateRequest>
 {

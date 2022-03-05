@@ -1,4 +1,4 @@
-﻿namespace Synword.PublicApi.AuthEndpoints.Guest;
+﻿namespace Synword.PublicApi.AuthEndpoints.GuestEndpoints;
 
 public class GuestAuthenticateRequest
 {

@@ -12,7 +12,7 @@
 1. Определение строки подключения
 
     ```
-    dotnet user-secrets set "UserDataConnection" "Server=Server=(localdb)\\mssqllocaldb;Integrated Security=true;Initial Catalog=Synword.UserDataDb"
+    dotnet user-secrets set "UserDataConnection" "Server=(localdb)\\mssqllocaldb;Integrated Security=true;Initial Catalog=Synword.UserDataDb"
     ```
 
 ## Создание БД
@@ -34,6 +34,12 @@
     add-migration InitialMigration -Context AppIdentityDbContext -OutputDir "Identity/Migrations"
     
     update-database -Context AppIdentityDbContext
+    ```
+## JWT
+1. Добавьте закрытый ключ для подписи JWT
+
+    ```
+    dotnet user-secrets set "JWT_SECRET_KEY" "test"
     ```
 ## Domain database model
 
