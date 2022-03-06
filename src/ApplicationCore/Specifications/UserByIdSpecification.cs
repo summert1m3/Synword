@@ -3,10 +3,11 @@ using Synword.ApplicationCore.Entities.UserAggregate;
 
 namespace Synword.ApplicationCore.Specifications;
 
-public class UserByIdSpecification : Specification<User>, ISingleResultSpecification
+public class UserByExternalIdSpecification : Specification<User>, ISingleResultSpecification
 {
-    public UserByIdSpecification(string ip)
+    public UserByExternalIdSpecification(string externalId)
     {
-        
+        Query
+            .Where(u => u.ExternalSignIn.Id == externalId);
     }
 }

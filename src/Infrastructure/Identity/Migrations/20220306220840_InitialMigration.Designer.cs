@@ -12,7 +12,7 @@ using Synword.Infrastructure.Identity;
 namespace Synword.Infrastructure.Identity.Migrations
 {
     [DbContext(typeof(AppIdentityDbContext))]
-    [Migration("20220305210950_InitialMigration")]
+    [Migration("20220306220840_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -9,7 +9,10 @@ public class GoogleApi : IGoogleApi
 
     public GoogleUserModel GetGoogleUserData(string accessToken)
     {
-        GoogleUserModel userData = new();
+        GoogleUserModel userData = new()
+        {
+            Id = accessToken
+        };
         return userData;
     }
 }

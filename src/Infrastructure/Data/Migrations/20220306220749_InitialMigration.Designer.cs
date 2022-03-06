@@ -12,7 +12,7 @@ using Synword.Infrastructure.Data;
 namespace Synword.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(UserDataContext))]
-    [Migration("20220305210307_InitialMigration")]
+    [Migration("20220306220749_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -370,12 +370,17 @@ namespace Synword.Infrastructure.Data.Migrations
                                 .HasColumnType("nvarchar(450)");
 
                             b1.Property<string>("Id")
+                                .HasColumnType("nvarchar(450)");
+
+                            b1.Property<string>("Type")
+                                .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.Property<int>("Type")
-                                .HasColumnType("int");
-
                             b1.HasKey("UserId");
+
+                            b1.HasIndex("Id")
+                                .IsUnique()
+                                .HasFilter("[ExternalSignIn_Id] IS NOT NULL");
 
                             b1.ToTable("Users");
 

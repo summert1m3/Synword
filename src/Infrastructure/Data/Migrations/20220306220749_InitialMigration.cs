@@ -47,8 +47,8 @@ namespace Synword.Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ExternalSignIn_Type = table.Column<int>(type: "int", nullable: true),
-                    ExternalSignIn_Id = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ExternalSignIn_Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ExternalSignIn_Id = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Ip = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Roles = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Coins = table.Column<int>(type: "int", nullable: false),
@@ -234,6 +234,13 @@ namespace Synword.Infrastructure.Data.Migrations
                 name: "IX_Synonyms_RephraseHistoryId",
                 table: "Synonyms",
                 column: "RephraseHistoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_ExternalSignIn_Id",
+                table: "Users",
+                column: "ExternalSignIn_Id",
+                unique: true,
+                filter: "[ExternalSignIn_Id] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_MetadataId",

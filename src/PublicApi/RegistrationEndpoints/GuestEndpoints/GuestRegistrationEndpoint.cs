@@ -19,7 +19,7 @@ public class GuestRegistrationEndpoint : IEndpoint<IResult>
     public void AddRoute(IEndpointRouteBuilder app)
     {
         app.MapPost("api/guestRegister", 
-                async(UserManager < AppUser > userManager, IRepository<User> userRepository, 
+                async(UserManager<AppUser> userManager, IRepository<User> userRepository, 
                     HttpContext context) =>
             {
                 _userManager = userManager;

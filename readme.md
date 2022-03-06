@@ -32,7 +32,9 @@
 
     ```
     add-migration InitialMigration -Context AppIdentityDbContext -OutputDir "Identity/Migrations"
+    ```
     
+    ```
     update-database -Context AppIdentityDbContext
     ```
 ## JWT

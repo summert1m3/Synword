@@ -368,12 +368,17 @@ namespace Synword.Infrastructure.Data.Migrations
                                 .HasColumnType("nvarchar(450)");
 
                             b1.Property<string>("Id")
+                                .HasColumnType("nvarchar(450)");
+
+                            b1.Property<string>("Type")
+                                .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.Property<int>("Type")
-                                .HasColumnType("int");
-
                             b1.HasKey("UserId");
+
+                            b1.HasIndex("Id")
+                                .IsUnique()
+                                .HasFilter("[ExternalSignIn_Id] IS NOT NULL");
 
                             b1.ToTable("Users");
 

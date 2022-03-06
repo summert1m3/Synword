@@ -4,7 +4,7 @@ namespace Synword.Infrastructure.Services.Google;
 
 public class GoogleUserModel
 {
-    public string? Id { get; set; }
+    public string Id { get; set; }
     public string? Email { get; set; }
     [JsonPropertyName("verified_email")]
     public string? VerifiedEmail { get; set; }

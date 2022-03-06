@@ -27,7 +27,7 @@ public class User : BaseEntity<string>, IAggregateRoot
         UsageData = usageData;
     }
     public new string Id { get; private set; }
-    public ExternalSignIn? ExternalSignIn { get; init; }
+    public ExternalSignIn? ExternalSignIn { get; private set; }
     public Ip Ip { get; private set; }
     private readonly List<Role> _roles = new();
     public IReadOnlyCollection<Role> Roles => _roles.AsReadOnly();
@@ -44,6 +44,16 @@ public class User : BaseEntity<string>, IAggregateRoot
         Guard.Against.Null(order, nameof(order));
         
         _orders.Add(order);
+    }
+
+    public void AddExternalSignIn(ExternalSignIn externalSignIn)
+    {
+        if (ExternalSignIn != null)
+        {
+            throw new Exception("ExternalSignIn != null");
+        }
+
+        ExternalSignIn = externalSignIn;
     }
 
     public static User CreateDefaultGuest(string id, string ip)

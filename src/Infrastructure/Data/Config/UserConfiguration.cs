@@ -12,6 +12,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
+        
         builder.Property(u => u.Roles)
             .IsRequired()
             .HasConversion(
@@ -36,7 +37,8 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         {
             ue.WithOwner();
             ue.Property(e => e.Type)
-                .HasConversion<int>();
+                .HasConversion<string>();
+            ue.HasIndex(e => e.Id).IsUnique();
         });
         
         builder.OwnsOne(u => u.Ip, ui =>
