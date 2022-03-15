@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Synword.ApplicationCore.Entities.UserAggregate;
 using Synword.ApplicationCore.Entities.UserAggregate.ValueObjects;
+using Synword.ApplicationCore.Enums;
 
 namespace Synword.Infrastructure.Data.Config;
 

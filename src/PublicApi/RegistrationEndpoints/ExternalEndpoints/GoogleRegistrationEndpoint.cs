@@ -6,6 +6,7 @@ using Microsoft.OpenApi.Extensions;
 using MinimalApi.Endpoint;
 using Synword.ApplicationCore.Entities.UserAggregate;
 using Synword.ApplicationCore.Entities.UserAggregate.ValueObjects;
+using Synword.ApplicationCore.Enums;
 using Synword.ApplicationCore.Interfaces;
 using Synword.ApplicationCore.Specifications;
 using Synword.Infrastructure.Identity;
@@ -41,11 +42,6 @@ public class GoogleRegistrationEndpoint : IEndpoint<IResult, GoogleRegistrationR
         Guard.Against.Null(_userRepository, nameof(_userRepository));
         Guard.Against.Null(_googleApi, nameof(_googleApi));
         Guard.Against.Null(_context, nameof(_context));
-
-        if (!_googleApi.IsAccessTokenValid(request.AccessToken))
-        {
-            throw new Exception("Invalid Access Token");
-        }
 
         GoogleUserModel googleUserModel = _googleApi.GetGoogleUserData(request.AccessToken);
         var userSpec = new UserByExternalIdSpecification(googleUserModel.Id);

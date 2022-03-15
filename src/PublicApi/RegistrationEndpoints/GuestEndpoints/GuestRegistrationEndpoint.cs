@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using MinimalApi.Endpoint;
 using Synword.ApplicationCore.Entities.UserAggregate;
 using Synword.ApplicationCore.Entities.UserAggregate.ValueObjects;
+using Synword.ApplicationCore.Enums;
 using Synword.ApplicationCore.Interfaces;
 using Synword.Infrastructure.Identity;
 using Synword.PublicApi.RegistrationEndpoints.Guest;

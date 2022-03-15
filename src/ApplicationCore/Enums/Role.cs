@@ -1,4 +1,4 @@
-﻿namespace Synword.ApplicationCore.Entities.UserAggregate.ValueObjects;
+﻿namespace Synword.ApplicationCore.Enums;
 
 public enum Role
 {

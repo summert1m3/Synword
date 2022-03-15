@@ -32,11 +32,6 @@ public class GoogleAuthenticateEndpoint : IEndpoint
 
     public async Task<IResult> HandleAsync(GoogleAuthenticateRequest request)
     {
-        if (!_googleApi.IsAccessTokenValid(request.AccessToken))
-        {
-            throw new Exception("Invalid Access Token");
-        }
-
         GoogleUserModel googleUserModel = _googleApi.GetGoogleUserData(request.AccessToken);
         var userSpec = new UserByExternalIdSpecification(googleUserModel.Id);
         User? user = await _userRepository.GetBySpecAsync(userSpec);

@@ -1,6 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using Synword.ApplicationCore.Interfaces;
 using Synword.ApplicationCore.Entities.UserAggregate.ValueObjects;
+using Synword.ApplicationCore.Enums;
 
 namespace Synword.ApplicationCore.Entities.UserAggregate;
 

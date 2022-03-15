@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Synword.ApplicationCore.Entities.UserAggregate.ValueObjects;
+using Synword.ApplicationCore.Enums;
 
 namespace Synword.Infrastructure.Identity;
 
