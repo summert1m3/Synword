@@ -1,31 +1,31 @@
-﻿using Ardalis.GuardClauses;
+﻿using Ardalis.ApiEndpoints;
+using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Identity;
-using MinimalApi.Endpoint;
+using Microsoft.AspNetCore.Mvc;
 using Synword.ApplicationCore.Interfaces;
 using Synword.Infrastructure.Identity;
 
 namespace Synword.PublicApi.AuthEndpoints.GuestEndpoints;
 
-public class GuestAuthenticateEndpoint : IEndpoint<IResult, GuestAuthenticateRequest>
+public class GuestAuthenticateEndpoint : EndpointBaseAsync
+    .WithRequest<GuestAuthenticateRequest>
+    .WithActionResult<GuestAuthenticateResponse>
 {
-    private UserManager<AppUser>? _userManager;
-    private ITokenClaimsService? _tokenClaimsService;
-    
-    public void AddRoute(IEndpointRouteBuilder app)
-    {
-        app.MapPost("api/guestAuthenticate",
-            async (GuestAuthenticateRequest request, UserManager<AppUser> userManager, 
-                ITokenClaimsService tokenClaimsService) =>
-            {
-                _userManager = userManager;
-                _tokenClaimsService = tokenClaimsService;
-                return await HandleAsync(request);
-            }).Produces<GuestAuthenticateResponse>();
-    }
+    private readonly UserManager<AppUser>? _userManager;
+    private readonly ITokenClaimsService? _tokenClaimsService;
 
-    public async Task<IResult> HandleAsync(GuestAuthenticateRequest request)
+    public GuestAuthenticateEndpoint(UserManager<AppUser> userManager, 
+        ITokenClaimsService tokenClaimsService)
     {
-        Guard.Against.Null(request.UserId, nameof(request.UserId));
+        _userManager = userManager;
+        _tokenClaimsService = tokenClaimsService;
+    }
+    
+    [HttpPost("api/guestAuthenticate")]
+    public override async Task<ActionResult<GuestAuthenticateResponse>> HandleAsync(
+        GuestAuthenticateRequest request, CancellationToken cancellationToken = default)
+    {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
         
         Guid id;
         
@@ -42,6 +42,6 @@ public class GuestAuthenticateEndpoint : IEndpoint<IResult, GuestAuthenticateReq
         
         string token = await _tokenClaimsService!.GetTokenAsync(guest.Id);
         
-        return Results.Ok(new GuestAuthenticateResponse(token));
+        return Ok(new GuestAuthenticateResponse(token));
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System.Security.Claims;
+using Ardalis.ApiEndpoints;
 using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.OpenApi.Extensions;
-using MinimalApi.Endpoint;
+using Microsoft.AspNetCore.Mvc;
 using Synword.ApplicationCore.Entities.UserAggregate;
 using Synword.ApplicationCore.Entities.UserAggregate.ValueObjects;
 using Synword.ApplicationCore.Enums;
@@ -14,45 +14,40 @@ using Synword.Infrastructure.Services.Google;
 
 namespace Synword.PublicApi.RegistrationEndpoints.ExternalEndpoints;
 
-public class GoogleRegistrationEndpoint : IEndpoint<IResult, GoogleRegistrationRequest>
+public class GoogleRegistrationEndpoint : EndpointBaseAsync
+    .WithRequest<GoogleRegistrationRequest>
+    .WithActionResult
 {
-    private IRepository<User>? _userRepository;
-    private IGoogleApi? _googleApi;
-    private HttpContext? _context;
-    private UserManager<AppUser>? _userManager;
+    private readonly IRepository<User>? _userRepository;
+    private readonly IGoogleApi? _googleApi;
+    private readonly UserManager<AppUser>? _userManager;
 
-    public void AddRoute(IEndpointRouteBuilder app)
+    public GoogleRegistrationEndpoint(IRepository<User> userRepository,
+        IGoogleApi googleApi, UserManager<AppUser> userManager)
     {
-        app.MapPost("api/googleRegister",
-            [Authorize(Roles = nameof(Role.Guest))]
-            async (GoogleRegistrationRequest request, IRepository<User> userRepository,
-                IGoogleApi googleApi, HttpContext context, UserManager<AppUser> userManager) =>
-            {
-                _userRepository = userRepository;
-                _googleApi = googleApi;
-                _context = context;
-                _userManager = userManager;
-                return await HandleAsync(request);
-            });
+        _userRepository = userRepository;
+        _googleApi = googleApi;
+        _userManager = userManager;
     }
-
-    public async Task<IResult> HandleAsync(GoogleRegistrationRequest request)
+    
+    [HttpPost("api/googleRegister")]
+    [Authorize(Roles = nameof(Role.Guest))]
+    public override async Task<ActionResult> HandleAsync(
+        GoogleRegistrationRequest request,
+        CancellationToken cancellationToken = default)
     {
-        Guard.Against.Null(request.AccessToken, nameof(request.AccessToken));
-        Guard.Against.Null(_userRepository, nameof(_userRepository));
-        Guard.Against.Null(_googleApi, nameof(_googleApi));
-        Guard.Against.Null(_context, nameof(_context));
-
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+        
         GoogleUserModel googleUserModel = _googleApi.GetGoogleUserData(request.AccessToken);
         var userSpec = new UserByExternalIdSpecification(googleUserModel.Id);
-        User? userBySpec = await _userRepository.GetBySpecAsync(userSpec);
+        User? userBySpec = await _userRepository.GetBySpecAsync(userSpec, cancellationToken);
         
         if (userBySpec != null)
         {
-            throw new Exception("User already exists");
+            return BadRequest("User already exists");
         }
         
-        string userId = _context.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        string userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
         
         User? user = await _userRepository.GetByIdAsync(userId);
 
@@ -66,8 +61,8 @@ public class GoogleRegistrationEndpoint : IEndpoint<IResult, GoogleRegistrationR
         await _userManager.RemoveFromRoleAsync(identityUser, Role.Guest.ToString());
         await _userManager.AddToRoleAsync(identityUser, Role.User.ToString());
 
-        await _userRepository.SaveChangesAsync();
+        await _userRepository.SaveChangesAsync(cancellationToken);
         
-        return Results.Ok("Google account is linked to synword account");
+        return Ok("Google account is linked to Synword account");
     }
 }

@@ -12,6 +12,8 @@ builder.Services.AddEndpoints();
 
 Synword.Infrastructure.Dependencies.ConfigureServices(builder.Configuration, builder.Services);
 
+builder.Services.AddControllers();
+
 builder.Services.AddSwagger();
 
 builder.Services.AddJwtBearerAuthentication(builder.Configuration);
@@ -39,6 +41,11 @@ app.UseAuthorization();
 app.UseSwagger();
 
 app.UseSwaggerUI();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 app.Logger.LogInformation("Seeding Database...");
 

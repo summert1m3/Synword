@@ -10,6 +10,7 @@ public class GoogleApi : IGoogleApi
 
     public GoogleUserModel GetGoogleUserData(string accessToken)
     {
+#if !DEBUG
         HttpClient httpClient = new HttpClient();
         var requestUri = new Uri(string.Format(GoogleApiTokenInfoUrl, accessToken));
 
@@ -33,5 +34,13 @@ public class GoogleApi : IGoogleApi
         var googleUserModel = response.FromJson<GoogleUserModel>();
 
         return googleUserModel;
+#endif
+        
+#if DEBUG
+        return new GoogleUserModel()
+        {
+            Id = accessToken
+        };
+#endif
     }
 }

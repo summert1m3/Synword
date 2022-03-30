@@ -1,63 +1,54 @@
 ﻿using System.Net;
-using Ardalis.GuardClauses;
+using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Identity;
-using MinimalApi.Endpoint;
+using Microsoft.AspNetCore.Mvc;
 using Synword.ApplicationCore.Entities.UserAggregate;
-using Synword.ApplicationCore.Entities.UserAggregate.ValueObjects;
 using Synword.ApplicationCore.Enums;
 using Synword.ApplicationCore.Interfaces;
 using Synword.Infrastructure.Identity;
-using Synword.PublicApi.RegistrationEndpoints.Guest;
 
 namespace Synword.PublicApi.RegistrationEndpoints.GuestEndpoints;
 
-public class GuestRegistrationEndpoint : IEndpoint<IResult>
+public class GuestRegistrationEndpoint : EndpointBaseAsync
+    .WithoutRequest
+    .WithActionResult<GuestRegistrationResponse>
 {
-    private UserManager<AppUser>? _userManager;
-    private IRepository<User>? _userRepository;
-    private HttpContext? _context;
-
-    public void AddRoute(IEndpointRouteBuilder app)
+    private readonly UserManager<AppUser>? _userManager;
+    private readonly IRepository<User>? _userRepository;
+    
+    public GuestRegistrationEndpoint(UserManager<AppUser> userManager, IRepository<User> userRepository)
     {
-        app.MapPost("api/guestRegister", 
-                async(UserManager<AppUser> userManager, IRepository<User> userRepository, 
-                    HttpContext context) =>
-            {
-                _userManager = userManager;
-                _userRepository = userRepository;
-                _context = context;
-                return await HandleAsync();
-            })
-            .Produces<GuestRegistrationResponse>();
+        _userManager = userManager;
+        _userRepository = userRepository;
     }
     
-    public async Task<IResult> HandleAsync()
+    [HttpPost("api/guestRegister")]
+    public override async Task<ActionResult<GuestRegistrationResponse>> HandleAsync(
+        CancellationToken cancellationToken = default)
     {
-        Guard.Against.Null(_context, nameof(_context));
-        Guard.Against.Null(_userManager, nameof(_userManager));
-        Guard.Against.Null(_userRepository, nameof(_userRepository));
-        
-        IPAddress? ip = _context.Connection.RemoteIpAddress;
+        IPAddress? ip = HttpContext.Connection.RemoteIpAddress;
 
         if (ip == null)
         {
-            return Results.BadRequest();
+            return BadRequest();
         }
 
         AppUser guest = new();
 
         guest.UserName = guest.Id;
         
-        await _userManager.CreateAsync(guest);
+        await _userManager!.CreateAsync(guest);
 
         await _userManager.AddToRoleAsync(guest, Role.Guest.ToString());
         
-        await _userRepository.AddAsync(
-            User.CreateDefaultGuest(guest.Id, ip.ToString())
+        await _userRepository!.AddAsync(
+            Synword.ApplicationCore.Entities.UserAggregate.User
+                .CreateDefaultGuest(guest.Id, ip.ToString()),
+            cancellationToken
         );
         
-        await _userRepository.SaveChangesAsync();
+        await _userRepository.SaveChangesAsync(cancellationToken);
 
-        return Results.Ok(new GuestRegistrationResponse(guest.Id));
+        return Ok(new GuestRegistrationResponse(guest.Id));
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Synword.PublicApi.RegistrationEndpoints.Guest;
+﻿namespace Synword.PublicApi.RegistrationEndpoints.GuestEndpoints;
 
 public class GuestRegistrationResponse
 {
