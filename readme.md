@@ -58,13 +58,13 @@
 ## App Screens
 
 <p align="center">
-    <img src="docs/Images/Main screen.png" alt="drawing" width="70%"/>
+    <img src="docs/Images/Main screen.png" alt="drawing" width="30%"/>
 </p>
 
 <p align="center">
-    <img src="docs/Images/Plagiarism check layer.png" alt="drawing" width="70%"/>
+    <img src="docs/Images/Plagiarism check layer.png" alt="drawing" width="30%"/>
 </p>
 
 <p align="center">
-    <img src="docs/Images/Rephrase layer.png" alt="drawing" width="70%"/>
+    <img src="docs/Images/Rephrase layer.png" alt="drawing" width="30%"/>
 </p>
