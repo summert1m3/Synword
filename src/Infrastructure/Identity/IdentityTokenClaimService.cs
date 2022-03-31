@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Synword.ApplicationCore.Interfaces;
+using Synword.Domain.Interfaces;
 
 namespace Synword.Infrastructure.Identity;
 

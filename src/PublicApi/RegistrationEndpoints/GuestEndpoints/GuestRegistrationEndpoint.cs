@@ -1,29 +1,25 @@
 ﻿using System.Net;
+using Application.Guests.Commands;
+using Application.Guests.DTOs;
 using Ardalis.ApiEndpoints;
-using Microsoft.AspNetCore.Identity;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Synword.ApplicationCore.Entities.UserAggregate;
-using Synword.ApplicationCore.Enums;
-using Synword.ApplicationCore.Interfaces;
-using Synword.Infrastructure.Identity;
 
 namespace Synword.PublicApi.RegistrationEndpoints.GuestEndpoints;
 
 public class GuestRegistrationEndpoint : EndpointBaseAsync
     .WithoutRequest
-    .WithActionResult<GuestRegistrationResponse>
+    .WithActionResult<GuestRegistrationDTO>
 {
-    private readonly UserManager<AppUser>? _userManager;
-    private readonly IRepository<User>? _userRepository;
+    private readonly IMediator _mediator;
     
-    public GuestRegistrationEndpoint(UserManager<AppUser> userManager, IRepository<User> userRepository)
+    public GuestRegistrationEndpoint(IMediator mediator)
     {
-        _userManager = userManager;
-        _userRepository = userRepository;
+        _mediator = mediator;
     }
     
     [HttpPost("api/guestRegister")]
-    public override async Task<ActionResult<GuestRegistrationResponse>> HandleAsync(
+    public override async Task<ActionResult<GuestRegistrationDTO>> HandleAsync(
         CancellationToken cancellationToken = default)
     {
         IPAddress? ip = HttpContext.Connection.RemoteIpAddress;
@@ -33,22 +29,10 @@ public class GuestRegistrationEndpoint : EndpointBaseAsync
             return BadRequest();
         }
 
-        AppUser guest = new();
-
-        guest.UserName = guest.Id;
+        GuestRegistrationDTO id = 
+            await _mediator.Send(
+                new RegisterNewGuestCommand(ip), cancellationToken);
         
-        await _userManager!.CreateAsync(guest);
-
-        await _userManager.AddToRoleAsync(guest, Role.Guest.ToString());
-        
-        await _userRepository!.AddAsync(
-            Synword.ApplicationCore.Entities.UserAggregate.User
-                .CreateDefaultGuest(guest.Id, ip.ToString()),
-            cancellationToken
-        );
-        
-        await _userRepository.SaveChangesAsync(cancellationToken);
-
-        return Ok(new GuestRegistrationResponse(guest.Id));
+        return Ok(id);
     }
 }

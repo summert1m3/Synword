@@ -1,5 +1,5 @@
 ﻿using Ardalis.Specification.EntityFrameworkCore;
-using Synword.ApplicationCore.Interfaces;
+using Synword.Domain.Interfaces;
 
 namespace Synword.Infrastructure.Data;
 

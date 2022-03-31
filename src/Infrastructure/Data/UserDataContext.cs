@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using Synword.ApplicationCore.Entities.UserAggregate;
+using Synword.Domain.Entities.UserAggregate;
 
 namespace Synword.Infrastructure.Data;
 

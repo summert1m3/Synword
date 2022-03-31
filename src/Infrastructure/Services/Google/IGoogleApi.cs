@@ -2,5 +2,5 @@
 
 public interface IGoogleApi
 {
-    public GoogleUserModel GetGoogleUserData(string accessToken);
+    public Task<GoogleUserModel> GetGoogleUserData(string accessToken);
 }

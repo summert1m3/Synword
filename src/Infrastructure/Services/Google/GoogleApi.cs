@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using Synword.ApplicationCore;
+using Synword.Domain.Extensions;
 
 namespace Synword.Infrastructure.Services.Google;
 
@@ -8,7 +8,7 @@ public class GoogleApi : IGoogleApi
     private const string GoogleApiTokenInfoUrl 
         = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token={0}";
 
-    public GoogleUserModel GetGoogleUserData(string accessToken)
+    public async Task<GoogleUserModel> GetGoogleUserData(string accessToken)
     {
 #if !DEBUG
         HttpClient httpClient = new HttpClient();
@@ -17,7 +17,7 @@ public class GoogleApi : IGoogleApi
         HttpResponseMessage httpResponseMessage;
         try 
         {
-            httpResponseMessage = httpClient.GetAsync(requestUri).Result;
+            httpResponseMessage = await httpClient.GetAsync(requestUri);
         } 
         catch (Exception ex) 
         {

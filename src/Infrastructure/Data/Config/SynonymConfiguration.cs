@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Synword.ApplicationCore.Entities.UserAggregate;
+using Synword.Domain.Entities.UserAggregate;
 
 namespace Synword.Infrastructure.Data.Config;
 

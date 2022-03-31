@@ -1,47 +1,37 @@
-﻿using Ardalis.ApiEndpoints;
-using Ardalis.GuardClauses;
-using Microsoft.AspNetCore.Identity;
+﻿using Application.Guests.Commands;
+using Application.Guests.DTOs;
+using Ardalis.ApiEndpoints;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Synword.ApplicationCore.Interfaces;
-using Synword.Infrastructure.Identity;
 
 namespace Synword.PublicApi.AuthEndpoints.GuestEndpoints;
 
 public class GuestAuthenticateEndpoint : EndpointBaseAsync
     .WithRequest<GuestAuthenticateRequest>
-    .WithActionResult<GuestAuthenticateResponse>
+    .WithActionResult<GuestAuthenticateDTO>
 {
-    private readonly UserManager<AppUser>? _userManager;
-    private readonly ITokenClaimsService? _tokenClaimsService;
-
-    public GuestAuthenticateEndpoint(UserManager<AppUser> userManager, 
-        ITokenClaimsService tokenClaimsService)
+    private readonly IMediator _mediator;
+    public GuestAuthenticateEndpoint(IMediator mediator)
     {
-        _userManager = userManager;
-        _tokenClaimsService = tokenClaimsService;
+        _mediator = mediator;
     }
     
     [HttpPost("api/guestAuthenticate")]
-    public override async Task<ActionResult<GuestAuthenticateResponse>> HandleAsync(
+    public override async Task<ActionResult<GuestAuthenticateDTO>> HandleAsync(
         GuestAuthenticateRequest request, CancellationToken cancellationToken = default)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
-        
-        Guid id;
-        
-        var isGuid = Guid.TryParse(request.UserId,out id);
+
+        var isGuid = Guid.TryParse(request.UserId,out Guid id);
         
         if (!isGuid)
         {
-            throw new FormatException();
+            return BadRequest(new FormatException());
         }
 
-        AppUser? guest = await _userManager!.FindByIdAsync(id.ToString());
+        GuestAuthenticateDTO token = await _mediator.Send(
+            new AuthGuestCommand(id.ToString()), cancellationToken);
 
-        Guard.Against.Null(guest);
-        
-        string token = await _tokenClaimsService!.GetTokenAsync(guest.Id);
-        
-        return Ok(new GuestAuthenticateResponse(token));
+        return Ok(token);
     }
 }

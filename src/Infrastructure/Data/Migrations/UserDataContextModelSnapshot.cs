@@ -22,7 +22,7 @@ namespace Synword.Infrastructure.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Synword.ApplicationCore.Entities.UserAggregate.HighlightRange", b =>
+            modelBuilder.Entity("Synword.Domain.Entities.UserAggregate.HighlightRange", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -51,7 +51,7 @@ namespace Synword.Infrastructure.Data.Migrations
                     b.ToTable("HighlightRanges");
                 });
 
-            modelBuilder.Entity("Synword.ApplicationCore.Entities.UserAggregate.MatchedUrl", b =>
+            modelBuilder.Entity("Synword.Domain.Entities.UserAggregate.MatchedUrl", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -76,7 +76,7 @@ namespace Synword.Infrastructure.Data.Migrations
                     b.ToTable("MatchedUrls");
                 });
 
-            modelBuilder.Entity("Synword.ApplicationCore.Entities.UserAggregate.Metadata", b =>
+            modelBuilder.Entity("Synword.Domain.Entities.UserAggregate.Metadata", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -101,7 +101,7 @@ namespace Synword.Infrastructure.Data.Migrations
                     b.ToTable("Metadata");
                 });
 
-            modelBuilder.Entity("Synword.ApplicationCore.Entities.UserAggregate.Order", b =>
+            modelBuilder.Entity("Synword.Domain.Entities.UserAggregate.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -130,7 +130,7 @@ namespace Synword.Infrastructure.Data.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("Synword.ApplicationCore.Entities.UserAggregate.PlagiarismCheckHistory", b =>
+            modelBuilder.Entity("Synword.Domain.Entities.UserAggregate.PlagiarismCheckHistory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -158,7 +158,7 @@ namespace Synword.Infrastructure.Data.Migrations
                     b.ToTable("PlagiarismCheckHistories");
                 });
 
-            modelBuilder.Entity("Synword.ApplicationCore.Entities.UserAggregate.RephraseHistory", b =>
+            modelBuilder.Entity("Synword.Domain.Entities.UserAggregate.RephraseHistory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -183,7 +183,7 @@ namespace Synword.Infrastructure.Data.Migrations
                     b.ToTable("RephraseHistories");
                 });
 
-            modelBuilder.Entity("Synword.ApplicationCore.Entities.UserAggregate.Synonym", b =>
+            modelBuilder.Entity("Synword.Domain.Entities.UserAggregate.Synonym", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -211,7 +211,7 @@ namespace Synword.Infrastructure.Data.Migrations
                     b.ToTable("Synonyms");
                 });
 
-            modelBuilder.Entity("Synword.ApplicationCore.Entities.UserAggregate.UsageData", b =>
+            modelBuilder.Entity("Synword.Domain.Entities.UserAggregate.UsageData", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -236,7 +236,7 @@ namespace Synword.Infrastructure.Data.Migrations
                     b.ToTable("UsageData");
                 });
 
-            modelBuilder.Entity("Synword.ApplicationCore.Entities.UserAggregate.User", b =>
+            modelBuilder.Entity("Synword.Domain.Entities.UserAggregate.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -260,27 +260,27 @@ namespace Synword.Infrastructure.Data.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Synword.ApplicationCore.Entities.UserAggregate.HighlightRange", b =>
+            modelBuilder.Entity("Synword.Domain.Entities.UserAggregate.HighlightRange", b =>
                 {
-                    b.HasOne("Synword.ApplicationCore.Entities.UserAggregate.MatchedUrl", null)
+                    b.HasOne("Synword.Domain.Entities.UserAggregate.MatchedUrl", null)
                         .WithMany("Highlights")
                         .HasForeignKey("MatchedUrlId");
 
-                    b.HasOne("Synword.ApplicationCore.Entities.UserAggregate.PlagiarismCheckHistory", null)
+                    b.HasOne("Synword.Domain.Entities.UserAggregate.PlagiarismCheckHistory", null)
                         .WithMany("Highlight")
                         .HasForeignKey("PlagiarismCheckHistoryId");
                 });
 
-            modelBuilder.Entity("Synword.ApplicationCore.Entities.UserAggregate.MatchedUrl", b =>
+            modelBuilder.Entity("Synword.Domain.Entities.UserAggregate.MatchedUrl", b =>
                 {
-                    b.HasOne("Synword.ApplicationCore.Entities.UserAggregate.PlagiarismCheckHistory", null)
+                    b.HasOne("Synword.Domain.Entities.UserAggregate.PlagiarismCheckHistory", null)
                         .WithMany("Matches")
                         .HasForeignKey("PlagiarismCheckHistoryId");
                 });
 
-            modelBuilder.Entity("Synword.ApplicationCore.Entities.UserAggregate.Metadata", b =>
+            modelBuilder.Entity("Synword.Domain.Entities.UserAggregate.Metadata", b =>
                 {
-                    b.OwnsOne("Synword.ApplicationCore.Entities.UserAggregate.ValueObjects.Email", "Email", b1 =>
+                    b.OwnsOne("Synword.Domain.Entities.UserAggregate.ValueObjects.Email", "Email", b1 =>
                         {
                             b1.Property<int>("MetadataId")
                                 .HasColumnType("int");
@@ -301,51 +301,51 @@ namespace Synword.Infrastructure.Data.Migrations
                     b.Navigation("Email");
                 });
 
-            modelBuilder.Entity("Synword.ApplicationCore.Entities.UserAggregate.Order", b =>
+            modelBuilder.Entity("Synword.Domain.Entities.UserAggregate.Order", b =>
                 {
-                    b.HasOne("Synword.ApplicationCore.Entities.UserAggregate.User", null)
+                    b.HasOne("Synword.Domain.Entities.UserAggregate.User", null)
                         .WithMany("Orders")
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("Synword.ApplicationCore.Entities.UserAggregate.PlagiarismCheckHistory", b =>
+            modelBuilder.Entity("Synword.Domain.Entities.UserAggregate.PlagiarismCheckHistory", b =>
                 {
-                    b.HasOne("Synword.ApplicationCore.Entities.UserAggregate.User", "User")
+                    b.HasOne("Synword.Domain.Entities.UserAggregate.User", "User")
                         .WithMany("PlagiarismCheckHistory")
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Synword.ApplicationCore.Entities.UserAggregate.RephraseHistory", b =>
+            modelBuilder.Entity("Synword.Domain.Entities.UserAggregate.RephraseHistory", b =>
                 {
-                    b.HasOne("Synword.ApplicationCore.Entities.UserAggregate.User", "User")
+                    b.HasOne("Synword.Domain.Entities.UserAggregate.User", "User")
                         .WithMany("RephraseHistory")
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Synword.ApplicationCore.Entities.UserAggregate.Synonym", b =>
+            modelBuilder.Entity("Synword.Domain.Entities.UserAggregate.Synonym", b =>
                 {
-                    b.HasOne("Synword.ApplicationCore.Entities.UserAggregate.RephraseHistory", null)
+                    b.HasOne("Synword.Domain.Entities.UserAggregate.RephraseHistory", null)
                         .WithMany("Synonyms")
                         .HasForeignKey("RephraseHistoryId");
                 });
 
-            modelBuilder.Entity("Synword.ApplicationCore.Entities.UserAggregate.User", b =>
+            modelBuilder.Entity("Synword.Domain.Entities.UserAggregate.User", b =>
                 {
-                    b.HasOne("Synword.ApplicationCore.Entities.UserAggregate.Metadata", "Metadata")
+                    b.HasOne("Synword.Domain.Entities.UserAggregate.Metadata", "Metadata")
                         .WithMany()
                         .HasForeignKey("MetadataId");
 
-                    b.HasOne("Synword.ApplicationCore.Entities.UserAggregate.UsageData", "UsageData")
+                    b.HasOne("Synword.Domain.Entities.UserAggregate.UsageData", "UsageData")
                         .WithMany()
                         .HasForeignKey("UsageDataId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Synword.ApplicationCore.Entities.UserAggregate.ValueObjects.Coins", "Coins", b1 =>
+                    b.OwnsOne("Synword.Domain.Entities.UserAggregate.ValueObjects.Coins", "Coins", b1 =>
                         {
                             b1.Property<string>("UserId")
                                 .HasColumnType("nvarchar(450)");
@@ -362,7 +362,7 @@ namespace Synword.Infrastructure.Data.Migrations
                                 .HasForeignKey("UserId");
                         });
 
-                    b.OwnsOne("Synword.ApplicationCore.Entities.UserAggregate.ValueObjects.ExternalSignIn", "ExternalSignIn", b1 =>
+                    b.OwnsOne("Synword.Domain.Entities.UserAggregate.ValueObjects.ExternalSignIn", "ExternalSignIn", b1 =>
                         {
                             b1.Property<string>("UserId")
                                 .HasColumnType("nvarchar(450)");
@@ -386,7 +386,7 @@ namespace Synword.Infrastructure.Data.Migrations
                                 .HasForeignKey("UserId");
                         });
 
-                    b.OwnsOne("Synword.ApplicationCore.Entities.UserAggregate.ValueObjects.Ip", "Ip", b1 =>
+                    b.OwnsOne("Synword.Domain.Entities.UserAggregate.ValueObjects.Ip", "Ip", b1 =>
                         {
                             b1.Property<string>("UserId")
                                 .HasColumnType("nvarchar(450)");
@@ -417,24 +417,24 @@ namespace Synword.Infrastructure.Data.Migrations
                     b.Navigation("UsageData");
                 });
 
-            modelBuilder.Entity("Synword.ApplicationCore.Entities.UserAggregate.MatchedUrl", b =>
+            modelBuilder.Entity("Synword.Domain.Entities.UserAggregate.MatchedUrl", b =>
                 {
                     b.Navigation("Highlights");
                 });
 
-            modelBuilder.Entity("Synword.ApplicationCore.Entities.UserAggregate.PlagiarismCheckHistory", b =>
+            modelBuilder.Entity("Synword.Domain.Entities.UserAggregate.PlagiarismCheckHistory", b =>
                 {
                     b.Navigation("Highlight");
 
                     b.Navigation("Matches");
                 });
 
-            modelBuilder.Entity("Synword.ApplicationCore.Entities.UserAggregate.RephraseHistory", b =>
+            modelBuilder.Entity("Synword.Domain.Entities.UserAggregate.RephraseHistory", b =>
                 {
                     b.Navigation("Synonyms");
                 });
 
-            modelBuilder.Entity("Synword.ApplicationCore.Entities.UserAggregate.User", b =>
+            modelBuilder.Entity("Synword.Domain.Entities.UserAggregate.User", b =>
                 {
                     b.Navigation("Orders");
 

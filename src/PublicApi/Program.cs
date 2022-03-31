@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using MinimalApi.Endpoint.Extensions;
-using Synword.ApplicationCore.Interfaces;
+using Synword.Domain.Interfaces;
 using Synword.Infrastructure.Data;
 using Synword.Infrastructure.Identity;
 using Synword.Infrastructure.Services.Google;
+using MediatR;
 using Synword.PublicApi;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,8 @@ builder.Services.AddEndpoints();
 Synword.Infrastructure.Dependencies.ConfigureServices(builder.Configuration, builder.Services);
 
 builder.Services.AddControllers();
+
+builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddSwagger();
 

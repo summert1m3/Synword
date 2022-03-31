@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Synword.ApplicationCore.Entities.UserAggregate;
+using Synword.Domain.Entities.UserAggregate;
 
 namespace Synword.Infrastructure.Data.Config;
 

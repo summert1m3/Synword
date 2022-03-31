@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Synword.ApplicationCore.Interfaces;
+using Synword.Domain.Interfaces;
 using Synword.Infrastructure.Identity;
 
 namespace Synword.PublicApi;
