@@ -2,6 +2,8 @@
 
 # Synword
 
+Приложение для проверки и повышения уникальности текста.
+
 ## Строки подключения
 1. Для инициализации подключения к MS SQL Server необходимо включить пользовательские секреты. Данную команду необходимо прописать внутри PublicApi проекта
 
@@ -13,6 +15,10 @@
 
     ```
     dotnet user-secrets set "UserDataConnection" "Server=(localdb)\\mssqllocaldb;Integrated Security=true;Initial Catalog=Synword.UserDataDb"
+    ```
+    
+    ```
+    dotnet user-secrets set "IdentityConnection" "Server=(localdb)\\mssqllocaldb;Integrated Security=true;Initial Catalog=Synword.IdentityDb"
     ```
 
 ## Создание БД
@@ -45,4 +51,20 @@
     ```
 ## Domain database model
 
-![db_screen](docs/db_model.png)
+<p align="center">
+    <img src="docs/db_model.png" alt="drawing" width="80%"/>
+</p>
+
+## App Screens
+
+<p align="center">
+    <img src="docs/Images/Main screen.png" alt="drawing" width="70%"/>
+</p>
+
+<p align="center">
+    <img src="docs/Images/Plagiarism check layer.png" alt="drawing" width="70%"/>
+</p>
+
+<p align="center">
+    <img src="docs/Images/Rephrase layer.png" alt="drawing" width="70%"/>
+</p>
