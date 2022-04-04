@@ -1,14 +1,29 @@
 ﻿using MinimalApi.Endpoint;
+using Synword.Domain.Constants;
 
 namespace Synword.PublicApi.PriceListEndpoints;
 
-public class PriceListEndpoint : IEndpoint
+public class PriceListEndpoint : IEndpoint<IResult>
 {
     public void AddRoute(IEndpointRouteBuilder app)
     {
-        app.MapGet("api/priceList", async () =>
+        app.MapGet("api/priceList", 
+            async () => await HandleAsync()
+            ).Produces<PriceListResponse>();
+    }
+
+    public async Task<IResult> HandleAsync()
+    {
+        List<AppServicePricesDTO> prices = new()
         {
-            
-        }).Produces<PriceListResponse>();
+            new AppServicePricesDTO(
+                nameof(AppServicePricesConstants.PlagiarismCheckPrice), 
+                AppServicePricesConstants.PlagiarismCheckPrice), 
+            new AppServicePricesDTO(
+                nameof(AppServicePricesConstants.RephrasePrice), 
+                AppServicePricesConstants.RephrasePrice)
+        };
+        
+        return Results.Ok(new PriceListResponse(prices));
     }
 }
