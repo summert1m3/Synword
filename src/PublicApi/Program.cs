@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Application.Guests.Services;
+using Application.Users.Services;
+using Microsoft.AspNetCore.Identity;
 using MinimalApi.Endpoint.Extensions;
 using Synword.Domain.Interfaces;
 using Synword.Infrastructure.Data;
@@ -21,9 +23,15 @@ builder.Services.AddSwagger();
 
 builder.Services.AddJwtBearerAuthentication(builder.Configuration);
 
-builder.Services.AddScoped(typeof(IRepository<>), typeof(UserDataRepository<>));
+builder.Services.AddScoped(
+    typeof(IRepository<>), typeof(UserDataRepository<>));
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
-builder.Services.AddScoped(typeof(IGoogleApi), typeof(GoogleApi));
+builder.Services.AddScoped(
+    typeof(IGoogleApi), typeof(GoogleApi));
+builder.Services.AddScoped(
+    typeof(IGuestService), typeof(GuestService));
+builder.Services.AddScoped(
+    typeof(IUserService), typeof(UserService));
 
 var app = builder.Build();
 
@@ -63,7 +71,7 @@ using (var scope = app.Services.CreateScope())
     }
     catch (Exception ex)
     {
-        app.Logger.LogError(ex, "An error occurred seeding the DB.");
+        app.Logger.LogError(ex, "An error occurred seeding the DB");
     }
 }
 

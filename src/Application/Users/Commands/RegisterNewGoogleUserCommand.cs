@@ -52,7 +52,7 @@ internal class RegisterNewGoogleUserCommandHandler :
         
         string userId = request.User.FindFirst(ClaimTypes.NameIdentifier).Value;
         
-        User? user = await _userRepository.GetByIdAsync(userId);
+        User? user = await _userRepository.GetByIdAsync(userId, cancellationToken);
 
         Guard.Against.Null(user, nameof(user));
 

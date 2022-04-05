@@ -1,7 +1,6 @@
-﻿using Application.Guests.Commands;
+﻿using Application.Guests.Services;
 using Application.Guests.DTOs;
 using Ardalis.ApiEndpoints;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Synword.PublicApi.AuthEndpoints.GuestEndpoints;
@@ -10,10 +9,10 @@ public class GuestAuthenticateEndpoint : EndpointBaseAsync
     .WithRequest<GuestAuthenticateRequest>
     .WithActionResult<GuestAuthenticateDTO>
 {
-    private readonly IMediator _mediator;
-    public GuestAuthenticateEndpoint(IMediator mediator)
+    private readonly IGuestService _guestService;
+    public GuestAuthenticateEndpoint(IGuestService guestService)
     {
-        _mediator = mediator;
+        _guestService = guestService;
     }
     
     [HttpPost("api/guestAuthenticate")]
@@ -29,8 +28,8 @@ public class GuestAuthenticateEndpoint : EndpointBaseAsync
             return BadRequest(new FormatException());
         }
 
-        GuestAuthenticateDTO token = await _mediator.Send(
-            new AuthGuestCommand(id.ToString()), cancellationToken);
+        GuestAuthenticateDTO token = await _guestService
+            .Authenticate(request.UserId, cancellationToken);
 
         return Ok(token);
     }

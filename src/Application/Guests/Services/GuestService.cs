@@ -1,28 +1,17 @@
 using Application.Guests.DTOs;
 using Ardalis.GuardClauses;
-using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Synword.Domain.Interfaces;
 using Synword.Infrastructure.Identity;
 
-namespace Application.Guests.Commands;
+namespace Application.Guests.Services;
 
-public class AuthGuestCommand : IRequest<GuestAuthenticateDTO>
-{
-    public AuthGuestCommand(string userId)
-    {
-        UserId = userId;
-    }
-    
-    public string? UserId { get; }
-}
-
-internal class AuthGuestCommandHandler : IRequestHandler<AuthGuestCommand, GuestAuthenticateDTO>
+public class GuestService : IGuestService
 {
     private readonly UserManager<AppUser>? _userManager;
     private readonly ITokenClaimsService? _tokenClaimsService;
     
-    public AuthGuestCommandHandler(
+    public GuestService(
         UserManager<AppUser> userManager, 
         ITokenClaimsService tokenClaimsService)
     {
@@ -30,9 +19,9 @@ internal class AuthGuestCommandHandler : IRequestHandler<AuthGuestCommand, Guest
         _tokenClaimsService = tokenClaimsService;
     }
     
-    public async Task<GuestAuthenticateDTO> Handle(AuthGuestCommand request, CancellationToken cancellationToken)
+    public async Task<GuestAuthenticateDTO> Authenticate(string userId, CancellationToken cancellationToken)
     {
-        AppUser? guest = await _userManager!.FindByIdAsync(request.UserId);
+        AppUser? guest = await _userManager!.FindByIdAsync(userId);
 
         Guard.Against.Null(guest);
         

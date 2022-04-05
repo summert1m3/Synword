@@ -1,7 +1,6 @@
-﻿using Application.Users.Commands;
-using Application.Users.DTOs;
+﻿using Application.Users.DTOs;
+using Application.Users.Services;
 using Ardalis.ApiEndpoints;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Synword.PublicApi.AuthEndpoints.ExternalEndpoints;
@@ -10,11 +9,11 @@ public class GoogleAuthenticateEndpoint : EndpointBaseAsync
     .WithRequest<GoogleAuthenticateRequest>
     .WithActionResult<UserAuthenticateDTO>
 {
-    private readonly IMediator _mediator;
-
-    public GoogleAuthenticateEndpoint(IMediator mediator)
+    private readonly IUserService _userService;
+    
+    public GoogleAuthenticateEndpoint(IUserService userService)
     {
-        _mediator = mediator;
+        _userService = userService;
     }
     
     [HttpPost("api/googleAuthenticate")]
@@ -23,9 +22,8 @@ public class GoogleAuthenticateEndpoint : EndpointBaseAsync
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
-        UserAuthenticateDTO token = await _mediator.Send(
-            new AuthGoogleUserCommand(request.AccessToken),
-            cancellationToken);
+        UserAuthenticateDTO token = await _userService
+            .Authenticate(request.AccessToken, cancellationToken);
         
         return Ok(token);
     }
