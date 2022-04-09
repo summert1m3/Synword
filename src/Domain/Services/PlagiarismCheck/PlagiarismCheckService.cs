@@ -6,7 +6,7 @@ namespace Synword.Domain.Services.PlagiarismCheck;
 public class PlagiarismCheckService
 {
     private readonly IPlagiarismCheckAPI _plagiarismCheckApi;
-    private readonly int _apiInputRestriction = 20000;
+    private const int ApiInputRestriction = 20000;
 
     public PlagiarismCheckService(IPlagiarismCheckAPI plagiarismCheckApi)
     {
@@ -17,11 +17,11 @@ public class PlagiarismCheckService
     {
         PlagiarismCheckResponseModel model = new();
         
-        if (text.Length <= _apiInputRestriction)
+        if (text.Length <= ApiInputRestriction)
         {
             model = await CheckPlagiarismUnderLimit(text);
         }
-        else if (text.Length > _apiInputRestriction)
+        else if (text.Length > ApiInputRestriction)
         {
             model = await CheckPlagiarismOverLimit(text);
         }
@@ -124,8 +124,8 @@ public class PlagiarismCheckService
         
         foreach (var model in splitUniqueCheckResponse)
         {
-            int count = _apiInputRestriction;
-            if (count > _apiInputRestriction)
+            int count = ApiInputRestriction;
+            if (count > ApiInputRestriction)
             {
                 foreach (var item in model.Highlights)
                 {
@@ -136,7 +136,7 @@ public class PlagiarismCheckService
                     highlights.Add(highlight);
                 }
             }
-            count += _apiInputRestriction;
+            count += ApiInputRestriction;
         }
 
         return highlights;
@@ -148,8 +148,8 @@ public class PlagiarismCheckService
         List<MatchedUrl> matchedUrls = new();
         foreach (PlagiarismCheckResponseModel model in splitUniqueCheckResponse)
         {
-            int count = _apiInputRestriction;
-            if (count > _apiInputRestriction)
+            int count = ApiInputRestriction;
+            if (count > ApiInputRestriction)
             {
                 foreach (MatchedUrl itemMatch in model.Matches)
                 {
@@ -173,7 +173,7 @@ public class PlagiarismCheckService
                 }
             }
 
-            count += _apiInputRestriction;
+            count += ApiInputRestriction;
         }
 
         return matchedUrls;
@@ -225,12 +225,12 @@ public class PlagiarismCheckService
 
     private List<string> GetSplitText(string text) {
         List<string> splitText = new List<string>();
-        int endIndex = _apiInputRestriction;
+        int endIndex = ApiInputRestriction;
         bool textIsNotEmpty = true;
         
         while (textIsNotEmpty) {
             
-            if (text.Length <= _apiInputRestriction) {
+            if (text.Length <= ApiInputRestriction) {
                 endIndex = text.Length;
                 textIsNotEmpty = false;
             }
