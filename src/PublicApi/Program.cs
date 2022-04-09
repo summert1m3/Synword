@@ -1,4 +1,6 @@
-﻿using Application.Guests.Services;
+﻿using Application.AutoMapper;
+using Application.Guests.Services;
+using Application.PlagiarismCheck.Services;
 using Application.Users.Services;
 using Microsoft.AspNetCore.Identity;
 using MinimalApi.Endpoint.Extensions;
@@ -7,6 +9,8 @@ using Synword.Infrastructure.Data;
 using Synword.Infrastructure.Identity;
 using Synword.Infrastructure.Services.Google;
 using MediatR;
+using Synword.Domain.Services.PlagiarismCheck;
+using Synword.Infrastructure.Services.PlagiarismCheckAPI;
 using Synword.PublicApi;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,13 +29,23 @@ builder.Services.AddJwtBearerAuthentication(builder.Configuration);
 
 builder.Services.AddScoped(
     typeof(IRepository<>), typeof(UserDataRepository<>));
-builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
+builder.Services.AddSingleton(builder.Configuration);
 builder.Services.AddScoped(
     typeof(IGoogleApi), typeof(GoogleApi));
 builder.Services.AddScoped(
     typeof(IGuestService), typeof(GuestService));
 builder.Services.AddScoped(
     typeof(IUserService), typeof(UserService));
+builder.Services.AddScoped(
+    typeof(IPlagiarismCheckService), 
+    typeof(PlagiarismCheckService));
+builder.Services.AddScoped(
+    typeof(IAppPlagiarismCheckService), 
+    typeof(AppPlagiarismCheckService));
+builder.Services.AddScoped(
+    typeof(IPlagiarismCheckAPI), 
+    typeof(PlagiarismCheckAPI));
+builder.Services.AddAutoMapper(typeof(DomainProfile));
 
 var app = builder.Build();
 

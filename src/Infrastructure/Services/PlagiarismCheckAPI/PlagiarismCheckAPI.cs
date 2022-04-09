@@ -1,4 +1,6 @@
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
+using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Extensions;
 using Synword.Domain.Interfaces;
 using Synword.Domain.Services.PlagiarismCheck;
@@ -35,13 +37,87 @@ public class PlagiarismCheckAPI : IPlagiarismCheckAPI
         }
 
         string responseString = await response.Content.ReadAsStringAsync();
-        PlagiarismCheckResponseModel plagiarismCheckResponseModel = 
-            responseString.FromJson<PlagiarismCheckResponseModel>();
+        PlagiarismCheckResponseModelRaw plagiarismCheckResponseModel = 
+            JsonConvert.DeserializeObject<PlagiarismCheckResponseModelRaw>(responseString);
 
         if (plagiarismCheckResponseModel.Error != string.Empty) {
             throw new Exception(plagiarismCheckResponseModel.Error);
         }
+        
+        return plagiarismCheckResponseModel.ConvertToDomainModel();
+    }
+}
 
-        return plagiarismCheckResponseModel;
+internal class PlagiarismCheckResponseModelRaw
+{
+    public string Error { get; set; }
+    public string Text { get; set; }
+    public float Percent { get; set; }
+    public int[][] Highlight { get; set; }
+    public MatchedUrlRaw[] Matches { get; set; }
+    
+    internal class MatchedUrlRaw
+    {
+        public string Url { get; set; }
+        public float Percent { get; set; }
+        public int[][] Highlight { get; set; }
+    }
+
+    public PlagiarismCheckResponseModel ConvertToDomainModel()
+    {
+        List<HighlightRange> highlightRanges = ConvertHighlightRanges();
+        List<MatchedUrl> matchedUrls = ConvertMatchedUrls();
+
+        return new PlagiarismCheckResponseModel
+        {
+            Error = Error,
+            Highlights = highlightRanges,
+            Matches = matchedUrls,
+            Percent = Percent,
+            Text = Text
+        };
+    }
+
+    private List<HighlightRange> ConvertHighlightRanges()
+    {
+        List<HighlightRange> highlightRanges = new();
+
+        foreach (var row in Highlight)
+        {
+            int startIndex = row[0];
+            int endIndex = row[1];
+            
+            HighlightRange range = new(startIndex, endIndex);
+            
+            highlightRanges.Add(range);
+        }
+
+        return highlightRanges;
+    }
+
+    private List<MatchedUrl> ConvertMatchedUrls()
+    {
+        List<MatchedUrl> matchedUrls = new();
+
+        foreach (var match in Matches)
+        {
+            List<HighlightRange> highlightRanges = new();
+            foreach (var highlight in match.Highlight)
+            {
+                int startIndex = highlight[0];
+                int endIndex = highlight[1];
+            
+                HighlightRange range = new(startIndex, endIndex);
+                
+                highlightRanges.Add(range);
+            }
+
+            MatchedUrl matchedUrl = new(
+                match.Url, match.Percent, highlightRanges);
+            
+            matchedUrls.Add(matchedUrl);
+        }
+
+        return matchedUrls;
     }
 }

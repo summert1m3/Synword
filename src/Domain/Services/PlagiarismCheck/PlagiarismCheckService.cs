@@ -3,7 +3,7 @@ using Synword.Domain.Interfaces;
 
 namespace Synword.Domain.Services.PlagiarismCheck;
 
-public class PlagiarismCheckService
+public class PlagiarismCheckService : IPlagiarismCheckService
 {
     private readonly IPlagiarismCheckAPI _plagiarismCheckApi;
     private const int ApiInputRestriction = 20000;
@@ -12,11 +12,11 @@ public class PlagiarismCheckService
     {
         _plagiarismCheckApi = plagiarismCheckApi;
     }
-    
+
     public async Task<PlagiarismCheckResponseModel> CheckPlagiarism(string text)
     {
         PlagiarismCheckResponseModel model = new();
-        
+
         if (text.Length <= ApiInputRestriction)
         {
             model = await CheckPlagiarismUnderLimit(text);
@@ -35,7 +35,7 @@ public class PlagiarismCheckService
         List<PlagiarismCheckResponseModel> splitUniqueCheckResponse = new();
         foreach (var text in splitText)
         {
-            PlagiarismCheckResponseModel uniqueCheckResponse 
+            PlagiarismCheckResponseModel uniqueCheckResponse
                 = await _plagiarismCheckApi.CheckPlagiarism(text);
             splitUniqueCheckResponse.Add(uniqueCheckResponse);
         }
@@ -50,21 +50,21 @@ public class PlagiarismCheckService
         {
             sumOfOtherParts += splitText[i].Length;
         }
-                
+
         double percentRatioFromOtherParts =
-            (splitText.Last().Length * 100.0) 
+            (splitText.Last().Length * 100.0)
             / sumOfOtherParts;
 
         return percentRatioFromOtherParts;
     }
 
     private double PercentCorrection(
-        IEnumerable<PlagiarismCheckResponseModel> splitUniqueCheckResponse, 
+        IEnumerable<PlagiarismCheckResponseModel> splitUniqueCheckResponse,
         double percentRatioFromOtherParts)
     {
-        double correction = ((splitUniqueCheckResponse.Last().Percent / 100) 
+        double correction = ((splitUniqueCheckResponse.Last().Percent / 100)
                              * percentRatioFromOtherParts);
-        
+
         return correction;
     }
 
@@ -72,8 +72,9 @@ public class PlagiarismCheckService
         IReadOnlyList<PlagiarismCheckResponseModel> splitUniqueCheckResponse)
     {
         double sum = 0;
-        
-        for (int i = 0; i < (splitUniqueCheckResponse.Count - 2); i++) {
+
+        for (int i = 0; i < (splitUniqueCheckResponse.Count - 1); i++)
+        {
             sum += splitUniqueCheckResponse[i].Percent;
         }
 
@@ -84,13 +85,13 @@ public class PlagiarismCheckService
         double sum,
         IReadOnlyCollection<PlagiarismCheckResponseModel> splitUniqueCheckResponse)
     {
-        return sum / splitUniqueCheckResponse.Count - 1;
+        return sum / (splitUniqueCheckResponse.Count - 1.0);
     }
-    
+
     private double ApplyCorrectionOfLastElement(double correction, double average)
     {
         double plagiarismPercent = average;
-        
+
         if (correction > average)
         {
             plagiarismPercent += correction;
@@ -99,7 +100,7 @@ public class PlagiarismCheckService
         {
             plagiarismPercent -= correction;
         }
-        
+
         return plagiarismPercent;
     }
 
@@ -107,7 +108,7 @@ public class PlagiarismCheckService
         IEnumerable<PlagiarismCheckResponseModel> splitUniqueCheckResponse)
     {
         string allText = string.Empty;
-            
+
         foreach (var model in splitUniqueCheckResponse)
         {
             allText += model.Text;
@@ -121,22 +122,27 @@ public class PlagiarismCheckService
         IEnumerable<PlagiarismCheckResponseModel> splitUniqueCheckResponse)
     {
         List<HighlightRange> highlights = new();
-        
+
+        int i = 0;
         foreach (var model in splitUniqueCheckResponse)
         {
-            int count = ApiInputRestriction;
-            if (count > ApiInputRestriction)
+            foreach (var item in model.Highlights)
             {
-                foreach (var item in model.Highlights)
+                if (i == 0)
+                {
+                    highlights.AddRange(model.Highlights);
+                }
+                else
                 {
                     HighlightRange highlight = new(
-                        item.StartIndex + count,
-                        item.EndIndex + count
+                        item.StartIndex + (ApiInputRestriction * i),
+                        item.EndIndex + (ApiInputRestriction * i)
                     );
                     highlights.Add(highlight);
                 }
             }
-            count += ApiInputRestriction;
+
+            i++;
         }
 
         return highlights;
@@ -146,34 +152,38 @@ public class PlagiarismCheckService
         IEnumerable<PlagiarismCheckResponseModel> splitUniqueCheckResponse)
     {
         List<MatchedUrl> matchedUrls = new();
+
+        int i = 0;
         foreach (PlagiarismCheckResponseModel model in splitUniqueCheckResponse)
         {
-            int count = ApiInputRestriction;
-            if (count > ApiInputRestriction)
+            foreach (MatchedUrl itemMatch in model.Matches)
             {
-                foreach (MatchedUrl itemMatch in model.Matches)
+                List<HighlightRange> highlightRanges = new();
+                foreach (HighlightRange itemHighlight in itemMatch.Highlights)
                 {
-                    List<HighlightRange> highlightRanges = new();
-                    foreach (HighlightRange itemHighlight in itemMatch.Highlights)
+                    if (i == 0)
+                    {
+                        highlightRanges.AddRange(itemMatch.Highlights);
+                    }
+                    else
                     {
                         HighlightRange highlight = new(
-                            itemHighlight.StartIndex + count,
-                            itemHighlight.EndIndex + count
+                            itemHighlight.StartIndex + (ApiInputRestriction * i),
+                            itemHighlight.EndIndex + (ApiInputRestriction * i)
                         );
-                                
                         highlightRanges.Add(highlight);
                     }
-
-                    MatchedUrl url = new(
-                        itemMatch.Url,
-                        itemMatch.Percent,
-                        highlightRanges
-                    );
-                    matchedUrls.Add(url);
                 }
+
+                MatchedUrl url = new(
+                    itemMatch.Url,
+                    itemMatch.Percent,
+                    highlightRanges
+                );
+                matchedUrls.Add(url);
             }
 
-            count += ApiInputRestriction;
+            i++;
         }
 
         return matchedUrls;
@@ -187,28 +197,28 @@ public class PlagiarismCheckService
     private async Task<PlagiarismCheckResponseModel> CheckPlagiarismOverLimit(string text)
     {
         List<string> splitText = GetSplitText(text);
-            
-        List<PlagiarismCheckResponseModel> splitUniqueCheckResponse = 
+
+        List<PlagiarismCheckResponseModel> splitUniqueCheckResponse =
             await CheckPlagiarismForSplitText(splitText);
 
-        double percentRatioFromOtherParts = 
+        double percentRatioFromOtherParts =
             CalculatePercentLastElementFromOtherParts(splitText);
-                
+
         double correction = PercentCorrection(
-            splitUniqueCheckResponse, 
+            splitUniqueCheckResponse,
             percentRatioFromOtherParts);
 
         double sum = SumOfPercentWithoutLastElement(
             splitUniqueCheckResponse);
-                
+
         double average = ArithmeticMean(sum, splitUniqueCheckResponse);
 
         float plagiarismPercent = (float)ApplyCorrectionOfLastElement(correction, average);
-        
+
         string allText = MergeSplitText(splitUniqueCheckResponse);
-        
+
         List<HighlightRange> highlights = MergeHighlights(splitUniqueCheckResponse);
-        
+
         List<MatchedUrl> matchedUrls = MergeMatchedUrls(splitUniqueCheckResponse);
 
         PlagiarismCheckResponseModel model = new()
@@ -223,24 +233,29 @@ public class PlagiarismCheckService
         return model;
     }
 
-    private List<string> GetSplitText(string text) {
+    private List<string> GetSplitText(string text)
+    {
         List<string> splitText = new List<string>();
         int endIndex = ApiInputRestriction;
         bool textIsNotEmpty = true;
-        
-        while (textIsNotEmpty) {
-            
-            if (text.Length <= ApiInputRestriction) {
+
+        while (textIsNotEmpty)
+        {
+            if (text.Length <= ApiInputRestriction)
+            {
                 endIndex = text.Length;
                 textIsNotEmpty = false;
             }
 
-            if (text.Length > 100) {
-                string temp = text.Substring(0, endIndex);
-                splitText.Add(temp);
-
-                text = text.Substring(endIndex);
+            if (text.Length <= 100)
+            {
+                continue;
             }
+
+            string temp = text[..endIndex];
+            splitText.Add(temp);
+
+            text = text[endIndex..];
         }
 
         return splitText;
