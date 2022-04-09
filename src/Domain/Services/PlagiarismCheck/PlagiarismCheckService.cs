@@ -1,4 +1,5 @@
-﻿using Synword.Domain.Entities.UserAggregate;
+﻿using Microsoft.Extensions.Logging;
+using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Interfaces;
 
 namespace Synword.Domain.Services.PlagiarismCheck;
@@ -6,11 +7,14 @@ namespace Synword.Domain.Services.PlagiarismCheck;
 public class PlagiarismCheckService : IPlagiarismCheckService
 {
     private readonly IPlagiarismCheckAPI _plagiarismCheckApi;
+    private readonly ILogger<PlagiarismCheckService> _logger;
     private const int ApiInputRestriction = 20000;
 
-    public PlagiarismCheckService(IPlagiarismCheckAPI plagiarismCheckApi)
+    public PlagiarismCheckService(IPlagiarismCheckAPI plagiarismCheckApi, 
+        ILogger<PlagiarismCheckService> logger)
     {
         _plagiarismCheckApi = plagiarismCheckApi;
+        _logger = logger;
     }
 
     public async Task<PlagiarismCheckResponseModel> CheckPlagiarism(string text)
@@ -59,11 +63,26 @@ public class PlagiarismCheckService : IPlagiarismCheckService
     }
 
     private double PercentCorrection(
-        IEnumerable<PlagiarismCheckResponseModel> splitUniqueCheckResponse,
+        double firstPartPercent,
+        double secondPartPercent,
         double percentRatioFromOtherParts)
     {
-        double correction = ((splitUniqueCheckResponse.Last().Percent / 100)
-                             * percentRatioFromOtherParts);
+        double difference;
+
+        if (firstPartPercent > secondPartPercent)
+        {
+            difference = firstPartPercent - secondPartPercent;
+        }
+        else if (firstPartPercent < secondPartPercent)
+        {
+            difference = secondPartPercent - firstPartPercent;
+        }
+        else
+        {
+            difference = 0;
+        }
+
+        double correction = (difference / 100.0) * percentRatioFromOtherParts;
 
         return correction;
     }
@@ -88,17 +107,18 @@ public class PlagiarismCheckService : IPlagiarismCheckService
         return sum / (splitUniqueCheckResponse.Count - 1.0);
     }
 
-    private double ApplyCorrectionOfLastElement(double correction, double average)
+    private double ApplyCorrectionOfLastElement(
+        double correctionPercent, double average, double currentPercent)
     {
         double plagiarismPercent = average;
 
-        if (correction > average)
+        if (currentPercent > average)
         {
-            plagiarismPercent += correction;
+            plagiarismPercent += correctionPercent;
         }
-        else if (correction < average)
+        else if (currentPercent < average)
         {
-            plagiarismPercent -= correction;
+            plagiarismPercent -= correctionPercent;
         }
 
         return plagiarismPercent;
@@ -204,16 +224,18 @@ public class PlagiarismCheckService : IPlagiarismCheckService
         double percentRatioFromOtherParts =
             CalculatePercentLastElementFromOtherParts(splitText);
 
-        double correction = PercentCorrection(
-            splitUniqueCheckResponse,
-            percentRatioFromOtherParts);
-
         double sum = SumOfPercentWithoutLastElement(
             splitUniqueCheckResponse);
 
         double average = ArithmeticMean(sum, splitUniqueCheckResponse);
+        
+        double correctionPercent = PercentCorrection(
+            average,
+            splitUniqueCheckResponse.Last().Percent,
+            percentRatioFromOtherParts);
 
-        float plagiarismPercent = (float)ApplyCorrectionOfLastElement(correction, average);
+        float plagiarismPercent = (float)ApplyCorrectionOfLastElement(
+            correctionPercent, average, splitUniqueCheckResponse.Last().Percent);
 
         string allText = MergeSplitText(splitUniqueCheckResponse);
 
