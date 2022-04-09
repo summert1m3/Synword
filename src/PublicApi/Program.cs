@@ -27,25 +27,7 @@ builder.Services.AddSwagger();
 
 builder.Services.AddJwtBearerAuthentication(builder.Configuration);
 
-builder.Services.AddScoped(
-    typeof(IRepository<>), typeof(UserDataRepository<>));
-builder.Services.AddSingleton(builder.Configuration);
-builder.Services.AddScoped(
-    typeof(IGoogleApi), typeof(GoogleApi));
-builder.Services.AddScoped(
-    typeof(IGuestService), typeof(GuestService));
-builder.Services.AddScoped(
-    typeof(IUserService), typeof(UserService));
-builder.Services.AddScoped(
-    typeof(IPlagiarismCheckService), 
-    typeof(PlagiarismCheckService));
-builder.Services.AddScoped(
-    typeof(IAppPlagiarismCheckService), 
-    typeof(AppPlagiarismCheckService));
-builder.Services.AddScoped(
-    typeof(IPlagiarismCheckAPI), 
-    typeof(PlagiarismCheckAPI));
-builder.Services.AddAutoMapper(typeof(DomainProfile));
+AddUserServices();
 
 var app = builder.Build();
 
@@ -92,3 +74,27 @@ using (var scope = app.Services.CreateScope())
 app.MapEndpoints();
 app.Logger.LogInformation("LAUNCHING PublicApi");
 app.Run();
+
+
+void AddUserServices()
+{
+    builder.Services.AddScoped(
+        typeof(IRepository<>), typeof(UserDataRepository<>));
+    builder.Services.AddSingleton(builder.Configuration);
+    builder.Services.AddScoped(
+        typeof(IGoogleApi), typeof(GoogleApi));
+    builder.Services.AddScoped(
+        typeof(IGuestService), typeof(GuestService));
+    builder.Services.AddScoped(
+        typeof(IUserService), typeof(UserService));
+    builder.Services.AddScoped(
+        typeof(IPlagiarismCheckService), 
+        typeof(PlagiarismCheckService));
+    builder.Services.AddScoped(
+        typeof(IAppPlagiarismCheckService), 
+        typeof(AppPlagiarismCheckService));
+    builder.Services.AddScoped(
+        typeof(IPlagiarismCheckAPI), 
+        typeof(PlagiarismCheckAPI));
+    builder.Services.AddAutoMapper(typeof(DomainProfile));
+}
