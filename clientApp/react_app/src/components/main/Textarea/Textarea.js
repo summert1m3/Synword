@@ -1,15 +1,8 @@
 import React from "react";
 
 class Textarea extends React.Component {
-    state = {
-        text: ''
-    };
-
     onTextChange = (event) => {
-        this.setState({
-            text: event.target.value
-        });
-        this.props.onSymbolCountChange(this.state.text.length);
+        this.props.onTextChange(event.target.value);
     }
 
     render() {

@@ -6,12 +6,12 @@ import SymbolCount from "./Header/SymbolCount";
 
 class Main extends React.Component {
     state = {
-        symbolCount: 0
+        text: ''
     };
 
-    onSymbolCountChange = (count) => {
+    onTextChange = (str) => {
         this.setState({
-            symbolCount: count
+            text: str
         });
     }
 
@@ -19,8 +19,8 @@ class Main extends React.Component {
         return (
             <main>
                 <div className="body__main">
-                    <SymbolCount symbolCount={this.state.symbolCount}/>
-                    <Textarea onSymbolCountChange={this.onSymbolCountChange}/>
+                    <SymbolCount symbolCount={this.state.text.length}/>
+                    <Textarea onTextChange={this.onTextChange}/>
                     <div className="bottom-area__main">
                         <div className="check-plagiarism-button" >
                             <Button
