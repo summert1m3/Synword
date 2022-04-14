@@ -38,9 +38,18 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 }
 
+#if !DEBUG
 app.UseHttpsRedirection();
+#endif
 
 app.UseRouting();
+
+app.UseCors(c =>
+{
+    c.AllowAnyHeader();
+    c.AllowAnyMethod();
+    c.AllowAnyOrigin();
+});
 
 app.UseAuthentication();
 app.UseAuthorization();
