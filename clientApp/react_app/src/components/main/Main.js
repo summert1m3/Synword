@@ -2,16 +2,25 @@ import React from "react";
 import Form from 'react-bootstrap/Form'
 import Button from '@material-ui/core/Button';
 import Textarea from "./Textarea/Textarea";
+import SymbolCount from "./Header/SymbolCount";
 
 class Main extends React.Component {
+    state = {
+        symbolCount: 0
+    };
+
+    onSymbolCountChange = (count) => {
+        this.setState({
+            symbolCount: count
+        });
+    }
+
     render() {
         return (
             <main>
                 <div className="body__main">
-                    <div className="symbol-count">
-                        Symbols: 0
-                    </div>
-                    <Textarea />
+                    <SymbolCount symbolCount={this.state.symbolCount}/>
+                    <Textarea onSymbolCountChange={this.onSymbolCountChange}/>
                     <div className="bottom-area__main">
                         <div className="check-plagiarism-button" >
                             <Button

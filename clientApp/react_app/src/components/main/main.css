@@ -12,11 +12,6 @@ main {
     background-color: white;
 }
 
-.symbol-count {
-    height: 10%;
-    padding: 10px 10px 0 10px;
-}
-
 .bottom-area__main {
     height: 13%;
     display: flex;
