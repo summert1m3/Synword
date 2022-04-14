@@ -1,0 +1,8 @@
+.textarea__body {
+    padding: 0 10px;
+    border: none;
+    min-width: 100%;
+    width: 100%;
+    height: 75%;
+    max-height: 80%;
+}

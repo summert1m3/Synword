@@ -1,0 +1,12 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: radial-gradient(100% 100%, #301B28, #543147);
+    height: 100vh;
+    min-height: 600px;
+    display: block;
+}

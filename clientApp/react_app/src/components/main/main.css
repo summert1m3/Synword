@@ -1,0 +1,30 @@
+main {
+    height: 85vh;
+}
+
+.body__main {
+    border-radius: 20px;
+    margin: 20px auto auto auto;
+    min-width: 400px;
+    max-width: 70%;
+    height: 93%;
+    min-height: 400px;
+    background-color: white;
+}
+
+.symbol-count {
+    height: 10%;
+    padding: 10px 10px 0 10px;
+}
+
+.bottom-area__main {
+    height: 13%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.check-plagiarism-button {
+    text-align: center;
+    vertical-align: middle;
+}

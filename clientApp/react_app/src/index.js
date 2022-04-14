@@ -1,6 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import App from './components/App'
+import "./styles/app.css"
+import "./components/header/header.css"
+import "./components/main/main.css"
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
+import "./components/main/Textarea/textarea.css"
 
-const el = <h1>Synword app</h1>;
-
-ReactDOM.render(el, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
