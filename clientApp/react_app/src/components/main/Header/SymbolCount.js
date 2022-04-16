@@ -8,7 +8,7 @@ class SymbolCount extends React.Component {
 
         return (
             <div className="symbol-count">
-                Symbols: {symbolCount}
+                {symbolCount}/20000
             </div>
         );
     }

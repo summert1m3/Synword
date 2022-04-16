@@ -10,3 +10,7 @@ body {
     min-height: 600px;
     display: block;
 }
+
+main {
+    height: 85vh;
+}

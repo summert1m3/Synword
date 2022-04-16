@@ -1,36 +1,52 @@
 import React from "react";
-import Form from 'react-bootstrap/Form'
-import Button from '@material-ui/core/Button';
-import Textarea from "./Textarea/Textarea";
-import SymbolCount from "./Header/SymbolCount";
+import Loading from "./Loading/Loading"
+import MainScreen from "./MainScreen/MainScreen";
+import LoadingScreen from "./LoadingScreen/LoadingScreen";
 
 class Main extends React.Component {
     state = {
-        text: ''
+        text: '',
+        currentScreen: undefined
     };
+
+    mainScreen;
+    loadingScreen;
+
+    constructor() {
+        super();
+
+        this.mainScreen = this.updateMainScreen(this.state.text.length);
+        this.loadingScreen = <LoadingScreen />;
+
+        this.state.currentScreen = this.mainScreen;
+    }
+
+    updateMainScreen = (textLength) => {
+        return (
+            <MainScreen
+                symbolCount={textLength}
+                onTextChange={this.onTextChange}
+                onPlagiarismCheck={this.onPlagiarismCheck} />
+        );
+    }
 
     onTextChange = (str) => {
         this.setState({
-            text: str
+            text: str,
+            currentScreen: this.updateMainScreen(str.length)
         });
+    }
+
+    onPlagiarismCheck = async () => {
+        this.setState({
+            currentScreen: this.loadingScreen
+        });
+        
     }
 
     render() {
         return (
-            <main>
-                <div className="body__main">
-                    <SymbolCount symbolCount={this.state.text.length}/>
-                    <Textarea onTextChange={this.onTextChange}/>
-                    <div className="bottom-area__main">
-                        <div className="check-plagiarism-button" >
-                            <Button
-                                color="primary"
-                                variant="contained">Check Plagiarism
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            </main>
+            this.state.currentScreen
         );
     }
 }

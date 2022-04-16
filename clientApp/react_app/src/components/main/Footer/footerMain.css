@@ -1,0 +1,11 @@
+.bottom-area__main {
+    height: 13%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.check-plagiarism-button {
+    text-align: center;
+    vertical-align: middle;
+}
