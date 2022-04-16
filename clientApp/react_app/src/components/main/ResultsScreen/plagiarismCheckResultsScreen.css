@@ -1,0 +1,51 @@
+@font-face {
+    font-family: 'Audrey';
+    src: url('../../../../fonts/Audrey-Normal.otf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.pl-check-results-header__body {
+    height: 10%;
+    padding: 10px 10px 0 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.heading__pl-check-re {
+    font-family: 'Audrey';
+    font-size: 24px;
+    margin: 0;
+}
+
+.container__body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.plagiarism-percent__body {
+    border: 1px solid black;
+    width: 130px; 
+    height: 130px;
+    border-radius: 50%;
+
+    padding: 10px 10px 0 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.percent__plagiarism-body {
+    font-family: 'Audrey';
+    font-size: 30px;
+    margin: 0;
+}
+
+.border__plagiarism-body {
+    margin-left: 15%;
+    margin-right: 15%;
+}

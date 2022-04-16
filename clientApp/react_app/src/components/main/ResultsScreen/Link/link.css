@@ -1,0 +1,9 @@
+.links__plagiarism-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.percent__links {
+    margin: 0 0 0 10px;
+}

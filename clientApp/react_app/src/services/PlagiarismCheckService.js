@@ -1,4 +1,4 @@
-class PlagiarismCheckApiService {
+class PlagiarismCheckService {
     _apiBase = 'http://localhost:5248/api/'
     _plagiarismCheckUrl = `${this._apiBase + 'plagiarismCheck'}`;
 

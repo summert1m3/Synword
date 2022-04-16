@@ -10,6 +10,8 @@ import "./components/main/Textarea/textarea.css"
 import "./components/main/Header/symbolCount.css"
 import "./components/main/Footer/footerMain.css"
 import "./components/main/Loading/loading.css"
+import "./components/main/ResultsScreen/plagiarismCheckResultsScreen.css"
+import "./components/main/ResultsScreen/Link/link.css"
 
 createRoot(document.getElementById("root")).render(
     <App />
