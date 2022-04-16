@@ -50,7 +50,14 @@ class Main extends React.Component {
         let data = await this.plagiarismCheckService.plagiarismCheck(this.state.text);
 
         this.setState({
-            currentScreen: <PlagiarismCheckResultsScreen data={data}/>
+            currentScreen: <PlagiarismCheckResultsScreen data={data} 
+            onClosePlagiarismCheckResults={this.onClosePlagiarismCheckResults}/>
+        });
+    }
+
+    onClosePlagiarismCheckResults = () => {
+        this.setState({
+            currentScreen: this.updateMainScreen(0)
         });
     }
 

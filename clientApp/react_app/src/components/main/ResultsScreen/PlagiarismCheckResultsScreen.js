@@ -25,9 +25,9 @@ class PlagiarismCheckResultsScreen extends React.Component {
                     <p className="heading__pl-check-re">
                         Уникальность текста равна
                     </p>
-                    <div className="test">
-                        p
-                    </div>
+                    <button id="close_button"
+                        onClick={this.props.onClosePlagiarismCheckResults}>
+                    </button>
                 </div>
                 <div className="container__body">
                     <div className="plagiarism-percent__body">
