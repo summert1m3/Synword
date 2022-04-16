@@ -16,7 +16,6 @@ class Main extends React.Component {
 
     mainScreen;
     loadingScreen;
-    plagiarismCheckResultsScreen = <PlagiarismCheckResultsScreen />;
 
     constructor() {
         super();
@@ -24,7 +23,7 @@ class Main extends React.Component {
         this.mainScreen = this.updateMainScreen(this.state.text.length);
         this.loadingScreen = <LoadingScreen />;
 
-        this.state.currentScreen = this.plagiarismCheckResultsScreen;
+        this.state.currentScreen = this.mainScreen;
     }
 
     updateMainScreen = (textLength) => {
@@ -48,8 +47,10 @@ class Main extends React.Component {
             currentScreen: this.loadingScreen
         });
 
+        let data = await this.plagiarismCheckService.plagiarismCheck(this.state.text);
+
         this.setState({
-            currentScreen: this.plagiarismCheckResultsScreen
+            currentScreen: <PlagiarismCheckResultsScreen data={data}/>
         });
     }
 

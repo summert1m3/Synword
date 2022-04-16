@@ -2,11 +2,11 @@ class PlagiarismCheckService {
     _apiBase = 'http://localhost:5248/api/'
     _plagiarismCheckUrl = `${this._apiBase + 'plagiarismCheck'}`;
 
-    async plagiarismCheck(){
+    async plagiarismCheck(text){
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text: this.state.text })
+            body: JSON.stringify({ text: text })
         };
         const response = await
             fetch('http://localhost:5248/api/plagiarismCheck', requestOptions);
@@ -16,4 +16,4 @@ class PlagiarismCheckService {
     }
 }
 
-export default PlagiarismCheckApiService;
+export default PlagiarismCheckService;
