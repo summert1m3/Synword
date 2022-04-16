@@ -9,7 +9,7 @@ class Textarea extends React.Component {
         return (
             <textarea
                 onChange={this.onTextChange}
-                placeholder="Please, enter your text"
+                placeholder="Пожалуйста, введите свой текст"
                 className="textarea__body">
             </textarea>
         );

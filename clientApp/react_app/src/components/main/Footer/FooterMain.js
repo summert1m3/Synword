@@ -5,11 +5,12 @@ const FooterMain = ({onPlagiarismCheck}) => (
     <div className="bottom-area__main">
         <div className="check-plagiarism-button" >
             <Button onClick={onPlagiarismCheck} style={{
+                fontFamily: 'Gardens',
                 backgroundColor: "#DFC777",
                 color: "black"
             }}
                 color="primary"
-                variant="contained">Check Plagiarism
+                variant="contained">Проверить
             </Button>
         </div>
     </div>

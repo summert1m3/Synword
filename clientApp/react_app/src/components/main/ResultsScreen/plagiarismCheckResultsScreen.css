@@ -1,6 +1,6 @@
 @font-face {
-    font-family: 'Audrey';
-    src: url('../../../../fonts/Audrey-Normal.otf');
+    font-family: 'Gardens';
+    src: url('../../../../fonts/Gardens.ttf');
     font-weight: normal;
     font-style: normal;
 }
@@ -15,7 +15,7 @@
 }
 
 .heading__pl-check-re {
-    font-family: 'Audrey';
+    font-family: 'Gardens';
     font-size: 24px;
     margin: 0;
 }
@@ -32,7 +32,7 @@
     height: 130px;
     border-radius: 50%;
 
-    padding: 10px 10px 0 10px;
+    margin-top: 10px;
 
     display: flex;
     justify-content: center;
@@ -54,8 +54,4 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.wrapper_center {
-
 }

@@ -23,19 +23,22 @@ class PlagiarismCheckResultsScreen extends React.Component {
             <div className="body__main">
                 <div className="pl-check-results-header__body">
                     <p className="heading__pl-check-re">
-                        The precentage of plagiarism in the text is
+                        Уникальность текста равна
                     </p>
+                    <div className="test">
+                        p
+                    </div>
                 </div>
                 <div className="container__body">
                     <div className="plagiarism-percent__body">
                         <p className="percent__plagiarism-body">
-                            {this.props.data.percent}
+                            {this.props.data.percent}%
                         </p>
                     </div>
                 </div>
                 <hr className="border__plagiarism-body" />
                 <div className="wrapper">
-                    <div className="wrapper_center">
+                    <div>
                         {linksArr}
                     </div>
                 </div>
