@@ -7,3 +7,12 @@
     min-height: 400px;
     background-color: white;
 }
+
+.body__results__main {
+    border-radius: 20px;
+    margin: 20px auto auto auto;
+    min-width: 400px;
+    max-width: 70%;
+    min-height: 400px;
+    background-color: white;
+}

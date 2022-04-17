@@ -42,7 +42,7 @@ class PlagiarismCheckResultsScreen extends React.Component {
     render() {
         let linksArr = this.createArrayOfLinks();
         return (
-            <div className="body__main">
+            <div className="body__results__main">
                 <div className="pl-check-results-header__body">
                     <p className="heading__pl-check-re">
                         Уникальность текста равна
@@ -66,16 +66,21 @@ class PlagiarismCheckResultsScreen extends React.Component {
                 </div>
 
                 <hr className="border__plagiarism-body" />
-                <div className="wrapper">
-                    <div>
+                <div className="wrapper_links">
+                    <div className="wrapper_links_percents">
                         {linksArr}
                     </div>
                 </div>
-                <textarea
-                    value={this.props.data.text}
-                    readOnly
-                    className="textarea__results">
-                </textarea>
+                <div className="source-text__results">
+                    <p>
+                        Исходный текст
+                    </p>
+                </div>
+                <div className="textarea__results">
+                    <p>
+                        {this.props.data.text}
+                    </p>
+                </div>
             </div>
         );
     }

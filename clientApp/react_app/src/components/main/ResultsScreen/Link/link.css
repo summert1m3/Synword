@@ -1,8 +1,15 @@
+.wrapper_links_percents {
+    width: 80%;
+}
+
 .links__plagiarism-body {
+    position: relative;
     margin-bottom: 10px;
 }
 
 .percent__links {
-    margin: 0 0 0 40px;
-    display: inline;
+    text-align: right;
+    display: inline-block;
+    position: absolute; 
+    right: 10px;
 }

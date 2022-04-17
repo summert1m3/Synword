@@ -64,7 +64,7 @@
     margin-right: 15%;
 }
 
-.wrapper {
+.wrapper_links {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -85,8 +85,7 @@
 }
 
 .textarea__results {
-    margin-top: 10px;
-    padding: 0 10px;
+    padding: 10px 10px 10px 10px;
     border: none;
     outline: none;
     resize: none;
@@ -94,4 +93,15 @@
     width: 100%;
     height: 75%;
     max-height: 80%;
+}
+
+.source-text__results {
+    font-family: 'Gardens';
+    font-size: 24px;
+    margin: 20px 0 10px 0;
+    text-align: center;
+}
+
+.source-text__results p{
+    margin: 0;
 }
