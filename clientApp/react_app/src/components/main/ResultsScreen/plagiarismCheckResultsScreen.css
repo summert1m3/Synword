@@ -26,11 +26,25 @@
     align-items: center;
 }
 
+.container_1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.outer_color {
+    border: 1px solid black;
+    width: 150px; 
+    height: 150px;
+    border-radius: 50%;
+}
+
 .plagiarism-percent__body {
     border: 1px solid black;
     width: 130px; 
     height: 130px;
     border-radius: 50%;
+    background-color: white;
 
     margin-top: 10px;
 
@@ -68,4 +82,16 @@
     display: inline-block;
     position: absolute; 
     right: 10px;
+}
+
+.textarea__results {
+    margin-top: 10px;
+    padding: 0 10px;
+    border: none;
+    outline: none;
+    resize: none;
+    min-width: 100%;
+    width: 100%;
+    height: 75%;
+    max-height: 80%;
 }
