@@ -3,7 +3,9 @@ import React from "react";
 class Link extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { windowWidth: window.innerWidth };
+        this.state = { 
+            windowWidth: window.innerWidth 
+        };
     }
 
     handleResize = (e) => {
@@ -18,10 +20,10 @@ class Link extends React.Component {
         window.addEventListener("resize", this.handleResize);
     }
 
-    sliceLink(link, limit) {
-        let sliced = link.slice(0, limit);
+    sliceLink(url, limit) {
+        let sliced = url.slice(0, limit);
 
-        if (sliced.length < link.length) {
+        if (sliced.length < url.length) {
             sliced += '...';
         }
 
@@ -30,27 +32,32 @@ class Link extends React.Component {
 
     render() {
         const {
-            link,
+            url,
             percent
-        } = this.props;
+        } = this.props.match;
 
         let width = this.state.windowWidth;
         let sliced;
 
         if (width > 1044) {
-            sliced = this.sliceLink(link, 60);
+            sliced = this.sliceLink(url, 60);
         }
         else if (width > 715) {
-            sliced = this.sliceLink(link, 35);
+            sliced = this.sliceLink(url, 35);
         }
         else {
-            sliced = this.sliceLink(link, 25);
+            sliced = this.sliceLink(url, 25);
         }
 
         return (
             <div className="links__plagiarism-body">
-                <a href={link}>{sliced}</a>
-                <p className="percent__links">{percent}%</p>
+                <a href={url}>{sliced}</a>
+                <div className="percent__links">
+                    <p>{percent}%</p>
+                    <button id="show_matches_button">
+                    </button>
+                </div>
+
             </div>
         );
     }

@@ -7,16 +7,29 @@ class PlagiarismCheckResultsScreen extends React.Component {
         let linksArr = [];
 
         for (const item in matchesArr) {
-            const { url, percent } = matchesArr[item];
-
-            linksArr.push(<Link link={url} percent={percent} />);
+            linksArr.push(<Link match={matchesArr[item]} />);
         }
 
         return linksArr;
     }
 
+    addHighlightsToText(text, highlights) {
+        var words = text.split(" ");
+
+        for (var i = 0; i < highlights.length; i++)
+        {
+            const {
+                startIndex,
+                endIndex
+            } = highlights[i];
+
+            words[ startIndex ] = '<b>' + words[ startIndex ];
+            words[ endIndex ] = words[ endIndex ] + '</b>';
+        }
+        return words.join(" ");
+    }
+
     pickBackgroundColor() {
-        console.log("123");
         let percent = this.props.data.percent;
         let color;
 
@@ -40,7 +53,15 @@ class PlagiarismCheckResultsScreen extends React.Component {
     }
 
     render() {
+        const {
+            text,
+            highlights
+        } = this.props.data;
+
         let linksArr = this.createArrayOfLinks();
+        let text123 = 
+        this.addHighlightsToText(text, highlights);
+
         return (
             <div className="body__results__main">
                 <div className="pl-check-results-header__body">
@@ -77,8 +98,7 @@ class PlagiarismCheckResultsScreen extends React.Component {
                     </p>
                 </div>
                 <div className="textarea__results">
-                    <p>
-                        {this.props.data.text}
+                    <p dangerouslySetInnerHTML={{__html: text123}}>
                     </p>
                 </div>
             </div>

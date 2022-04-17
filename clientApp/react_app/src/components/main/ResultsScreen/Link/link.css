@@ -9,7 +9,18 @@
 
 .percent__links {
     text-align: right;
-    display: inline-block;
+    display: flex;
     position: absolute; 
     right: 10px;
+    top: 0;
+}
+
+#show_matches_button {
+    margin-left: 10px;
+    width: 30px;
+    height: 30px;
+    background-image: url("../../../../../img/show_matches.png");
+    background-size: cover;
+    background-color: transparent;
+    border: none;
 }

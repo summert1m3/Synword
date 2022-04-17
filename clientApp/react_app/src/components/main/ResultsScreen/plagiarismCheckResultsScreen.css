@@ -8,7 +8,7 @@
 .pl-check-results-header__body {
     width: 100%;
     height: 10%;
-    padding: 10px 10px 0 10px;
+    padding: 10px 10px 10px 10px;
     text-align: center;
     position: relative;
 }
@@ -85,7 +85,7 @@
 }
 
 .textarea__results {
-    padding: 10px 10px 10px 10px;
+    padding: 10px 15px 10px 15px;
     border: none;
     outline: none;
     resize: none;
@@ -93,6 +93,12 @@
     width: 100%;
     height: 75%;
     max-height: 80%;
+}
+
+.textarea__results p b {
+    background: #DDC5A2;
+    font-weight: normal;
+    border-radius: 5px;
 }
 
 .source-text__results {
