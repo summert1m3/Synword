@@ -3,8 +3,8 @@ import React from "react";
 class Link extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { 
-            windowWidth: window.innerWidth 
+        this.state = {
+            windowWidth: window.innerWidth
         };
     }
 
@@ -30,6 +30,11 @@ class Link extends React.Component {
         return sliced;
     }
 
+    changeHighlights = () => {
+        this.props
+            .changeHighlights(this.props.match.highlights);
+    }
+
     render() {
         const {
             url,
@@ -39,14 +44,23 @@ class Link extends React.Component {
         let width = this.state.windowWidth;
         let sliced;
 
-        if (width > 1044) {
+        if (width > 1340) {
             sliced = this.sliceLink(url, 60);
         }
-        else if (width > 715) {
+        else if (width > 1120) {
+            sliced = this.sliceLink(url, 50);
+        }
+        else if (width > 842) {
             sliced = this.sliceLink(url, 35);
         }
-        else {
+        else if (width > 660) {
             sliced = this.sliceLink(url, 25);
+        }
+        else if (width > 580) {
+            sliced = this.sliceLink(url, 20);
+        }
+        else {
+            sliced = this.sliceLink(url, 15);
         }
 
         return (
@@ -54,10 +68,11 @@ class Link extends React.Component {
                 <a href={url}>{sliced}</a>
                 <div className="percent__links">
                     <p>{percent}%</p>
-                    <button id="show_matches_button">
+                    <button
+                        onClick={this.changeHighlights}
+                        className="show_matches_button">
                     </button>
                 </div>
-
             </div>
         );
     }

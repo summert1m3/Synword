@@ -2,31 +2,45 @@ import React from "react";
 import Link from "./Link/Link";
 
 class PlagiarismCheckResultsScreen extends React.Component {
-    createArrayOfLinks() {
+
+    state = {
+        highlights: this.props.data.highlights
+    };
+
+    createArrayOfLinks = () => {
         let matchesArr = this.props.data.matches;
         let linksArr = [];
 
         for (const item in matchesArr) {
-            linksArr.push(<Link match={matchesArr[item]} />);
+            linksArr.push(<Link match={matchesArr[item]}
+                changeHighlights={this.changeHighlights} />);
         }
 
         return linksArr;
     }
 
-    addHighlightsToText(text, highlights) {
+    addHighlightsToText = (text, highlights) => {
+
         var words = text.split(" ");
 
-        for (var i = 0; i < highlights.length; i++)
-        {
+        for (var i = 0; i < highlights.length; i++) {
             const {
                 startIndex,
                 endIndex
             } = highlights[i];
 
-            words[ startIndex ] = '<b>' + words[ startIndex ];
-            words[ endIndex ] = words[ endIndex ] + '</b>';
+            words[startIndex] = '<b>' + words[startIndex];
+
+            words[endIndex] = words[endIndex] + '</b>';
         }
+
         return words.join(" ");
+    }
+
+    changeHighlights = (highlights) => {
+        this.setState({
+            highlights: highlights
+        });
     }
 
     pickBackgroundColor() {
@@ -54,13 +68,13 @@ class PlagiarismCheckResultsScreen extends React.Component {
 
     render() {
         const {
-            text,
-            highlights
+            text
         } = this.props.data;
 
         let linksArr = this.createArrayOfLinks();
-        let text123 = 
-        this.addHighlightsToText(text, highlights);
+
+        let textWithHighlights =
+            this.addHighlightsToText(text, this.state.highlights);
 
         return (
             <div className="body__results__main">
@@ -98,7 +112,7 @@ class PlagiarismCheckResultsScreen extends React.Component {
                     </p>
                 </div>
                 <div className="textarea__results">
-                    <p dangerouslySetInnerHTML={{__html: text123}}>
+                    <p dangerouslySetInnerHTML={{ __html: textWithHighlights }}>
                     </p>
                 </div>
             </div>
