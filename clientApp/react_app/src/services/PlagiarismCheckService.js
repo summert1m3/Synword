@@ -1,5 +1,5 @@
 class PlagiarismCheckService {
-    _apiBase = 'http://localhost:5248/api/'
+    _apiBase = 'http://localhost:5000/api/'
     _plagiarismCheckUrl = `${this._apiBase + 'plagiarismCheck'}`;
 
     async plagiarismCheck(text){
@@ -9,7 +9,7 @@ class PlagiarismCheckService {
             body: JSON.stringify({ text: text })
         };
         const response = await
-            fetch('http://localhost:5248/api/plagiarismCheck', requestOptions);
+            fetch(this._plagiarismCheckUrl, requestOptions);
         const data = await response.json();
 
         return data;
