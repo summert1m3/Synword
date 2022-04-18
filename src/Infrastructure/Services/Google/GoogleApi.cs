@@ -1,4 +1,7 @@
-﻿namespace Synword.Infrastructure.Services.Google;
+﻿using System.Net;
+using Synword.Domain.Extensions;
+
+namespace Synword.Infrastructure.Services.Google;
 
 public class GoogleApi : IGoogleApi
 {

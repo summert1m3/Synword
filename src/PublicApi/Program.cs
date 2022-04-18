@@ -9,6 +9,7 @@ using Synword.Infrastructure.Data;
 using Synword.Infrastructure.Identity;
 using Synword.Infrastructure.Services.Google;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Synword.Domain.Services.PlagiarismCheck;
 using Synword.Infrastructure.Services.PlagiarismCheckAPI;
 using Synword.PublicApi;
@@ -39,7 +40,7 @@ if (app.Environment.IsDevelopment())
 }
 
 #if !DEBUG
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 #endif
 
 app.UseRouting();
@@ -70,6 +71,15 @@ using (var scope = app.Services.CreateScope())
     var scopedProvider = scope.ServiceProvider;
     try
     {
+        Console.WriteLine("Applying migrations...");
+        var userDb = scopedProvider.GetRequiredService<UserDataContext>();
+        userDb.Database.Migrate();
+        
+        var identityDb = scopedProvider.GetRequiredService<AppIdentityDbContext>();
+        identityDb.Database.Migrate();
+
+        Console.WriteLine("Migration completed.");
+        
         var userManager = scopedProvider.GetRequiredService<UserManager<AppUser>>();
         var roleManager = scopedProvider.GetRequiredService<RoleManager<IdentityRole>>();
         await AppIdentityDbContextSeed.SeedAsync(userManager, roleManager);

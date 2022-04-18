@@ -13,13 +13,13 @@ namespace Synword.Infrastructure.Data.Migrations
                 name: "Metadata",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Picture = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Locale = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Email = table.Column<string>(type: "TEXT", nullable: true),
+                    Country = table.Column<string>(type: "TEXT", nullable: true),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    Picture = table.Column<string>(type: "TEXT", nullable: true),
+                    Locale = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -30,12 +30,12 @@ namespace Synword.Infrastructure.Data.Migrations
                 name: "UsageData",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PlagiarismCheckCount = table.Column<int>(type: "int", nullable: false),
-                    RephraseCount = table.Column<int>(type: "int", nullable: false),
-                    LastVisitDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    PlagiarismCheckCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    RephraseCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    LastVisitDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -46,14 +46,14 @@ namespace Synword.Infrastructure.Data.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ExternalSignIn_Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ExternalSignIn_Id = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Ip = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Roles = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Coins = table.Column<int>(type: "int", nullable: false),
-                    UsageDataId = table.Column<int>(type: "int", nullable: false),
-                    MetadataId = table.Column<int>(type: "int", nullable: true)
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    ExternalSignIn_Type = table.Column<string>(type: "TEXT", nullable: true),
+                    ExternalSignIn_Id = table.Column<string>(type: "TEXT", nullable: true),
+                    Ip = table.Column<string>(type: "TEXT", nullable: false),
+                    Roles = table.Column<string>(type: "TEXT", nullable: false),
+                    Coins = table.Column<int>(type: "INTEGER", nullable: false),
+                    UsageDataId = table.Column<int>(type: "INTEGER", nullable: false),
+                    MetadataId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -75,12 +75,12 @@ namespace Synword.Infrastructure.Data.Migrations
                 name: "Orders",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PurchaseToken = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ProductId = table.Column<string>(type: "TEXT", nullable: false),
+                    PurchaseToken = table.Column<string>(type: "TEXT", nullable: false),
+                    OrderDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UserId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -96,12 +96,12 @@ namespace Synword.Infrastructure.Data.Migrations
                 name: "PlagiarismCheckHistories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Error = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Percent = table.Column<float>(type: "real", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Error = table.Column<string>(type: "TEXT", nullable: true),
+                    Text = table.Column<string>(type: "TEXT", nullable: false),
+                    Percent = table.Column<float>(type: "REAL", nullable: false),
+                    UserId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -117,11 +117,11 @@ namespace Synword.Infrastructure.Data.Migrations
                 name: "RephraseHistories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SourceText = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RephrasedText = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    SourceText = table.Column<string>(type: "TEXT", nullable: false),
+                    RephrasedText = table.Column<string>(type: "TEXT", nullable: true),
+                    UserId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -137,11 +137,11 @@ namespace Synword.Infrastructure.Data.Migrations
                 name: "MatchedUrls",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Percent = table.Column<float>(type: "real", nullable: false),
-                    PlagiarismCheckHistoryId = table.Column<int>(type: "int", nullable: true)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Url = table.Column<string>(type: "TEXT", nullable: false),
+                    Percent = table.Column<float>(type: "REAL", nullable: false),
+                    PlagiarismCheckHistoryId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -157,12 +157,12 @@ namespace Synword.Infrastructure.Data.Migrations
                 name: "Synonyms",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SynonymWordStartIndex = table.Column<int>(type: "int", nullable: false),
-                    SynonymWordEndIndex = table.Column<int>(type: "int", nullable: false),
-                    Synonyms = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RephraseHistoryId = table.Column<int>(type: "int", nullable: true)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    SynonymWordStartIndex = table.Column<int>(type: "INTEGER", nullable: false),
+                    SynonymWordEndIndex = table.Column<int>(type: "INTEGER", nullable: false),
+                    Synonyms = table.Column<string>(type: "TEXT", nullable: false),
+                    RephraseHistoryId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -178,12 +178,12 @@ namespace Synword.Infrastructure.Data.Migrations
                 name: "HighlightRanges",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    StartIndex = table.Column<int>(type: "int", nullable: false),
-                    EndIndex = table.Column<int>(type: "int", nullable: false),
-                    MatchedUrlId = table.Column<int>(type: "int", nullable: true),
-                    PlagiarismCheckHistoryId = table.Column<int>(type: "int", nullable: true)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    StartIndex = table.Column<int>(type: "INTEGER", nullable: false),
+                    EndIndex = table.Column<int>(type: "INTEGER", nullable: false),
+                    MatchedUrlId = table.Column<int>(type: "INTEGER", nullable: true),
+                    PlagiarismCheckHistoryId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -239,8 +239,7 @@ namespace Synword.Infrastructure.Data.Migrations
                 name: "IX_Users_ExternalSignIn_Id",
                 table: "Users",
                 column: "ExternalSignIn_Id",
-                unique: true,
-                filter: "[ExternalSignIn_Id] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_MetadataId",

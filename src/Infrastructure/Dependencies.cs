@@ -11,8 +11,8 @@ public static class Dependencies
     public static void ConfigureServices(IConfiguration configuration, IServiceCollection services)
     {
         services.AddDbContext<UserDataContext>(c =>
-            c.UseSqlServer(configuration["UserDataConnection"]));
+            c.UseSqlite(configuration["SQLiteUserDataDbConnection"]));
         services.AddDbContext<AppIdentityDbContext>(options =>
-            options.UseSqlServer(configuration["IdentityConnection"]));
+            options.UseSqlite(configuration["SQLiteIdentityDbConnection"]));
     }
 }
