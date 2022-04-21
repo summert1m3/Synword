@@ -14,11 +14,11 @@
 1. Определение строки подключения
 
     ```
-    dotnet user-secrets set "UserDataConnection" "Server=(localdb)\\mssqllocaldb;Integrated Security=true;Initial Catalog=Synword.UserDataDb"
+    dotnet user-secrets set "UserDataConnection" "data source=.\\UserDataDB.sqlite"
     ```
     
     ```
-    dotnet user-secrets set "IdentityConnection" "Server=(localdb)\\mssqllocaldb;Integrated Security=true;Initial Catalog=Synword.IdentityDb"
+    dotnet user-secrets set "IdentityConnection" "data source=.\\IdentityDB.sqlite"
     ```
 
 ## Создание БД
