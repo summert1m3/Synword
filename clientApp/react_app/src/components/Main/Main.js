@@ -1,10 +1,9 @@
 import React from "react";
-import Loading from "./Loading/Loading"
 import MainScreen from "./MainScreen/MainScreen";
 import LoadingScreen from "./LoadingScreen/LoadingScreen";
 import PlagiarismCheckResultsScreen 
 from "./ResultsScreen/PlagiarismCheckResultsScreen";
-import PlagiarismCheckService from "../../services/PlagiarismCheckService"
+import PlagiarismCheckService from "../../services/plagiarismCheckService"
 
 class Main extends React.Component {
     plagiarismCheckService = new PlagiarismCheckService();
