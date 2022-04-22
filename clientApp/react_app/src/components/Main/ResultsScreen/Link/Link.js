@@ -1,25 +1,6 @@
 import React from "react";
 
 class Link extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            windowWidth: window.innerWidth
-        };
-    }
-
-    handleResize = (e) => {
-        this.setState({ windowWidth: window.innerWidth });
-    };
-
-    componentDidMount() {
-        window.addEventListener("resize", this.handleResize);
-    }
-
-    componentWillUnmount() {
-        window.addEventListener("resize", this.handleResize);
-    }
-
     sliceLink(url, limit) {
         let sliced = url.slice(0, limit);
 
@@ -41,7 +22,7 @@ class Link extends React.Component {
             percent
         } = this.props.match;
 
-        let width = this.state.windowWidth;
+        let width = this.props.windowWidth;
         let sliced;
 
         if (width > 1340) {

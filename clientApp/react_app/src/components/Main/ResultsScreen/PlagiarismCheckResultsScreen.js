@@ -1,19 +1,33 @@
 import React from "react";
 import Link from "./Link/Link";
-import Header from "./Header/Header";
+import HeaderContainer from "./Header/HeaderContainer";
 import Percent from "./Percent/Percent";
 
 class PlagiarismCheckResultsScreen extends React.Component {
-
     state = {
-        highlights: this.props.data.highlights
+        highlights: this.props.data.highlights,
+        windowWidth: window.innerWidth
     };
+
+    handleResize = (e) => {
+        this.setState({ windowWidth: window.innerWidth });
+    };
+
+    componentDidMount() {
+        window.addEventListener("resize", this.handleResize);
+    }
+
+    componentWillUnmount() {
+        window.addEventListener("resize", this.handleResize);
+    }
 
     createArrayOfLinks = (matchesArr) => {
         let linksArr = [];
 
         for (const item in matchesArr) {
-            linksArr.push(<Link match={matchesArr[item]}
+            linksArr.push(<Link 
+                windowWidth={this.state.windowWidth}
+                match={matchesArr[item]}
                 changeHighlights={this.changeHighlights} />);
         }
 
@@ -61,8 +75,8 @@ class PlagiarismCheckResultsScreen extends React.Component {
 
         return (
             <div className="body__results__main">
-                <Header
-                    title="Уникальность текста равна"
+                <HeaderContainer
+                    windowWidth={this.state.windowWidth}
                     onClosePlagiarismCheckResults
                     ={onClosePlagiarismCheckResults} />
 
