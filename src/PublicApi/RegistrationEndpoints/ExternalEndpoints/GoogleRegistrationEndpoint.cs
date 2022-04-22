@@ -26,7 +26,9 @@ public class GoogleRegistrationEndpoint : EndpointBaseAsync
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
         
-        await _mediator.Send(new RegisterNewGoogleUserCommand(request.AccessToken, User), cancellationToken);
+        await _mediator.Send(
+            new RegisterNewGoogleUserCommand(request.AccessToken, User), 
+            cancellationToken);
 
         return Ok("Google account is linked to Synword account");
     }
