@@ -16,7 +16,7 @@ public class GoogleAuthenticateEndpoint : EndpointBaseAsync
         _userService = userService;
     }
     
-    [HttpPost("api/googleAuthenticate")]
+    [HttpPost("googleAuthenticate")]
     public override async Task<ActionResult<UserAuthenticateDTO>> HandleAsync(
         GoogleAuthenticateRequest request, CancellationToken cancellationToken = default)
     {

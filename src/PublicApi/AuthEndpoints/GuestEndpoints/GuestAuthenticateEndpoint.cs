@@ -15,7 +15,7 @@ public class GuestAuthenticateEndpoint : EndpointBaseAsync
         _guestService = guestService;
     }
     
-    [HttpPost("api/guestAuthenticate")]
+    [HttpPost("guestAuthenticate")]
     public override async Task<ActionResult<GuestAuthenticateDTO>> HandleAsync(
         GuestAuthenticateRequest request, CancellationToken cancellationToken = default)
     {

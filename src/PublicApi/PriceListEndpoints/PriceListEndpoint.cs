@@ -7,7 +7,7 @@ public class PriceListEndpoint : IEndpoint<IResult>
 {
     public void AddRoute(IEndpointRouteBuilder app)
     {
-        app.MapGet("api/priceList", 
+        app.MapGet("priceList", 
             async () => await HandleAsync()
             ).Produces<PriceListResponse>();
     }

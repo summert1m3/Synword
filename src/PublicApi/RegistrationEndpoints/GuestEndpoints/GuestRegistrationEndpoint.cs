@@ -18,7 +18,7 @@ public class GuestRegistrationEndpoint : EndpointBaseAsync
         _mediator = mediator;
     }
     
-    [HttpPost("api/guestRegister")]
+    [HttpPost("guestRegister")]
     public override async Task<ActionResult<GuestRegistrationDTO>> HandleAsync(
         CancellationToken cancellationToken = default)
     {

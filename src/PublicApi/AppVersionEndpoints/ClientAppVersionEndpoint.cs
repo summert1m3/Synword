@@ -8,7 +8,7 @@ public class ClientAppVersionEndpoint : IEndpoint<IResult>
     
     public void AddRoute(IEndpointRouteBuilder app)
     {
-        app.MapGet("api/clientAppVersion", 
+        app.MapGet("clientAppVersion", 
             async (IConfiguration configuration) =>
             {
                 _configuration = configuration;

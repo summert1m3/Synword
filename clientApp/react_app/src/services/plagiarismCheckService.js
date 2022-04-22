@@ -1,5 +1,5 @@
 class PlagiarismCheckService {
-    _apiBase = 'http://localhost:5000/api/'
+    _apiBase = 'http://localhost:5000/'
     _plagiarismCheckUrl = `${this._apiBase + 'plagiarismCheck'}`;
 
     async plagiarismCheck(text){

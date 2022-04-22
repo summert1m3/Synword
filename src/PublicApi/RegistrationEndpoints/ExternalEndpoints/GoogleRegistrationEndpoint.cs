@@ -18,7 +18,7 @@ public class GoogleRegistrationEndpoint : EndpointBaseAsync
         _mediator = mediator;
     }
     
-    [HttpPost("api/googleRegister")]
+    [HttpPost("googleRegister")]
     [Authorize(Roles = nameof(Role.Guest))]
     public override async Task<ActionResult> HandleAsync(
         GoogleRegistrationRequest request,

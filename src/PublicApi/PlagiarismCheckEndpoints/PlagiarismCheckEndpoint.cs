@@ -17,7 +17,7 @@ public class PlagiarismCheckEndpoint : EndpointBaseAsync
         _plagiarismCheck = plagiarismCheck;
     }
     
-    [HttpPost("api/plagiarismCheck")]
+    [HttpPost("plagiarismCheck")]
     //[Authorize]
     public override async Task<ActionResult<PlagiarismCheckResponseDTO>> HandleAsync(
         PlagiarismCheckRequest request, 
