@@ -9,6 +9,7 @@ using Synword.Infrastructure.Data;
 using Synword.Infrastructure.Identity;
 using Synword.Infrastructure.Services.Google;
 using MediatR;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Synword.Domain.Services.PlagiarismCheck;
 using Synword.Infrastructure.Services.PlagiarismCheckAPI;
@@ -18,7 +19,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpoints();
 
-Synword.Infrastructure.Dependencies.ConfigureServices(builder.Configuration, builder.Services);
+Synword.Infrastructure.Dependencies
+    .ConfigureServices(builder.Configuration, builder.Services);
 
 builder.Services.AddControllers();
 
@@ -34,14 +36,17 @@ var app = builder.Build();
 
 app.Logger.LogInformation("PublicApi App created...");
 
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders 
+        = ForwardedHeaders.XForwardedFor 
+          | ForwardedHeaders.XForwardedProto
+});
+
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 }
-
-#if !DEBUG
-//app.UseHttpsRedirection();
-#endif
 
 app.UseRouting();
 
@@ -55,9 +60,12 @@ app.UseCors(c =>
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseSwagger();
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
 
-app.UseSwaggerUI();
+    app.UseSwaggerUI();
+}
 
 app.UseEndpoints(endpoints =>
 {
