@@ -16,3 +16,9 @@
     min-height: 400px;
     background-color: white;
 }
+
+@media (max-height: 900px) and (max-width: 500px) {
+    .body__main {
+        margin: 0px auto auto auto;
+    }
+}
