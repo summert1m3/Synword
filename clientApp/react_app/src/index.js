@@ -13,6 +13,7 @@ import "./components/Main/ResultsScreen/plagiarismCheckResultsScreen.css"
 import "./components/Main/ResultsScreen/Link/link.css"
 import "./components/Main/ResultsScreen/Header/header.css"
 import "./components/Main/ResultsScreen/Percent/percent.css"
+import "./components/Main/Loading/Timer/timer.css"
 
 createRoot(document.getElementById("root")).render(
     <App />

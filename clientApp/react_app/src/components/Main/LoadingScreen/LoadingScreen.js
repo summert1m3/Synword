@@ -5,7 +5,7 @@ class LoadingScreen extends React.Component {
     render() {
         return (
             <div className="body__main">
-                <Loading />
+                <Loading onClose={this.props.onClose}/>
             </div>
         );
     }

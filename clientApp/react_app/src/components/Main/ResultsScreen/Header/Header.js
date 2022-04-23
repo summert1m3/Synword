@@ -1,13 +1,13 @@
 import React from "react";
 
-const Header = ({title, onClosePlagiarismCheckResults}) => (
+const Header = ({title, onClose}) => (
     <div className="pl-check-results-header__body">
         <p 
         dangerouslySetInnerHTML={{ __html: title }}
         className="heading__pl-check-re">
         </p>
         <button id="close_button"
-            onClick={onClosePlagiarismCheckResults}>
+            onClick={onClose}>
         </button>
     </div>
 );

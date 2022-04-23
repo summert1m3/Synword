@@ -1,7 +1,21 @@
-.loading {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+.loading-container {
+    position: relative;
     height: 100%;
+    text-align: center;
+}
+
+.loading {
+    position: absolute;
+    height: 30px;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    margin: auto auto;
+}
+
+.cancel-button {
+    position: absolute;
+    width: 100%;
+    margin: auto auto;
+    bottom: 5%;
 }

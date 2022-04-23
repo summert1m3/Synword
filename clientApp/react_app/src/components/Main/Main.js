@@ -1,12 +1,13 @@
 import React from "react";
 import MainScreen from "./MainScreen/MainScreen";
 import LoadingScreen from "./LoadingScreen/LoadingScreen";
-import PlagiarismCheckResultsScreen 
-from "./ResultsScreen/PlagiarismCheckResultsScreen";
+import PlagiarismCheckResultsScreen
+    from "./ResultsScreen/PlagiarismCheckResultsScreen";
 import PlagiarismCheckService from "../../services/plagiarismCheckService"
 
 class Main extends React.Component {
     plagiarismCheckService = new PlagiarismCheckService();
+    controller;
 
     state = {
         text: '',
@@ -20,7 +21,7 @@ class Main extends React.Component {
         super();
 
         this.mainScreen = this.updateMainScreen(this.state.text.length);
-        this.loadingScreen = <LoadingScreen />;
+        this.loadingScreen = <LoadingScreen onClose={this.onClose} />;
 
         this.state.currentScreen = this.mainScreen;
     }
@@ -42,21 +43,28 @@ class Main extends React.Component {
     }
 
     onPlagiarismCheck = async () => {
+        this.controller = new AbortController();
+
         this.setState({
             currentScreen: this.loadingScreen
         });
 
-        let data = await this.plagiarismCheckService
-            .plagiarismCheck(this.state.text);
+        try {
+            let data = await this.plagiarismCheckService
+                .plagiarismCheck(this.state.text, this.controller.signal);
 
-        this.setState({
-            currentScreen: <PlagiarismCheckResultsScreen data={data} 
-            onClosePlagiarismCheckResults=
-                {this.onClosePlagiarismCheckResults}/>
-        });
+            this.setState({
+                currentScreen: <PlagiarismCheckResultsScreen data={data}
+                    onClose=
+                    {this.onClose} />
+            });
+        } catch (e) {
+            console.log(e);
+        }
     }
 
-    onClosePlagiarismCheckResults = () => {
+    onClose = () => {
+        this.controller.abort();
         this.setState({
             currentScreen: this.updateMainScreen(0)
         });

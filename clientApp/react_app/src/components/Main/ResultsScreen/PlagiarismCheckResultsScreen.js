@@ -65,7 +65,7 @@ class PlagiarismCheckResultsScreen extends React.Component {
         } = this.props.data;
 
         const {
-            onClosePlagiarismCheckResults
+            onClose
         } = this.props;
 
         let linksArr = this.createArrayOfLinks(matches);
@@ -77,8 +77,8 @@ class PlagiarismCheckResultsScreen extends React.Component {
             <div className="body__results__main">
                 <HeaderContainer
                     windowWidth={this.state.windowWidth}
-                    onClosePlagiarismCheckResults
-                    ={onClosePlagiarismCheckResults} />
+                    onClose
+                    ={onClose} />
 
                 <div className="container_1">
                     <Percent percent={percent} />
