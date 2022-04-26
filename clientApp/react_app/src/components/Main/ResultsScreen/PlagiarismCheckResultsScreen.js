@@ -65,7 +65,7 @@ class PlagiarismCheckResultsScreen extends React.Component {
         } = this.props.data;
 
         const {
-            onClose
+            moveToMainScreen
         } = this.props;
 
         let linksArr = this.createArrayOfLinks(matches);
@@ -77,8 +77,8 @@ class PlagiarismCheckResultsScreen extends React.Component {
             <div className="body__results__main">
                 <HeaderContainer
                     windowWidth={this.state.windowWidth}
-                    onClose
-                    ={onClose} />
+                    moveToMainScreen
+                    ={moveToMainScreen} />
 
                 <div className="container_1">
                     <Percent percent={percent} />

@@ -2,19 +2,18 @@ import React from "react";
 import Textarea from "../Textarea/Textarea";
 import SymbolCount from "../Header/SymbolCount";
 import FooterMain from "../Footer/FooterMain";
+import Header from "../../Header/Header";
 
 class MainScreen extends React.Component {
     render() {
         const {
-            symbolCount,
-            onTextChange,
-            onPlagiarismCheck
+            onPlagiarismCheck,
         } = this.props;
 
         return (
             <div className="body__main">
-                <SymbolCount symbolCount={symbolCount} />
-                <Textarea onTextChange={onTextChange} />
+                <SymbolCount />
+                <Textarea />
                 <FooterMain onPlagiarismCheck={onPlagiarismCheck} />
             </div>
         );

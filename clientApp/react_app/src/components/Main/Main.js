@@ -4,13 +4,15 @@ import LoadingScreen from "./LoadingScreen/LoadingScreen";
 import PlagiarismCheckResultsScreen
     from "./ResultsScreen/PlagiarismCheckResultsScreen";
 import PlagiarismCheckService from "../../services/plagiarismCheckService"
+import { connect } from "react-redux"
+import Header from "../Header/Header";
+import { changeText } from "../../actions/actions"
 
 class Main extends React.Component {
     plagiarismCheckService = new PlagiarismCheckService();
     controller;
 
     state = {
-        text: '',
         currentScreen: undefined
     };
 
@@ -20,26 +22,19 @@ class Main extends React.Component {
     constructor() {
         super();
 
-        this.mainScreen = this.updateMainScreen(this.state.text.length);
-        this.loadingScreen = <LoadingScreen onClose={this.onClose} />;
+        this.mainScreen = this.updateMainScreen();
+        this.loadingScreen = 
+            <LoadingScreen 
+                moveToMainScreen={this.moveToMainScreen} />;
 
         this.state.currentScreen = this.mainScreen;
     }
 
-    updateMainScreen = (textLength) => {
+    updateMainScreen = () => {
         return (
             <MainScreen
-                symbolCount={textLength}
-                onTextChange={this.onTextChange}
                 onPlagiarismCheck={this.onPlagiarismCheck} />
         );
-    }
-
-    onTextChange = (str) => {
-        this.setState({
-            text: str,
-            currentScreen: this.updateMainScreen(str.length)
-        });
     }
 
     onPlagiarismCheck = async () => {
@@ -51,30 +46,46 @@ class Main extends React.Component {
 
         try {
             let data = await this.plagiarismCheckService
-                .plagiarismCheck(this.state.text, this.controller.signal);
+                .plagiarismCheck(this.props.text, this.controller.signal);
 
             this.setState({
                 currentScreen: <PlagiarismCheckResultsScreen data={data}
-                    onClose=
-                    {this.onClose} />
+                    moveToMainScreen=
+                    {this.moveToMainScreen} />
             });
         } catch (e) {
             console.log(e);
         }
     }
 
-    onClose = () => {
+    moveToMainScreen = () => {
         this.controller.abort();
+        this.props.changeText("");
         this.setState({
-            currentScreen: this.updateMainScreen(0)
+            currentScreen: this.updateMainScreen()
         });
     }
 
     render() {
         return (
-            this.state.currentScreen
+            <div>
+                <Header />
+                <main>
+                    {this.state.currentScreen}
+                </main>
+            </div>
         );
     }
 }
 
-export default Main;
+const mapStateToProps = ({ text }) => {
+    return {
+        text: text
+    };
+};
+
+const mapDispatchToProps = {
+    changeText
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

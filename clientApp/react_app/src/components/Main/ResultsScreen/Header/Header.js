@@ -1,13 +1,13 @@
 import React from "react";
 
-const Header = ({title, onClose}) => (
+const Header = ({title, moveToMainScreen}) => (
     <div className="pl-check-results-header__body">
         <p 
         dangerouslySetInnerHTML={{ __html: title }}
         className="heading__pl-check-re">
         </p>
         <button id="close_button"
-            onClick={onClose}>
+            onClick={moveToMainScreen}>
         </button>
     </div>
 );

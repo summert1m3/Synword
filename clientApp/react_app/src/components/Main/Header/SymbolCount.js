@@ -1,21 +1,22 @@
 import React from "react";
 import { FilePicker } from "react-file-picker";
+import { connect } from 'react-redux';
 
 class SymbolCount extends React.Component {
 
-      handleFileChange = file => {
+    handleFileChange = file => {
 
-      };
+    };
 
     render() {
         const {
-            symbolCount
+            textLength
         } = this.props;
 
         return (
             <div className="header__body__main">
                 <div className="symbol-count">
-                    {symbolCount}/20000
+                    {textLength}/20000
                 </div>
                 <FilePicker
                     extensions={["docx"]}
@@ -31,4 +32,10 @@ class SymbolCount extends React.Component {
     }
 }
 
-export default SymbolCount;
+const mapStateToProps = ({ text }) => {
+    return { 
+        textLength: text.length
+    };
+};
+
+export default connect(mapStateToProps, null)(SymbolCount);

@@ -5,7 +5,7 @@ class HeaderContainer extends React.Component {
     render() {
         const {
             windowWidth,
-            onClose
+            moveToMainScreen
         } = this.props;
 
         let title;
@@ -19,8 +19,8 @@ class HeaderContainer extends React.Component {
         return (
             <Header 
             title={title}
-            onClose
-            ={onClose}/>
+            moveToMainScreen
+            ={moveToMainScreen}/>
         );
     }
 }

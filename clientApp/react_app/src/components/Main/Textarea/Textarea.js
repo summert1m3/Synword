@@ -1,8 +1,10 @@
 import React from "react";
+import { connect } from 'react-redux';
+import { changeText } from '../../../actions/actions';
 
 class Textarea extends React.Component {
     onTextChange = (event) => {
-        this.props.onTextChange(event.target.value);
+        this.props.changeText(event.target.value);
     }
 
     render() {
@@ -16,4 +18,8 @@ class Textarea extends React.Component {
     }
 }
 
-export default Textarea;
+const mapDispatchToProps = {
+    changeText
+};
+
+export default connect(null, mapDispatchToProps)(Textarea);
