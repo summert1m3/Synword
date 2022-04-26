@@ -20,7 +20,7 @@ public class PlagiarismCheckService : IPlagiarismCheckService
     public async Task<PlagiarismCheckResponseModel> CheckPlagiarism(string text)
     {
         PlagiarismCheckResponseModel model = new();
-
+        
         if (text.Length <= ApiInputRestriction)
         {
             model = await CheckPlagiarismUnderLimit(text);
@@ -29,6 +29,39 @@ public class PlagiarismCheckService : IPlagiarismCheckService
         {
             model = await CheckPlagiarismOverLimit(text);
         }
+
+        return model;
+    }
+    
+    private async Task<PlagiarismCheckResponseModel> CheckPlagiarismUnderLimit(string text)
+    {
+        return await _plagiarismCheckApi.CheckPlagiarism(text);
+    }
+
+    private async Task<PlagiarismCheckResponseModel> CheckPlagiarismOverLimit(string text)
+    {
+        List<string> splitText = GetSplitText(text);
+
+        List<PlagiarismCheckResponseModel> splitUniqueCheckResponse =
+            await CheckPlagiarismForSplitText(splitText);
+
+        float plagiarismPercent = PercentCorrection(
+            splitUniqueCheckResponse, splitText);
+        
+        string allText = MergeSplitText(splitUniqueCheckResponse);
+
+        List<HighlightRange> highlights = MergeHighlights(splitUniqueCheckResponse);
+
+        List<MatchedUrl> matchedUrls = MergeMatchedUrls(splitUniqueCheckResponse);
+
+        PlagiarismCheckResponseModel model = new()
+        {
+            Error = string.Empty,
+            Highlights = highlights,
+            Matches = matchedUrls,
+            Percent = plagiarismPercent,
+            Text = allText
+        };
 
         return model;
     }
@@ -47,6 +80,29 @@ public class PlagiarismCheckService : IPlagiarismCheckService
         return splitUniqueCheckResponse;
     }
 
+    private float PercentCorrection(
+        IReadOnlyList<PlagiarismCheckResponseModel> splitUniqueCheckResponse,
+        IReadOnlyList<string> splitText)
+    {
+        double percentRatioFromOtherParts =
+            CalculatePercentLastElementFromOtherParts(splitText);
+
+        double sum = SumOfPercentWithoutLastElement(
+            splitUniqueCheckResponse);
+
+        double average = ArithmeticMean(sum, splitUniqueCheckResponse);
+        
+        double correctionPercent = LastElementPercentCorrection(
+            average,
+            splitUniqueCheckResponse.Last().Percent,
+            percentRatioFromOtherParts);
+
+        float plagiarismPercent = (float)ApplyCorrectionOfLastElement(
+            correctionPercent, average, splitUniqueCheckResponse.Last().Percent);
+
+        return plagiarismPercent;
+    }
+
     private double CalculatePercentLastElementFromOtherParts(IReadOnlyList<string> splitText)
     {
         int sumOfOtherParts = 0;
@@ -62,7 +118,7 @@ public class PlagiarismCheckService : IPlagiarismCheckService
         return percentRatioFromOtherParts;
     }
 
-    private double PercentCorrection(
+    private double LastElementPercentCorrection(
         double firstPartPercent,
         double secondPartPercent,
         double percentRatioFromOtherParts)
@@ -155,8 +211,8 @@ public class PlagiarismCheckService : IPlagiarismCheckService
                 else
                 {
                     HighlightRange highlight = new(
-                        item.StartIndex + (ApiInputRestriction * i),
-                        item.EndIndex + (ApiInputRestriction * i)
+                        item.StartIndex + (ApiInputRestriction * i) + i,
+                        item.EndIndex + (ApiInputRestriction * i) + i
                     );
                     highlights.Add(highlight);
                 }
@@ -188,8 +244,8 @@ public class PlagiarismCheckService : IPlagiarismCheckService
                     else
                     {
                         HighlightRange highlight = new(
-                            itemHighlight.StartIndex + (ApiInputRestriction * i),
-                            itemHighlight.EndIndex + (ApiInputRestriction * i)
+                            itemHighlight.StartIndex + (ApiInputRestriction * i) + i,
+                            itemHighlight.EndIndex + (ApiInputRestriction * i) + i
                         );
                         highlightRanges.Add(highlight);
                     }
@@ -208,53 +264,7 @@ public class PlagiarismCheckService : IPlagiarismCheckService
 
         return matchedUrls;
     }
-
-    private async Task<PlagiarismCheckResponseModel> CheckPlagiarismUnderLimit(string text)
-    {
-        return await _plagiarismCheckApi.CheckPlagiarism(text);
-    }
-
-    private async Task<PlagiarismCheckResponseModel> CheckPlagiarismOverLimit(string text)
-    {
-        List<string> splitText = GetSplitText(text);
-
-        List<PlagiarismCheckResponseModel> splitUniqueCheckResponse =
-            await CheckPlagiarismForSplitText(splitText);
-
-        double percentRatioFromOtherParts =
-            CalculatePercentLastElementFromOtherParts(splitText);
-
-        double sum = SumOfPercentWithoutLastElement(
-            splitUniqueCheckResponse);
-
-        double average = ArithmeticMean(sum, splitUniqueCheckResponse);
-        
-        double correctionPercent = PercentCorrection(
-            average,
-            splitUniqueCheckResponse.Last().Percent,
-            percentRatioFromOtherParts);
-
-        float plagiarismPercent = (float)ApplyCorrectionOfLastElement(
-            correctionPercent, average, splitUniqueCheckResponse.Last().Percent);
-
-        string allText = MergeSplitText(splitUniqueCheckResponse);
-
-        List<HighlightRange> highlights = MergeHighlights(splitUniqueCheckResponse);
-
-        List<MatchedUrl> matchedUrls = MergeMatchedUrls(splitUniqueCheckResponse);
-
-        PlagiarismCheckResponseModel model = new()
-        {
-            Error = string.Empty,
-            Highlights = highlights,
-            Matches = matchedUrls,
-            Percent = plagiarismPercent,
-            Text = allText
-        };
-
-        return model;
-    }
-
+    
     private List<string> GetSplitText(string text)
     {
         List<string> splitText = new List<string>();
