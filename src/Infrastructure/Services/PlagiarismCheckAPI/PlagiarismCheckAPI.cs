@@ -38,7 +38,7 @@ public class PlagiarismCheckAPI : IPlagiarismCheckAPI
 
         string responseString = await response.Content.ReadAsStringAsync();
         PlagiarismCheckResponseModelRaw plagiarismCheckResponseModel = 
-            JsonConvert.DeserializeObject<PlagiarismCheckResponseModelRaw>(responseString);
+            responseString.FromJson<PlagiarismCheckResponseModelRaw>();
 
         if (plagiarismCheckResponseModel.Error != string.Empty) {
             throw new Exception(plagiarismCheckResponseModel.Error);
