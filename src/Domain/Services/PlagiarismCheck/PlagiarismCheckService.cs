@@ -59,7 +59,7 @@ public class PlagiarismCheckService : IPlagiarismCheckService
             Error = string.Empty,
             Highlights = highlights,
             Matches = matchedUrls,
-            Percent = plagiarismPercent,
+            Percent = (float)Math.Round(plagiarismPercent, 1),
             Text = allText
         };
 
