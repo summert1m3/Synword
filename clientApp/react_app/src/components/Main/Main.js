@@ -3,10 +3,10 @@ import MainScreen from "./MainScreen/MainScreen";
 import LoadingScreen from "./LoadingScreen/LoadingScreen";
 import PlagiarismCheckResultsScreen
     from "./ResultsScreen/PlagiarismCheckResultsScreen";
-import PlagiarismCheckService from "../../services/plagiarismCheckService"
-import { connect } from "react-redux"
+import PlagiarismCheckService from "../../services/plagiarismCheckService";
+import { connect } from "react-redux";
 import Header from "../Header/Header";
-import { changeText } from "../../actions/actions"
+import { changeText } from "../../actions/actions";
 
 class Main extends React.Component {
     plagiarismCheckService = new PlagiarismCheckService();

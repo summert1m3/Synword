@@ -8,15 +8,6 @@
     background-color: white;
 }
 
-.body__results__main {
-    border-radius: 20px;
-    margin: 20px auto auto auto;
-    min-width: 350px;
-    max-width: 70%;
-    min-height: 400px;
-    background-color: white;
-}
-
 @media (max-height: 900px) and (max-width: 500px) {
     .body__main {
         margin: 0px auto auto auto;

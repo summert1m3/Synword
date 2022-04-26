@@ -1,5 +1,5 @@
 import React from "react";
-import Loading from "../Loading/Loading";
+import Loading from "./Loading/Loading";
 
 class LoadingScreen extends React.Component {
     render() {

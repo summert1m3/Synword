@@ -1,4 +1,5 @@
 import React from "react";
+import "./link.css";
 
 class Link extends React.Component {
     sliceLink(url, limit) {

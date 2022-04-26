@@ -1,7 +1,8 @@
 import React from "react";
 import Link from "./Link/Link";
-import HeaderContainer from "./Header/HeaderContainer";
+import HeaderResultsContainer from "./HeaderResults/HeaderResultsContainer";
 import Percent from "./Percent/Percent";
+import "./plagiarismCheckResultsScreen.css";
 
 class PlagiarismCheckResultsScreen extends React.Component {
     state = {
@@ -75,7 +76,7 @@ class PlagiarismCheckResultsScreen extends React.Component {
 
         return (
             <div className="body__results__main">
-                <HeaderContainer
+                <HeaderResultsContainer
                     windowWidth={this.state.windowWidth}
                     moveToMainScreen
                     ={moveToMainScreen} />

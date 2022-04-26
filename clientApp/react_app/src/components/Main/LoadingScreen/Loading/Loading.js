@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { ThreeBounce } from 'better-react-spinkit'
 import Timer from './Timer/Timer';
 import Button from '@material-ui/core/Button';
+import "./loading.css";
 
 class Loading extends React.Component {
     render() {

@@ -1,6 +1,7 @@
 import React from "react";
+import "./headerResults.css";
 
-const Header = ({title, moveToMainScreen}) => (
+const HeaderResults = ({title, moveToMainScreen}) => (
     <div className="pl-check-results-header__body">
         <p 
         dangerouslySetInnerHTML={{ __html: title }}
@@ -12,4 +13,4 @@ const Header = ({title, moveToMainScreen}) => (
     </div>
 );
 
-export default Header;
+export default HeaderResults;

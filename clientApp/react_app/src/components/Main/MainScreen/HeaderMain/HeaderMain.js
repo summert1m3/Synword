@@ -1,8 +1,9 @@
 import React from "react";
 import { FilePicker } from "react-file-picker";
 import { connect } from 'react-redux';
+import "./headerMain.css";
 
-class SymbolCount extends React.Component {
+class HeaderMain extends React.Component {
 
     handleFileChange = file => {
 
@@ -38,4 +39,4 @@ const mapStateToProps = ({ text }) => {
     };
 };
 
-export default connect(mapStateToProps, null)(SymbolCount);
+export default connect(mapStateToProps, null)(HeaderMain);

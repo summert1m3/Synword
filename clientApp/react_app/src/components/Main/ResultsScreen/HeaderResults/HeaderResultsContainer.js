@@ -1,7 +1,7 @@
 import React from "react";
-import Header from "./Header";
+import HeaderResults from "./HeaderResults";
 
-class HeaderContainer extends React.Component {
+class HeaderResultsContainer extends React.Component {
     render() {
         const {
             windowWidth,
@@ -17,7 +17,7 @@ class HeaderContainer extends React.Component {
             title = "Уникальность текста<br>равна"
         }
         return (
-            <Header 
+            <HeaderResults 
             title={title}
             moveToMainScreen
             ={moveToMainScreen}/>
@@ -25,4 +25,4 @@ class HeaderContainer extends React.Component {
     }
 }
 
-export default HeaderContainer;
+export default HeaderResultsContainer;

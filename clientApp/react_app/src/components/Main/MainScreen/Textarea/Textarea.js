@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { changeText } from '../../../actions/actions';
+import { changeText } from '../../../../actions/actions';
+import "./textarea.css";
 
 class Textarea extends React.Component {
     onTextChange = (event) => {

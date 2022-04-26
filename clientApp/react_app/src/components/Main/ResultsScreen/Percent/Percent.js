@@ -1,4 +1,5 @@
 import React from "react";
+import "./percent.css";
 
 class Percent extends React.Component {
 

@@ -1,8 +1,8 @@
 import React from "react";
-import Textarea from "../Textarea/Textarea";
-import SymbolCount from "../Header/SymbolCount";
-import FooterMain from "../Footer/FooterMain";
-import Header from "../../Header/Header";
+import Textarea from "./Textarea/Textarea";
+import HeaderMain from "./HeaderMain/HeaderMain";
+import FooterMain from "./FooterMain/FooterMain";
+import "./mainScreen.css";
 
 class MainScreen extends React.Component {
     render() {
@@ -12,7 +12,7 @@ class MainScreen extends React.Component {
 
         return (
             <div className="body__main">
-                <SymbolCount />
+                <HeaderMain />
                 <Textarea />
                 <FooterMain onPlagiarismCheck={onPlagiarismCheck} />
             </div>

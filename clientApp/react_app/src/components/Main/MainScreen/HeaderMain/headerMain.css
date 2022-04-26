@@ -5,7 +5,7 @@
 .upload-file-button {
     width: 29px;
     height: 35px;
-    background-image: url("../../../../img/upload.png");
+    background-image: url("../../../../../img/upload.png");
     background-size: cover;
     background-color: transparent;
     border: none;
