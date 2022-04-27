@@ -50,9 +50,16 @@ public class PlagiarismCheckService : IPlagiarismCheckService
         
         string allText = MergeSplitText(splitUniqueCheckResponse);
 
-        List<HighlightRange> highlights = MergeHighlights(splitUniqueCheckResponse);
+        List<int> wordCountsSums = 
+            WordCountsNextElIsSumOfPrevious(splitUniqueCheckResponse);
+        
+        List<HighlightRange> highlights = MergeHighlights(
+            splitUniqueCheckResponse,
+            wordCountsSums);
 
-        List<MatchedUrl> matchedUrls = MergeMatchedUrls(splitUniqueCheckResponse);
+        List<MatchedUrl> matchedUrls = MergeMatchedUrls(
+            splitUniqueCheckResponse,
+            wordCountsSums);
 
         PlagiarismCheckResponseModel model = new()
         {
@@ -188,14 +195,14 @@ public class PlagiarismCheckService : IPlagiarismCheckService
         foreach (var model in splitUniqueCheckResponse)
         {
             allText += model.Text;
-            allText += " ";
         }
 
         return allText;
     }
 
     private List<HighlightRange> MergeHighlights(
-        IEnumerable<PlagiarismCheckResponseModel> splitUniqueCheckResponse)
+        IEnumerable<PlagiarismCheckResponseModel> splitUniqueCheckResponse,
+        IReadOnlyList<int> wordCountsSums)
     {
         List<HighlightRange> highlights = new();
 
@@ -211,8 +218,8 @@ public class PlagiarismCheckService : IPlagiarismCheckService
                 else
                 {
                     HighlightRange highlight = new(
-                        item.StartIndex + (ApiInputRestriction * i) + i,
-                        item.EndIndex + (ApiInputRestriction * i) + i
+                        item.StartIndex + wordCountsSums[i - 1],
+                        item.EndIndex + wordCountsSums[i - 1]
                     );
                     highlights.Add(highlight);
                 }
@@ -225,7 +232,8 @@ public class PlagiarismCheckService : IPlagiarismCheckService
     }
 
     private List<MatchedUrl> MergeMatchedUrls(
-        IEnumerable<PlagiarismCheckResponseModel> splitUniqueCheckResponse)
+        IEnumerable<PlagiarismCheckResponseModel> splitUniqueCheckResponse,
+        IReadOnlyList<int> wordCountsSums)
     {
         List<MatchedUrl> matchedUrls = new();
 
@@ -244,8 +252,8 @@ public class PlagiarismCheckService : IPlagiarismCheckService
                     else
                     {
                         HighlightRange highlight = new(
-                            itemHighlight.StartIndex + (ApiInputRestriction * i) + i,
-                            itemHighlight.EndIndex + (ApiInputRestriction * i) + i
+                            itemHighlight.StartIndex + wordCountsSums[i - 1],
+                            itemHighlight.EndIndex + wordCountsSums[i - 1]
                         );
                         highlightRanges.Add(highlight);
                     }
@@ -264,10 +272,57 @@ public class PlagiarismCheckService : IPlagiarismCheckService
 
         return matchedUrls;
     }
+
+    private List<int> WordCountsNextElIsSumOfPrevious(
+        IEnumerable<PlagiarismCheckResponseModel> splitUniqueCheckResponse)
+    {
+        IEnumerable<int> wordCounts = GetWordCounts(splitUniqueCheckResponse);
+        
+        int i = 0;
+        int sum = 0;
+        List<int> sums = new();
+        
+        foreach (var item in wordCounts)
+        {
+            if (i == 0)
+            {
+                sum = item;
+                sums.Add(item);
+            }
+            else
+            {
+                sum += item;
+                sums.Add(sum);
+            }
+
+            i++;
+        }
+
+        return sums;
+    }
+
+    private List<int> GetWordCounts(
+        IEnumerable<PlagiarismCheckResponseModel> splitUniqueCheckResponse)
+    {
+        List<int> wordCounts = new();
+        
+        char[] delimiters = { ' ', '\r', '\n' };
+        
+        foreach (var response in splitUniqueCheckResponse)
+        {
+            int wordCount =
+                response.Text.Split(
+                    delimiters, StringSplitOptions.RemoveEmptyEntries).Length;
+            
+            wordCounts.Add(wordCount);
+        }
+
+        return wordCounts;
+    }
     
     private List<string> GetSplitText(string text)
     {
-        List<string> splitText = new List<string>();
+        List<string> splitText = new();
         int endIndex = ApiInputRestriction;
         bool textIsNotEmpty = true;
 
@@ -286,7 +341,7 @@ public class PlagiarismCheckService : IPlagiarismCheckService
 
             string temp = text[..endIndex];
             splitText.Add(temp);
-
+            
             text = text[endIndex..];
         }
 
