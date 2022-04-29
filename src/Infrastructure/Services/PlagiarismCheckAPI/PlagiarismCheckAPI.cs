@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Extensions;
 using Synword.Domain.Interfaces;
@@ -9,29 +8,25 @@ namespace Synword.Infrastructure.Services.PlagiarismCheckAPI;
 
 public class PlagiarismCheckAPI : IPlagiarismCheckAPI
 {
+    private static SemaphoreSlim pool = new(5,5);
     private readonly string _apiKey;
     private readonly string _apiUrl;
     private readonly HttpClient _httpClient = new();
 
     public PlagiarismCheckAPI(IConfiguration configuration)
     {
-        _apiKey ??= configuration["PlagiarismCheckApiKey"];
-        _apiUrl ??= configuration["PlagiarismCheckApiUrl"];
+        _apiKey = configuration["PlagiarismCheckApiKey"];
+        _apiUrl = configuration["PlagiarismCheckApiUrl"];
     }
     
     public async Task<PlagiarismCheckResponseModel> CheckPlagiarism(string text)
     {
-        Dictionary<string, string> values = new Dictionary<string, string> {
-            { "key", _apiKey },
-            { "text", text },
-            { "test", true.ToString() }
-        };
-        
-        HttpResponseMessage response = await _httpClient.PostAsync(
-            _apiUrl, 
-            new FormUrlEncodedContent(values)
-            );
+        pool.Wait();
 
+        HttpResponseMessage response = await RequestAsync(text);
+
+        pool.Release();
+        
         if (!response.IsSuccessStatusCode) {
             throw new Exception(await response.Content.ReadAsStringAsync());
         }
@@ -45,6 +40,22 @@ public class PlagiarismCheckAPI : IPlagiarismCheckAPI
         }
         
         return plagiarismCheckResponseModel.ConvertToDomainModel();
+    }
+
+    private async Task<HttpResponseMessage> RequestAsync(string text)
+    {
+        Dictionary<string, string> values = new Dictionary<string, string> {
+            { "key", _apiKey },
+            { "text", text },
+            //{ "test", true.ToString() }
+        };
+        
+        HttpResponseMessage response = await _httpClient.PostAsync(
+            _apiUrl, 
+            new FormUrlEncodedContent(values)
+        );
+
+        return response;
     }
 }
 
