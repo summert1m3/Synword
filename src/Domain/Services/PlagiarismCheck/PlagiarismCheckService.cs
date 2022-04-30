@@ -77,11 +77,19 @@ public class PlagiarismCheckService : IPlagiarismCheckService
         IEnumerable<string> splitText)
     {
         List<PlagiarismCheckResponseModel> splitUniqueCheckResponse = new();
+        
+        List<Task<PlagiarismCheckResponseModel>> tasks = new();
+        
         foreach (var text in splitText)
         {
-            PlagiarismCheckResponseModel uniqueCheckResponse
-                = await _plagiarismCheckApi.CheckPlagiarism(text);
-            splitUniqueCheckResponse.Add(uniqueCheckResponse);
+            tasks.Add(_plagiarismCheckApi.CheckPlagiarism(text));
+        }
+
+        await Task.WhenAll(tasks);
+
+        foreach (var task in tasks)
+        {
+            splitUniqueCheckResponse.Add(task.Result);
         }
 
         return splitUniqueCheckResponse;

@@ -20,7 +20,7 @@ public class PlagiarismCheckEndpoint : EndpointBaseAsync
     [HttpPost("plagiarismCheck")]
     //[Authorize]
     public override async Task<ActionResult<PlagiarismCheckResponseDTO>> HandleAsync(
-        PlagiarismCheckRequest request, 
+        [FromForm]PlagiarismCheckRequest request, 
         CancellationToken cancellationToken = default)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);

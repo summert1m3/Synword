@@ -22,9 +22,9 @@ public class PlagiarismCheckAPI : IPlagiarismCheckAPI
     public async Task<PlagiarismCheckResponseModel> CheckPlagiarism(string text)
     {
         pool.Wait();
-
+        
         HttpResponseMessage response = await RequestAsync(text);
-
+        
         pool.Release();
         
         if (!response.IsSuccessStatusCode) {
@@ -47,14 +47,14 @@ public class PlagiarismCheckAPI : IPlagiarismCheckAPI
         Dictionary<string, string> values = new Dictionary<string, string> {
             { "key", _apiKey },
             { "text", text },
-            //{ "test", true.ToString() }
+            { "test", true.ToString() }
         };
         
         HttpResponseMessage response = await _httpClient.PostAsync(
             _apiUrl, 
             new FormUrlEncodedContent(values)
         );
-
+        
         return response;
     }
 }
