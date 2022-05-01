@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Synword.Domain.Entities.UserAggregate;
 
-namespace Synword.Infrastructure.Data.Config;
+namespace Synword.Infrastructure.UserData.Config;
 
 public class SynonymConfiguration : IEntityTypeConfiguration<Synonym>
 {

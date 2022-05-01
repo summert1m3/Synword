@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Synword.Domain.Entities.UserAggregate;
 
-namespace Synword.Infrastructure.Data.Config;
+namespace Synword.Infrastructure.UserData.Config;
 
 public class MetadataConfiguration : IEntityTypeConfiguration<Metadata>
 {

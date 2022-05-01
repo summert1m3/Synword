@@ -9,9 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Config" />
-    <Folder Include="Data\Migrations" />
-    <Folder Include="Data\Queries" />
+    <Folder Include="UserData\Config" />
+    <Folder Include="UserData\Migrations" />
+    <Folder Include="UserData\Queries" />
     <Folder Include="Identity\Migrations" />
   </ItemGroup>
 

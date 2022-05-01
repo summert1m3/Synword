@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Synword.Infrastructure.Data;
 using Synword.Infrastructure.Identity;
+using Synword.Infrastructure.UserData;
 
 namespace Synword.Infrastructure;
 

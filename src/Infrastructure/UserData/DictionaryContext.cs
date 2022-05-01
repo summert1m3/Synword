@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Synword.Infrastructure.Data;
+namespace Synword.Infrastructure.UserData;
 
 public class DictionaryContext : DbContext
 {

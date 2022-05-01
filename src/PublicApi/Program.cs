@@ -5,7 +5,6 @@ using Application.Users.Services;
 using Microsoft.AspNetCore.Identity;
 using MinimalApi.Endpoint.Extensions;
 using Synword.Domain.Interfaces;
-using Synword.Infrastructure.Data;
 using Synword.Infrastructure.Identity;
 using Synword.Infrastructure.Services.Google;
 using MediatR;
@@ -13,6 +12,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Synword.Domain.Services.PlagiarismCheck;
 using Synword.Infrastructure.Services.PlagiarismCheckAPI;
+using Synword.Infrastructure.UserData;
 using Synword.PublicApi;
 
 var builder = WebApplication.CreateBuilder(args);

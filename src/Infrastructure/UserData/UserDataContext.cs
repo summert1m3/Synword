@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Synword.Domain.Entities.UserAggregate;
 
-namespace Synword.Infrastructure.Data;
+namespace Synword.Infrastructure.UserData;
 
 public class UserDataContext : DbContext
 {
