@@ -15,7 +15,7 @@ public class RusSynonymDictionaryService : IRusSynonymDictionaryService
         get => _rusSynonymDictionary;
     }
 
-    public static async void
+    public static async Task
         InitializeDictionary(IRusSynonymDictionaryRepository<Word> repository)
     {
         if (_rusSynonymDictionary != null)

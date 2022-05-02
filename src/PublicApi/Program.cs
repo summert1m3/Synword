@@ -4,7 +4,6 @@ using Application.PlagiarismCheck.Services;
 using Application.Users.Services;
 using Microsoft.AspNetCore.Identity;
 using MinimalApi.Endpoint.Extensions;
-using Synword.Domain.Interfaces;
 using Synword.Infrastructure.Identity;
 using Synword.Infrastructure.Services.Google;
 using MediatR;
@@ -37,7 +36,7 @@ builder.Services.AddSwagger();
 
 builder.Services.AddJwtBearerAuthentication(builder.Configuration);
 
-AddUserServices();
+AddCustomServices();
 
 var app = builder.Build();
 
@@ -79,56 +78,32 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllers();
 });
 
-app.Logger.LogInformation("Seeding Database...");
+using var scope = app.Services.CreateScope();
+var scopedProvider = scope.ServiceProvider;
 
-using (var scope = app.Services.CreateScope())
-{
-    var scopedProvider = scope.ServiceProvider;
-    try
-    {
-        Console.WriteLine("Applying migrations...");
-        var userDb = scopedProvider.GetRequiredService<UserDataContext>();
-        userDb.Database.Migrate();
-        
-        var identityDb = scopedProvider.GetRequiredService<AppIdentityDbContext>();
-        identityDb.Database.Migrate();
-
-        Console.WriteLine("Migration completed.");
-        
-        var userManager = scopedProvider.
-            GetRequiredService<UserManager<AppUser>>();
-        var roleManager = scopedProvider.
-            GetRequiredService<RoleManager<IdentityRole>>();
-        await AppIdentityDbContextSeed.SeedAsync(userManager, roleManager);
-
-        Console.WriteLine("InitializeDictionary");
-        
-        var rusDictionaryDb = 
-            scopedProvider.
-                GetRequiredService<IRusSynonymDictionaryRepository<Word>>();
-        
-        RusSynonymDictionaryService.InitializeDictionary(rusDictionaryDb);
-        
-        var engDictionaryDb = 
-            scopedProvider.
-                GetRequiredService<IEngSynonymDictionaryRepository<Word>>();
-        
-        EngSynonymDictionaryService.InitializeDictionary(engDictionaryDb);
-        
-        Console.WriteLine("InitializeDictionary Completed");
-    }
-    catch (Exception ex)
-    {
-        app.Logger.LogError(ex, "An error occurred seeding the DB");
-    }
-}
+ApplyMigrations();
+await SeedDatabase();
+await InitializeDictionaries();
 
 app.MapEndpoints();
 app.Logger.LogInformation("LAUNCHING PublicApi");
+app.Logger.LogInformation("Swagger: http://localhost:5000/swagger");
 app.Run();
 
 
-void AddUserServices()
+
+void AddCustomServices()
+{
+    AddRepositories();
+    
+    AddAppServices();
+    
+    builder.Services.AddSingleton(builder.Configuration);
+
+    builder.Services.AddAutoMapper(typeof(DomainProfile));
+}
+
+void AddRepositories()
 {
     builder.Services.AddScoped(
         typeof(IUserDataRepository<>), 
@@ -141,9 +116,10 @@ void AddUserServices()
     builder.Services.AddScoped(
         typeof(IEngSynonymDictionaryRepository<>),
         typeof(EngSynonymDictionaryRepository<>));
-    
-    builder.Services.AddSingleton(builder.Configuration);
-    
+}
+
+void AddAppServices()
+{
     builder.Services.AddSingleton(typeof(IRusSynonymDictionaryService), 
         typeof(RusSynonymDictionaryService));
     
@@ -170,6 +146,64 @@ void AddUserServices()
     builder.Services.AddScoped(
         typeof(IPlagiarismCheckAPI), 
         typeof(PlagiarismCheckAPI));
+}
+
+void ApplyMigrations()
+{
+    app.Logger.LogInformation("Applying migrations...");
     
-    builder.Services.AddAutoMapper(typeof(DomainProfile));
+    try
+    {
+        var userDb = scopedProvider.GetRequiredService<UserDataContext>();
+        userDb.Database.Migrate();
+        
+        var identityDb = scopedProvider.GetRequiredService<AppIdentityDbContext>();
+        identityDb.Database.Migrate();
+    }
+    catch (Exception ex)
+    {
+        app.Logger.LogError(ex, "An error occurred applying migrations");
+    }
+}
+
+async Task SeedDatabase()
+{
+    app.Logger.LogInformation("Seeding Database...");
+    
+    try
+    {
+        var userManager = scopedProvider.
+            GetRequiredService<UserManager<AppUser>>();
+        var roleManager = scopedProvider.
+            GetRequiredService<RoleManager<IdentityRole>>();
+        await AppIdentityDbContextSeed.SeedAsync(userManager, roleManager);
+    }
+    catch (Exception ex)
+    {
+        app.Logger.LogError(ex, "An error occurred seeding database");
+    }
+}
+
+async Task InitializeDictionaries()
+{
+    app.Logger.LogInformation("Initialize synonym dictionary...");
+    
+    try
+    {
+        var rusDictionaryDb = 
+            scopedProvider.
+                GetRequiredService<IRusSynonymDictionaryRepository<Word>>();
+        
+        await RusSynonymDictionaryService.InitializeDictionary(rusDictionaryDb);
+        
+        var engDictionaryDb = 
+            scopedProvider.
+                GetRequiredService<IEngSynonymDictionaryRepository<Word>>();
+        
+        await EngSynonymDictionaryService.InitializeDictionary(engDictionaryDb);
+    }
+    catch (Exception ex)
+    {
+        app.Logger.LogError(ex, "An error occurred initializing dictionaries");
+    }
 }

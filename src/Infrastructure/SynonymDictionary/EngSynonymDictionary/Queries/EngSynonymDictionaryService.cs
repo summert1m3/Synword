@@ -13,7 +13,7 @@ public class EngSynonymDictionaryService : IEngSynonymDictionaryService
         get => _engSynonymDictionary;
     }
 
-    public static async void
+    public static async Task
         InitializeDictionary(IEngSynonymDictionaryRepository<Word> repository)
     {
         if (_engSynonymDictionary != null)
