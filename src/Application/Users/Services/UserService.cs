@@ -1,6 +1,8 @@
 using Application.Users.DTOs;
 using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Interfaces;
+using Synword.Domain.Interfaces.Repository;
+using Synword.Domain.Interfaces.Services;
 using Synword.Domain.Specifications;
 using Synword.Infrastructure.Services.Google;
 
@@ -8,12 +10,12 @@ namespace Application.Users.Services;
 
 public class UserService : IUserService
 {
-    private readonly IRepository<User>? _userRepository;
+    private readonly IUserDataRepository<User>? _userRepository;
     private readonly IGoogleApi? _googleApi;
     private readonly ITokenClaimsService? _tokenClaimsService;
 
     public UserService(IGoogleApi googleApi, 
-        IRepository<User> userRepository, 
+        IUserDataRepository<User> userRepository, 
         ITokenClaimsService tokenClaimsService
         )
     {

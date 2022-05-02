@@ -2,6 +2,7 @@ using Microsoft.Extensions.Configuration;
 using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Extensions;
 using Synword.Domain.Interfaces;
+using Synword.Domain.Interfaces.Services;
 using Synword.Domain.Services.PlagiarismCheck;
 
 namespace Synword.Infrastructure.Services.PlagiarismCheckAPI;

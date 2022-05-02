@@ -1,4 +1,4 @@
-﻿namespace Synword.Domain.Interfaces;
+﻿namespace Synword.Domain.Interfaces.Services;
 
 public interface ITokenClaimsService
 {

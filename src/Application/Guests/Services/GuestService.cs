@@ -2,6 +2,7 @@ using Application.Guests.DTOs;
 using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Identity;
 using Synword.Domain.Interfaces;
+using Synword.Domain.Interfaces.Services;
 using Synword.Infrastructure.Identity;
 
 namespace Application.Guests.Services;

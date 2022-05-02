@@ -10,8 +10,15 @@ using Synword.Infrastructure.Services.Google;
 using MediatR;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
+using Synword.Domain.Entities.SynonymDictionaryAggregate;
+using Synword.Domain.Interfaces.Repository;
+using Synword.Domain.Interfaces.Services;
 using Synword.Domain.Services.PlagiarismCheck;
 using Synword.Infrastructure.Services.PlagiarismCheckAPI;
+using Synword.Infrastructure.SynonymDictionary.EngSynonymDictionary;
+using Synword.Infrastructure.SynonymDictionary.EngSynonymDictionary.Queries;
+using Synword.Infrastructure.SynonymDictionary.RusSynonymDictionary;
+using Synword.Infrastructure.SynonymDictionary.RusSynonymDictionary.Queries;
 using Synword.Infrastructure.UserData;
 using Synword.PublicApi;
 
@@ -88,9 +95,27 @@ using (var scope = app.Services.CreateScope())
 
         Console.WriteLine("Migration completed.");
         
-        var userManager = scopedProvider.GetRequiredService<UserManager<AppUser>>();
-        var roleManager = scopedProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        var userManager = scopedProvider.
+            GetRequiredService<UserManager<AppUser>>();
+        var roleManager = scopedProvider.
+            GetRequiredService<RoleManager<IdentityRole>>();
         await AppIdentityDbContextSeed.SeedAsync(userManager, roleManager);
+
+        Console.WriteLine("InitializeDictionary");
+        
+        var rusDictionaryDb = 
+            scopedProvider.
+                GetRequiredService<IRusSynonymDictionaryRepository<Word>>();
+        
+        RusSynonymDictionaryService.InitializeDictionary(rusDictionaryDb);
+        
+        var engDictionaryDb = 
+            scopedProvider.
+                GetRequiredService<IEngSynonymDictionaryRepository<Word>>();
+        
+        EngSynonymDictionaryService.InitializeDictionary(engDictionaryDb);
+        
+        Console.WriteLine("InitializeDictionary Completed");
     }
     catch (Exception ex)
     {
@@ -106,22 +131,45 @@ app.Run();
 void AddUserServices()
 {
     builder.Services.AddScoped(
-        typeof(IRepository<>), typeof(UserDataRepository<>));
+        typeof(IUserDataRepository<>), 
+        typeof(UserDataRepository<>));
+    
+    builder.Services.AddScoped(
+        typeof(IRusSynonymDictionaryRepository<>),
+        typeof(RusSynonymDictionaryRepository<>));
+    
+    builder.Services.AddScoped(
+        typeof(IEngSynonymDictionaryRepository<>),
+        typeof(EngSynonymDictionaryRepository<>));
+    
     builder.Services.AddSingleton(builder.Configuration);
+    
+    builder.Services.AddSingleton(typeof(IRusSynonymDictionaryService), 
+        typeof(RusSynonymDictionaryService));
+    
+    builder.Services.AddSingleton(typeof(IEngSynonymDictionaryService), 
+        typeof(EngSynonymDictionaryService));
+    
     builder.Services.AddScoped(
         typeof(IGoogleApi), typeof(GoogleApi));
+    
     builder.Services.AddScoped(
         typeof(IGuestService), typeof(GuestService));
+    
     builder.Services.AddScoped(
         typeof(IUserService), typeof(UserService));
+    
     builder.Services.AddScoped(
         typeof(IPlagiarismCheckService), 
         typeof(PlagiarismCheckService));
+    
     builder.Services.AddScoped(
         typeof(IAppPlagiarismCheckService), 
         typeof(AppPlagiarismCheckService));
+    
     builder.Services.AddScoped(
         typeof(IPlagiarismCheckAPI), 
         typeof(PlagiarismCheckAPI));
+    
     builder.Services.AddAutoMapper(typeof(DomainProfile));
 }

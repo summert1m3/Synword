@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Synword.Domain.Interfaces;
+using Synword.Domain.Interfaces.Services;
 
 namespace Synword.Infrastructure.Identity;
 

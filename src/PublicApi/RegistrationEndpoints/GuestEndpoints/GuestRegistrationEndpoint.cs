@@ -12,7 +12,7 @@ public class GuestRegistrationEndpoint : EndpointBaseAsync
     .WithActionResult<GuestRegistrationDTO>
 {
     private readonly IMediator _mediator;
-    
+
     public GuestRegistrationEndpoint(IMediator mediator)
     {
         _mediator = mediator;

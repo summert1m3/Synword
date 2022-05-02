@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Synword.Domain.Interfaces;
+using Synword.Domain.Interfaces.Services;
 using Synword.Infrastructure.Identity;
 
 namespace Synword.PublicApi;

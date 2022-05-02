@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Enums;
 using Synword.Domain.Interfaces;
+using Synword.Domain.Interfaces.Repository;
 using Synword.Infrastructure.Identity;
 
 namespace Application.Guests.Commands;
@@ -21,11 +22,11 @@ public class RegisterNewGuestCommand : IRequest<GuestRegistrationDTO>
 internal class RegisterNewGuestCommandHandler : IRequestHandler<RegisterNewGuestCommand, GuestRegistrationDTO>
 {
     private readonly UserManager<AppUser>? _userManager;
-    private readonly IRepository<User>? _userRepository;
+    private readonly IUserDataRepository<User>? _userRepository;
 
     public RegisterNewGuestCommandHandler(
         UserManager<AppUser> userManager, 
-        IRepository<User> userRepository)
+        IUserDataRepository<User> userRepository)
     {
         _userManager = userManager;
         _userRepository = userRepository;

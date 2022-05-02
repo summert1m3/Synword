@@ -1,6 +1,6 @@
 using Synword.Domain.Services.PlagiarismCheck;
 
-namespace Synword.Domain.Interfaces;
+namespace Synword.Domain.Interfaces.Services;
 
 public interface IPlagiarismCheckAPI
 {
