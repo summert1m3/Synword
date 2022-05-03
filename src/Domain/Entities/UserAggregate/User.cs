@@ -1,4 +1,5 @@
 ﻿using Ardalis.GuardClauses;
+using Synword.Domain.Entities.PlagiarismCheckAggregate;
 using Synword.Domain.Entities.UserAggregate.ValueObjects;
 using Synword.Domain.Enums;
 using Synword.Domain.Interfaces;
@@ -36,7 +37,7 @@ public class User : BaseEntity<string>, IAggregateRoot
     private readonly List<Order> _orders = new();
     public IReadOnlyCollection<Order> Orders => _orders.AsReadOnly();
     public UsageData UsageData { get; private set; }
-    public List<PlagiarismCheckHistory>? PlagiarismCheckHistory { get; private set; }
+    public List<PlagiarismCheckResult>? PlagiarismCheckHistory { get; private set; }
     public List<RephraseHistory>? RephraseHistory { get; private set; }
     public Metadata? Metadata { get; init; }
 

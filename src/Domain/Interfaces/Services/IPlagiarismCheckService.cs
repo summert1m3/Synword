@@ -1,8 +1,8 @@
-using Synword.Domain.Services.PlagiarismCheck;
+using Synword.Domain.Entities.PlagiarismCheckAggregate;
 
 namespace Synword.Domain.Interfaces.Services;
 
 public interface IPlagiarismCheckService
 {
-    public Task<PlagiarismCheckResponseModel> CheckPlagiarism(string text);
+    public Task<PlagiarismCheckResult> CheckPlagiarism(string text);
 }

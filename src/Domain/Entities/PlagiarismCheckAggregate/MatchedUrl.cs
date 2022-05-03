@@ -1,6 +1,7 @@
 ﻿using Ardalis.GuardClauses;
+using Synword.Domain.Entities.UserAggregate;
 
-namespace Synword.Domain.Entities.UserAggregate;
+namespace Synword.Domain.Entities.PlagiarismCheckAggregate;
 
 public class MatchedUrl : BaseEntity
 {

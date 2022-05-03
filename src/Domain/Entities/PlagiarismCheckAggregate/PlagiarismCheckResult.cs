@@ -1,15 +1,18 @@
 ﻿using Ardalis.GuardClauses;
+using Synword.Domain.Interfaces;
 
-namespace Synword.Domain.Entities.UserAggregate;
+namespace Synword.Domain.Entities.PlagiarismCheckAggregate;
 
-public class PlagiarismCheckHistory : BaseEntity
+public class PlagiarismCheckResult : BaseEntity, IAggregateRoot
 {
-    private PlagiarismCheckHistory()
+    private PlagiarismCheckResult()
     {
         // required by EF
     }
 
-    public PlagiarismCheckHistory(string text, float percent, List<HighlightRange> highlights, List<MatchedUrl> matches)
+    public PlagiarismCheckResult(
+        string text, float percent, 
+        List<HighlightRange> highlights, List<MatchedUrl> matches)
     {
         Guard.Against.NullOrEmpty(text, nameof(text));
         Guard.Against.OutOfRange(percent, nameof(percent), 0.0, 100.0);
@@ -26,8 +29,7 @@ public class PlagiarismCheckHistory : BaseEntity
     public string Text { get; private set; }
     public float Percent { get; private set; }
     private readonly List<HighlightRange> _highlights = new();
-    public IReadOnlyCollection<HighlightRange> Highlight => _highlights.AsReadOnly();
+    public IReadOnlyCollection<HighlightRange> Highlights => _highlights.AsReadOnly();
     private readonly List<MatchedUrl> _matches = new();
     public IReadOnlyCollection<MatchedUrl> Matches => _matches.AsReadOnly();
-    public User User { get; private set; }
 }

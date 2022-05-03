@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Synword.Domain.Entities.PlagiarismCheckAggregate;
 using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Interfaces;
 using Synword.Domain.Interfaces.Services;
@@ -18,68 +19,69 @@ public class PlagiarismCheckService : IPlagiarismCheckService
         _logger = logger;
     }
 
-    public async Task<PlagiarismCheckResponseModel> CheckPlagiarism(string text)
+    public async Task<PlagiarismCheckResult> CheckPlagiarism(string text)
     {
-        PlagiarismCheckResponseModel model = new();
+        PlagiarismCheckResult result;
         
         if (text.Length <= ApiInputRestriction)
         {
-            model = await CheckPlagiarismUnderLimit(text);
+            result = await CheckPlagiarismUnderLimit(text);
         }
-        else if (text.Length > ApiInputRestriction)
+        else
         {
-            model = await CheckPlagiarismOverLimit(text);
+            result = await CheckPlagiarismOverLimit(text);
         }
 
-        return model;
+        return result;
     }
     
-    private async Task<PlagiarismCheckResponseModel> CheckPlagiarismUnderLimit(string text)
+    private async Task<PlagiarismCheckResult> CheckPlagiarismUnderLimit(string text)
     {
         return await _plagiarismCheckApi.CheckPlagiarism(text);
     }
 
-    private async Task<PlagiarismCheckResponseModel> CheckPlagiarismOverLimit(string text)
+    private async Task<PlagiarismCheckResult> CheckPlagiarismOverLimit(string text)
     {
         List<string> splitText = GetSplitText(text);
 
-        List<PlagiarismCheckResponseModel> splitUniqueCheckResponse =
+        List<PlagiarismCheckResult> splitPlagiarismCheckResponse =
             await CheckPlagiarismForSplitText(splitText);
 
         float plagiarismPercent = PercentCorrection(
-            splitUniqueCheckResponse, splitText);
+            splitPlagiarismCheckResponse, splitText);
+
+        float roundedPlagiarismPercent = 
+            (float)Math.Round(plagiarismPercent, 1);
         
-        string allText = MergeSplitText(splitUniqueCheckResponse);
+        string allText = MergeSplitText(splitPlagiarismCheckResponse);
 
         List<int> wordCountsSums = 
-            WordCountsNextElIsSumOfPrevious(splitUniqueCheckResponse);
+            WordCountsNextElIsSumOfPrevious(splitPlagiarismCheckResponse);
         
         List<HighlightRange> highlights = MergeHighlights(
-            splitUniqueCheckResponse,
+            splitPlagiarismCheckResponse,
             wordCountsSums);
 
         List<MatchedUrl> matchedUrls = MergeMatchedUrls(
-            splitUniqueCheckResponse,
+            splitPlagiarismCheckResponse,
             wordCountsSums);
 
-        PlagiarismCheckResponseModel model = new()
-        {
-            Error = string.Empty,
-            Highlights = highlights,
-            Matches = matchedUrls,
-            Percent = (float)Math.Round(plagiarismPercent, 1),
-            Text = allText
-        };
+        PlagiarismCheckResult result = new(
+            allText,
+            roundedPlagiarismPercent,
+            highlights,
+            matchedUrls
+        );
 
-        return model;
+        return result;
     }
 
-    private async Task<List<PlagiarismCheckResponseModel>> CheckPlagiarismForSplitText(
-        IEnumerable<string> splitText)
+    private async Task<List<PlagiarismCheckResult>> 
+        CheckPlagiarismForSplitText(IEnumerable<string> splitText)
     {
-        List<PlagiarismCheckResponseModel> splitUniqueCheckResponse = new();
+        List<PlagiarismCheckResult> splitPlagiarismCheckResponse = new();
         
-        List<Task<PlagiarismCheckResponseModel>> tasks = new();
+        List<Task<PlagiarismCheckResult>> tasks = new();
         
         foreach (var text in splitText)
         {
@@ -90,31 +92,33 @@ public class PlagiarismCheckService : IPlagiarismCheckService
 
         foreach (var task in tasks)
         {
-            splitUniqueCheckResponse.Add(task.Result);
+            splitPlagiarismCheckResponse.Add(task.Result);
         }
 
-        return splitUniqueCheckResponse;
+        return splitPlagiarismCheckResponse;
     }
 
     private float PercentCorrection(
-        IReadOnlyList<PlagiarismCheckResponseModel> splitUniqueCheckResponse,
+        IReadOnlyList<PlagiarismCheckResult> splitPlagiarismCheckResponse,
         IReadOnlyList<string> splitText)
     {
         double percentRatioFromOtherParts =
             CalculatePercentLastElementFromOtherParts(splitText);
 
         double sum = SumOfPercentWithoutLastElement(
-            splitUniqueCheckResponse);
+            splitPlagiarismCheckResponse);
 
-        double average = ArithmeticMean(sum, splitUniqueCheckResponse);
+        double average = ArithmeticMean(sum, splitPlagiarismCheckResponse);
         
         double correctionPercent = LastElementPercentCorrection(
             average,
-            splitUniqueCheckResponse.Last().Percent,
+            splitPlagiarismCheckResponse.Last().Percent,
             percentRatioFromOtherParts);
 
         float plagiarismPercent = (float)ApplyCorrectionOfLastElement(
-            correctionPercent, average, splitUniqueCheckResponse.Last().Percent);
+            correctionPercent, 
+            average, 
+            splitPlagiarismCheckResponse.Last().Percent);
 
         return plagiarismPercent;
     }
@@ -160,13 +164,13 @@ public class PlagiarismCheckService : IPlagiarismCheckService
     }
 
     private double SumOfPercentWithoutLastElement(
-        IReadOnlyList<PlagiarismCheckResponseModel> splitUniqueCheckResponse)
+        IReadOnlyList<PlagiarismCheckResult> splitPlagiarismCheckResponse)
     {
         double sum = 0;
 
-        for (int i = 0; i < (splitUniqueCheckResponse.Count - 1); i++)
+        for (int i = 0; i < (splitPlagiarismCheckResponse.Count - 1); i++)
         {
-            sum += splitUniqueCheckResponse[i].Percent;
+            sum += splitPlagiarismCheckResponse[i].Percent;
         }
 
         return sum;
@@ -174,9 +178,9 @@ public class PlagiarismCheckService : IPlagiarismCheckService
 
     private double ArithmeticMean(
         double sum,
-        IReadOnlyCollection<PlagiarismCheckResponseModel> splitUniqueCheckResponse)
+        IReadOnlyCollection<PlagiarismCheckResult> splitPlagiarismCheckResponse)
     {
-        return sum / (splitUniqueCheckResponse.Count - 1.0);
+        return sum / (splitPlagiarismCheckResponse.Count - 1.0);
     }
 
     private double ApplyCorrectionOfLastElement(
@@ -197,11 +201,11 @@ public class PlagiarismCheckService : IPlagiarismCheckService
     }
 
     private string MergeSplitText(
-        IEnumerable<PlagiarismCheckResponseModel> splitUniqueCheckResponse)
+        IEnumerable<PlagiarismCheckResult> splitPlagiarismCheckResponse)
     {
         string allText = string.Empty;
 
-        foreach (var model in splitUniqueCheckResponse)
+        foreach (var model in splitPlagiarismCheckResponse)
         {
             allText += model.Text;
         }
@@ -210,13 +214,13 @@ public class PlagiarismCheckService : IPlagiarismCheckService
     }
 
     private List<HighlightRange> MergeHighlights(
-        IEnumerable<PlagiarismCheckResponseModel> splitUniqueCheckResponse,
+        IEnumerable<PlagiarismCheckResult> splitPlagiarismCheckResponse,
         IReadOnlyList<int> wordCountsSums)
     {
         List<HighlightRange> highlights = new();
 
         int i = 0;
-        foreach (var model in splitUniqueCheckResponse)
+        foreach (var model in splitPlagiarismCheckResponse)
         {
             foreach (var item in model.Highlights)
             {
@@ -241,13 +245,13 @@ public class PlagiarismCheckService : IPlagiarismCheckService
     }
 
     private List<MatchedUrl> MergeMatchedUrls(
-        IEnumerable<PlagiarismCheckResponseModel> splitUniqueCheckResponse,
+        IEnumerable<PlagiarismCheckResult> splitPlagiarismCheckResponse,
         IReadOnlyList<int> wordCountsSums)
     {
         List<MatchedUrl> matchedUrls = new();
 
         int i = 0;
-        foreach (PlagiarismCheckResponseModel model in splitUniqueCheckResponse)
+        foreach (var model in splitPlagiarismCheckResponse)
         {
             foreach (MatchedUrl itemMatch in model.Matches)
             {
@@ -283,9 +287,9 @@ public class PlagiarismCheckService : IPlagiarismCheckService
     }
 
     private List<int> WordCountsNextElIsSumOfPrevious(
-        IEnumerable<PlagiarismCheckResponseModel> splitUniqueCheckResponse)
+        IEnumerable<PlagiarismCheckResult> splitPlagiarismCheckResponse)
     {
-        IEnumerable<int> wordCounts = GetWordCounts(splitUniqueCheckResponse);
+        IEnumerable<int> wordCounts = GetWordCounts(splitPlagiarismCheckResponse);
         
         int i = 0;
         int sum = 0;
@@ -311,13 +315,13 @@ public class PlagiarismCheckService : IPlagiarismCheckService
     }
 
     private List<int> GetWordCounts(
-        IEnumerable<PlagiarismCheckResponseModel> splitUniqueCheckResponse)
+        IEnumerable<PlagiarismCheckResult> splitPlagiarismCheckResponse)
     {
         List<int> wordCounts = new();
         
         char[] delimiters = { ' ', '\r', '\n' };
         
-        foreach (var response in splitUniqueCheckResponse)
+        foreach (var response in splitPlagiarismCheckResponse)
         {
             int wordCount =
                 response.Text.Split(

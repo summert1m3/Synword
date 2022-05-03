@@ -43,6 +43,19 @@ namespace Synword.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Word",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Word = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Word", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -69,6 +82,25 @@ namespace Synword.Infrastructure.Data.Migrations
                         principalTable: "UsageData",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Synonym",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Synonym = table.Column<string>(type: "TEXT", nullable: false),
+                    WordId = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Synonym", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Synonym_Word_WordId",
+                        column: x => x.WordId,
+                        principalTable: "Word",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -141,14 +173,14 @@ namespace Synword.Infrastructure.Data.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Url = table.Column<string>(type: "TEXT", nullable: false),
                     Percent = table.Column<float>(type: "REAL", nullable: false),
-                    PlagiarismCheckHistoryId = table.Column<int>(type: "INTEGER", nullable: true)
+                    PlagiarismCheckResultId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MatchedUrls", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MatchedUrls_PlagiarismCheckHistories_PlagiarismCheckHistoryId",
-                        column: x => x.PlagiarismCheckHistoryId,
+                        name: "FK_MatchedUrls_PlagiarismCheckHistories_PlagiarismCheckResultId",
+                        column: x => x.PlagiarismCheckResultId,
                         principalTable: "PlagiarismCheckHistories",
                         principalColumn: "Id");
                 });
@@ -183,7 +215,7 @@ namespace Synword.Infrastructure.Data.Migrations
                     StartIndex = table.Column<int>(type: "INTEGER", nullable: false),
                     EndIndex = table.Column<int>(type: "INTEGER", nullable: false),
                     MatchedUrlId = table.Column<int>(type: "INTEGER", nullable: true),
-                    PlagiarismCheckHistoryId = table.Column<int>(type: "INTEGER", nullable: true)
+                    PlagiarismCheckResultId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -194,8 +226,8 @@ namespace Synword.Infrastructure.Data.Migrations
                         principalTable: "MatchedUrls",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_HighlightRanges_PlagiarismCheckHistories_PlagiarismCheckHistoryId",
-                        column: x => x.PlagiarismCheckHistoryId,
+                        name: "FK_HighlightRanges_PlagiarismCheckHistories_PlagiarismCheckResultId",
+                        column: x => x.PlagiarismCheckResultId,
                         principalTable: "PlagiarismCheckHistories",
                         principalColumn: "Id");
                 });
@@ -206,14 +238,14 @@ namespace Synword.Infrastructure.Data.Migrations
                 column: "MatchedUrlId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HighlightRanges_PlagiarismCheckHistoryId",
+                name: "IX_HighlightRanges_PlagiarismCheckResultId",
                 table: "HighlightRanges",
-                column: "PlagiarismCheckHistoryId");
+                column: "PlagiarismCheckResultId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MatchedUrls_PlagiarismCheckHistoryId",
+                name: "IX_MatchedUrls_PlagiarismCheckResultId",
                 table: "MatchedUrls",
-                column: "PlagiarismCheckHistoryId");
+                column: "PlagiarismCheckResultId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_UserId",
@@ -229,6 +261,11 @@ namespace Synword.Infrastructure.Data.Migrations
                 name: "IX_RephraseHistories_UserId",
                 table: "RephraseHistories",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Synonym_WordId",
+                table: "Synonym",
+                column: "WordId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Synonyms_RephraseHistoryId",
@@ -261,10 +298,16 @@ namespace Synword.Infrastructure.Data.Migrations
                 name: "Orders");
 
             migrationBuilder.DropTable(
+                name: "Synonym");
+
+            migrationBuilder.DropTable(
                 name: "Synonyms");
 
             migrationBuilder.DropTable(
                 name: "MatchedUrls");
+
+            migrationBuilder.DropTable(
+                name: "Word");
 
             migrationBuilder.DropTable(
                 name: "RephraseHistories");

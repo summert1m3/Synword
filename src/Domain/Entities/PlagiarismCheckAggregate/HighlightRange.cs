@@ -1,6 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 
-namespace Synword.Domain.Entities.UserAggregate;
+namespace Synword.Domain.Entities.PlagiarismCheckAggregate;
 
 public class HighlightRange : BaseEntity
 {

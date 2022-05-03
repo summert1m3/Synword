@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Configuration;
-using Synword.Domain.Entities.UserAggregate;
+using Synword.Domain.Entities.PlagiarismCheckAggregate;
 using Synword.Domain.Extensions;
-using Synword.Domain.Interfaces;
 using Synword.Domain.Interfaces.Services;
 using Synword.Domain.Services.PlagiarismCheck;
 
@@ -9,7 +8,7 @@ namespace Synword.Infrastructure.Services.PlagiarismCheckAPI;
 
 public class PlagiarismCheckAPI : IPlagiarismCheckAPI
 {
-    private static SemaphoreSlim pool = new(5,5);
+    private static SemaphoreSlim pool = new(5, 5);
     private readonly string _apiKey;
     private readonly string _apiUrl;
     private readonly HttpClient _httpClient = new();
@@ -19,43 +18,42 @@ public class PlagiarismCheckAPI : IPlagiarismCheckAPI
         _apiKey = configuration["PlagiarismCheckApiKey"];
         _apiUrl = configuration["PlagiarismCheckApiUrl"];
     }
-    
-    public async Task<PlagiarismCheckResponseModel> CheckPlagiarism(string text)
+
+    public async Task<PlagiarismCheckResult> CheckPlagiarism(string text)
     {
         pool.Wait();
-        
+
         HttpResponseMessage response = await RequestAsync(text);
-        
+
         pool.Release();
-        
-        if (!response.IsSuccessStatusCode) {
+
+        if (!response.IsSuccessStatusCode)
+        {
             throw new Exception(await response.Content.ReadAsStringAsync());
         }
 
         string responseString = await response.Content.ReadAsStringAsync();
-        PlagiarismCheckResponseModelRaw plagiarismCheckResponseModel = 
+        PlagiarismCheckResponseModelRaw plagiarismCheckResponseModel =
             responseString.FromJson<PlagiarismCheckResponseModelRaw>();
 
-        if (plagiarismCheckResponseModel.Error != string.Empty) {
+        if (plagiarismCheckResponseModel.Error != string.Empty)
+        {
             throw new Exception(plagiarismCheckResponseModel.Error);
         }
-        
+
         return plagiarismCheckResponseModel.ConvertToDomainModel();
     }
 
     private async Task<HttpResponseMessage> RequestAsync(string text)
     {
-        Dictionary<string, string> values = new Dictionary<string, string> {
-            { "key", _apiKey },
-            { "text", text },
-            { "test", true.ToString() }
-        };
-        
+        Dictionary<string, string> values =
+            new Dictionary<string, string> {{"key", _apiKey}, {"text", text}, {"test", true.ToString()}};
+
         HttpResponseMessage response = await _httpClient.PostAsync(
-            _apiUrl, 
+            _apiUrl,
             new FormUrlEncodedContent(values)
         );
-        
+
         return response;
     }
 }
@@ -67,7 +65,7 @@ internal class PlagiarismCheckResponseModelRaw
     public float Percent { get; set; }
     public int[][] Highlight { get; set; }
     public MatchedUrlRaw[] Matches { get; set; }
-    
+
     internal class MatchedUrlRaw
     {
         public string Url { get; set; }
@@ -75,19 +73,17 @@ internal class PlagiarismCheckResponseModelRaw
         public int[][] Highlight { get; set; }
     }
 
-    public PlagiarismCheckResponseModel ConvertToDomainModel()
+    public PlagiarismCheckResult ConvertToDomainModel()
     {
         List<HighlightRange> highlightRanges = ConvertHighlightRanges();
         List<MatchedUrl> matchedUrls = ConvertMatchedUrls();
 
-        return new PlagiarismCheckResponseModel
-        {
-            Error = Error,
-            Highlights = highlightRanges,
-            Matches = matchedUrls,
-            Percent = Percent,
-            Text = Text
-        };
+        return new PlagiarismCheckResult(
+            Text,
+            Percent,
+            highlightRanges,
+            matchedUrls
+        );
     }
 
     private List<HighlightRange> ConvertHighlightRanges()
@@ -98,9 +94,9 @@ internal class PlagiarismCheckResponseModelRaw
         {
             int startIndex = row[0];
             int endIndex = row[1];
-            
+
             HighlightRange range = new(startIndex, endIndex);
-            
+
             highlightRanges.Add(range);
         }
 
@@ -118,15 +114,15 @@ internal class PlagiarismCheckResponseModelRaw
             {
                 int startIndex = highlight[0];
                 int endIndex = highlight[1];
-            
+
                 HighlightRange range = new(startIndex, endIndex);
-                
+
                 highlightRanges.Add(range);
             }
 
             MatchedUrl matchedUrl = new(
                 match.Url, match.Percent, highlightRanges);
-            
+
             matchedUrls.Add(matchedUrl);
         }
 
