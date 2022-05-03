@@ -1,6 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 
-namespace Synword.Domain.Entities.UserAggregate;
+namespace Synword.Domain.Entities.RephraseAggregate;
 
 public class Synonym : BaseEntity
 {
