@@ -21,7 +21,7 @@ public class GoogleRegistrationEndpoint : EndpointBaseAsync
     [HttpPost("googleRegister")]
     [Authorize(Roles = nameof(Role.Guest))]
     public override async Task<ActionResult> HandleAsync(
-        GoogleRegistrationRequest request,
+        [FromForm]GoogleRegistrationRequest request,
         CancellationToken cancellationToken = default)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);

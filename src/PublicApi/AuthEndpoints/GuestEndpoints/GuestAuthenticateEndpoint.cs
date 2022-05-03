@@ -17,7 +17,8 @@ public class GuestAuthenticateEndpoint : EndpointBaseAsync
     
     [HttpPost("guestAuthenticate")]
     public override async Task<ActionResult<GuestAuthenticateDTO>> HandleAsync(
-        GuestAuthenticateRequest request, CancellationToken cancellationToken = default)
+        [FromForm]GuestAuthenticateRequest request, 
+        CancellationToken cancellationToken = default)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
 

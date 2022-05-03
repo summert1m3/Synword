@@ -18,7 +18,8 @@ public class GoogleAuthenticateEndpoint : EndpointBaseAsync
     
     [HttpPost("googleAuthenticate")]
     public override async Task<ActionResult<UserAuthenticateDTO>> HandleAsync(
-        GoogleAuthenticateRequest request, CancellationToken cancellationToken = default)
+        [FromForm]GoogleAuthenticateRequest request, 
+        CancellationToken cancellationToken = default)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
 

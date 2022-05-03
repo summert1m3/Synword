@@ -1,7 +1,6 @@
 using Application.PlagiarismCheck.DTOs;
 using Application.PlagiarismCheck.Services;
 using Ardalis.ApiEndpoints;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Synword.PublicApi.PlagiarismCheckEndpoints;
