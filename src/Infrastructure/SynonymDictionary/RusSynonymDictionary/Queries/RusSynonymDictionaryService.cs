@@ -6,7 +6,7 @@ using Synword.Domain.Interfaces.Services;
 
 namespace Synword.Infrastructure.SynonymDictionary.RusSynonymDictionary.Queries;
 
-public class RusSynonymDictionaryService : IRusSynonymDictionaryService
+public class RusSynonymDictionaryService : ISynonymDictionaryService
 {
     private static Dictionary<string, IReadOnlyList<Synonym>>? _rusSynonymDictionary;
 

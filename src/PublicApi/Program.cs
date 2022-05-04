@@ -120,12 +120,6 @@ void AddRepositories()
 
 void AddAppServices()
 {
-    builder.Services.AddSingleton(typeof(IRusSynonymDictionaryService), 
-        typeof(RusSynonymDictionaryService));
-    
-    builder.Services.AddSingleton(typeof(IEngSynonymDictionaryService), 
-        typeof(EngSynonymDictionaryService));
-    
     builder.Services.AddScoped(
         typeof(IGoogleApi), typeof(GoogleApi));
     

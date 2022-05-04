@@ -4,7 +4,7 @@ using Synword.Domain.Interfaces.Services;
 
 namespace Synword.Infrastructure.SynonymDictionary.EngSynonymDictionary.Queries;
 
-public class EngSynonymDictionaryService : IEngSynonymDictionaryService
+public class EngSynonymDictionaryService : ISynonymDictionaryService
 {
     private static Dictionary<string, IReadOnlyList<Synonym>>? _engSynonymDictionary;
 
