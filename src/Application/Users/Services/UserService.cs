@@ -1,6 +1,5 @@
 using Application.Users.DTOs;
 using Synword.Domain.Entities.UserAggregate;
-using Synword.Domain.Interfaces;
 using Synword.Domain.Interfaces.Repository;
 using Synword.Domain.Interfaces.Services;
 using Synword.Domain.Specifications;

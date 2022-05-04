@@ -1,6 +1,5 @@
 using Application.PlagiarismCheck.DTOs;
 using AutoMapper;
-using Synword.Domain.Interfaces;
 using Synword.Domain.Interfaces.Services;
 
 namespace Application.PlagiarismCheck.Services;

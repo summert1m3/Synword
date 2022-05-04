@@ -4,7 +4,6 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Enums;
-using Synword.Domain.Interfaces;
 using Synword.Domain.Interfaces.Repository;
 using Synword.Infrastructure.Identity;
 

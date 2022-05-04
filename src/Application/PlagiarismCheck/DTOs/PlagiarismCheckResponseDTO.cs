@@ -1,5 +1,3 @@
-using Synword.Domain.Entities.UserAggregate;
-
 namespace Application.PlagiarismCheck.DTOs;
 
 public class PlagiarismCheckResponseDTO

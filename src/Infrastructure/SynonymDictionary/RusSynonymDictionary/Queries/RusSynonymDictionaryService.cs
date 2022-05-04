@@ -1,6 +1,4 @@
-using Microsoft.Extensions.DependencyInjection;
 using Synword.Domain.Entities.SynonymDictionaryAggregate;
-using Synword.Domain.Interfaces;
 using Synword.Domain.Interfaces.Repository;
 using Synword.Domain.Interfaces.Services;
 

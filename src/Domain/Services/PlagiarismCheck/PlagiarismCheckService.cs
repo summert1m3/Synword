@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using Synword.Domain.Entities.PlagiarismCheckAggregate;
-using Synword.Domain.Entities.UserAggregate;
-using Synword.Domain.Interfaces;
 using Synword.Domain.Interfaces.Services;
 
 namespace Synword.Domain.Services.PlagiarismCheck;
