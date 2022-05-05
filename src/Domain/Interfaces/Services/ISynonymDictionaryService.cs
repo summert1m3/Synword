@@ -4,5 +4,5 @@ namespace Synword.Domain.Interfaces.Services;
 
 public interface ISynonymDictionaryService
 {
-    IReadOnlyDictionary<string, IReadOnlyList<Synonym>> GetDictionary { get; }
+    IReadOnlyDictionary<string, IReadOnlyList<DictionarySynonym>> GetDictionary { get; }
 }

@@ -46,7 +46,12 @@ public class PlagiarismCheckAPI : IPlagiarismCheckAPI
     private async Task<HttpResponseMessage> RequestAsync(string text)
     {
         Dictionary<string, string> values =
-            new Dictionary<string, string> {{"key", _apiKey}, {"text", text}, {"test", true.ToString()}};
+            new Dictionary<string, string> 
+                {
+                    {"key", _apiKey}, 
+                    {"text", text}, 
+                    {"test", true.ToString()}
+                };
 
         HttpResponseMessage response = await _httpClient.PostAsync(
             _apiUrl,

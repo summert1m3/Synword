@@ -6,9 +6,9 @@ namespace Synword.Infrastructure.SynonymDictionary.RusSynonymDictionary.Queries;
 
 public class RusSynonymDictionaryService : ISynonymDictionaryService
 {
-    private static Dictionary<string, IReadOnlyList<Synonym>>? _rusSynonymDictionary;
+    private static Dictionary<string, IReadOnlyList<DictionarySynonym>>? _rusSynonymDictionary;
 
-    public IReadOnlyDictionary<string, IReadOnlyList<Synonym>> GetDictionary
+    public IReadOnlyDictionary<string, IReadOnlyList<DictionarySynonym>> GetDictionary
     {
         get => _rusSynonymDictionary;
     }
@@ -23,7 +23,7 @@ public class RusSynonymDictionaryService : ISynonymDictionaryService
 
         List<Word> words = await repository.ListAsync();
         
-        Dictionary<string, IReadOnlyList<Synonym>> synonymDictionary = new();
+        Dictionary<string, IReadOnlyList<DictionarySynonym>> synonymDictionary = new();
 
         foreach (var word in words)
         {

@@ -1,6 +1,6 @@
 namespace Synword.Domain.Entities.SynonymDictionaryAggregate;
 
-public class Synonym : BaseEntity
+public class DictionarySynonym : BaseEntity
 {
     public string Value { get; private set; }
 }

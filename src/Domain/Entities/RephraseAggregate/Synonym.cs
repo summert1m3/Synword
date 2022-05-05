@@ -9,8 +9,9 @@ public class Synonym : BaseEntity
         // required by EF
     }
     
-    public Synonym(int synonymWordStartIndex, int synonymWordEndIndex, List<string> synonyms)
+    public Synonym(string sourceWord, int synonymWordStartIndex, int synonymWordEndIndex, List<string> synonyms)
     {
+        Guard.Against.Null(sourceWord, nameof(sourceWord));
         Guard.Against.OutOfRange(synonymWordStartIndex, 
             nameof(synonymWordStartIndex), 0, int.MaxValue);
         Guard.Against.OutOfRange(synonymWordEndIndex, 
@@ -19,11 +20,13 @@ public class Synonym : BaseEntity
         Guard.Against.Negative(synonymWordEndIndex, nameof(synonymWordEndIndex));
         Guard.Against.Null(synonyms, nameof(synonyms));
 
+        SourceWord = sourceWord;
         _synonyms = synonyms;
         SynonymWordStartIndex = synonymWordStartIndex;
         SynonymWordEndIndex = synonymWordEndIndex;
     }
     
+    public string SourceWord { get; private set; }
     public int SynonymWordStartIndex { get; private set; }
     public int SynonymWordEndIndex { get; private set; }
     private readonly List<string> _synonyms = new();

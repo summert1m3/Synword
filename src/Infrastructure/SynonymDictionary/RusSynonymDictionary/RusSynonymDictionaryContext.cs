@@ -12,7 +12,7 @@ public class RusSynonymDictionaryContext : DbContext
     }
     
     public DbSet<Word> Words { get; set; }
-    public DbSet<Synonym> Synonyms { get; set; }
+    public DbSet<DictionarySynonym> Synonyms { get; set; }
     
     protected override void OnModelCreating(ModelBuilder builder)
     {
