@@ -16,28 +16,13 @@ public class RephraseService : IRephraseService
     {
         _dictionary = dictionary.GetDictionary;
 
-        MatchCollection col = Regex.Matches(text,
-            @"((?<part>[^\.\-\ \,]+)(\.\-\ \,))*(?<part>[^\.\-\ \,]+)");
-
-        List<WordWithStartIndexModel> words = new();
-            
-        foreach (Match match in col) {
-            var part = match.Groups["part"];
-            
-            words.Add(
-                new WordWithStartIndexModel()
-                {
-                    Word = part.Value,
-                    StartIndex = part.Index
-                }
-            );
-        }
+        List<WordWithStartIndexModel> words = GetWordsFromText(text);
 
         StringBuilder rephrasedTextBuilder = new(text);
 
         List<Synonym> replacedWords = new();
         
-        int offset = 0;
+        int indexOffset = 0;
         
         foreach (var word in words)
         {
@@ -50,26 +35,18 @@ public class RephraseService : IRephraseService
                 continue;
             }
 
-            word.StartIndex += offset;
-            
-            rephrasedTextBuilder.Remove(word.StartIndex, word.Word.Length);
-            rephrasedTextBuilder.Insert(word.StartIndex, synonyms![0].Value);
-            
-            if (word.Word.Length < synonyms![0].Value.Length)
-            {
-                offset -= word.Word.Length - synonyms![0].Value.Length;
-            }
-            else if (word.Word.Length > synonyms![0].Value.Length)
-            {
-                offset += synonyms![0].Value.Length - word.Word.Length;
-            }
+            word.StartIndex += indexOffset;
 
-            List<string> synonymsStr = new();
-            foreach (var item in synonyms)
-            {
-                synonymsStr.Add(item.Value);
-            }
+            rephrasedTextBuilder = ReplaceWordWithSynonym(
+                rephrasedTextBuilder, word, synonyms![0].Value);
             
+            indexOffset = IndexOffsetCorrection(
+                indexOffset, 
+                word.Word.Length,
+                synonyms![0].Value.Length);
+
+            List<string> synonymsStr = ConvertFromDictionarySynonymToString(synonyms);
+
             replacedWords.Add(
                     new (
                             word.Word,
@@ -88,8 +65,69 @@ public class RephraseService : IRephraseService
 
         return rephraseResult;
     }
-}
 
+    private List<WordWithStartIndexModel> GetWordsFromText(string text)
+    {
+        MatchCollection col = Regex.Matches(text,
+            @"((?<part>[^\.\-\ \,]+)(\.\-\ \,))*(?<part>[^\.\-\ \,]+)");
+
+        List<WordWithStartIndexModel> words = new();
+            
+        foreach (Match match in col) {
+            var part = match.Groups["part"];
+            
+            words.Add(
+                new WordWithStartIndexModel()
+                {
+                    Word = part.Value,
+                    StartIndex = part.Index
+                }
+            );
+        }
+
+        return words;
+    }
+
+    private List<string> ConvertFromDictionarySynonymToString(
+        IReadOnlyList<DictionarySynonym> synonyms)
+    {
+        List<string> synonymsStr = new();
+        foreach (var item in synonyms)
+        {
+            synonymsStr.Add(item.Value);
+        }
+
+        return synonymsStr;
+    }
+
+    private int IndexOffsetCorrection(
+        int currentOffset, 
+        int sourceWordLength, 
+        int synonymWordLength)
+    {
+        if (sourceWordLength < synonymWordLength)
+        {
+            currentOffset -= sourceWordLength - synonymWordLength;
+        }
+        else if (sourceWordLength > synonymWordLength)
+        {
+            currentOffset += synonymWordLength - sourceWordLength;
+        }
+
+        return currentOffset;
+    }
+
+    private StringBuilder ReplaceWordWithSynonym(
+        StringBuilder text, 
+        WordWithStartIndexModel word,
+        string synonym)
+    {
+        text.Remove(word.StartIndex, word.Word.Length);
+        text.Insert(word.StartIndex, synonym);
+
+        return text;
+    }
+}
 
 internal class WordWithStartIndexModel
 {
