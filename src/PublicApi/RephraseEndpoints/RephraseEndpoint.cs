@@ -1,23 +1,31 @@
+using Application.Rephrase;
+using Application.Rephrase.DTOs;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
+using Synword.Domain.Entities.RephraseAggregate;
+using Synword.Domain.Services.Rephrase;
 
 namespace Synword.PublicApi.RephraseEndpoints;
 
 public class RephraseEndpoint : EndpointBaseAsync
-    .WithRequest<RephraseRequest>
-    .WithActionResult<OkResult>
+    .WithRequest<RephraseRequestModel>
+    .WithActionResult<RephraseResultDTO>
 {
-    public RephraseEndpoint()
+    private readonly IAppRephraseService _rephraseService;
+    public RephraseEndpoint(IAppRephraseService rephraseService)
     {
-        
+        _rephraseService = rephraseService;
     }
     
     [HttpPost("rephrase")]
-    public override async Task<ActionResult<OkResult>> HandleAsync(
-        RephraseRequest request, 
+    public override async Task<ActionResult<RephraseResultDTO>> HandleAsync(
+        [FromForm]RephraseRequestModel request, 
         CancellationToken cancellationToken = default)
     {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
         
-        return Ok();
+        RephraseResultDTO response = _rephraseService.Rephrase(request);
+        
+        return Ok(response);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Application.AutoMapper;
 using Application.Guests.Services;
 using Application.PlagiarismCheck.Services;
+using Application.Rephrase;
 using Application.Users.Services;
 using Microsoft.AspNetCore.Identity;
 using MinimalApi.Endpoint.Extensions;
@@ -13,6 +14,7 @@ using Synword.Domain.Entities.SynonymDictionaryAggregate;
 using Synword.Domain.Interfaces.Repository;
 using Synword.Domain.Interfaces.Services;
 using Synword.Domain.Services.PlagiarismCheck;
+using Synword.Domain.Services.Rephrase;
 using Synword.Infrastructure.Services.PlagiarismCheckAPI;
 using Synword.Infrastructure.SynonymDictionary.EngSynonymDictionary;
 using Synword.Infrastructure.SynonymDictionary.EngSynonymDictionary.Queries;
@@ -140,6 +142,14 @@ void AddAppServices()
     builder.Services.AddScoped(
         typeof(IPlagiarismCheckAPI), 
         typeof(PlagiarismCheckAPI));
+    
+    builder.Services.AddScoped(
+        typeof(IAppRephraseService), 
+        typeof(AppRephraseService));
+    
+    builder.Services.AddScoped(
+        typeof(IRephraseService), 
+        typeof(RephraseService));
 }
 
 void ApplyMigrations()
