@@ -27,25 +27,31 @@ public class RephraseService : IRephraseService
         foreach (var word in words)
         {
             bool isWordFounded = _dictionary.TryGetValue(
-                word.Word, out IReadOnlyList
+                word.Word.ToLower(), out IReadOnlyList
                     <DictionarySynonym>? synonyms);
 
             if (!isWordFounded)
             {
                 continue;
             }
-
+            
+            List<string> synonymsStr = 
+                ConvertFromDictionarySynonymToString(synonyms);
+            
             word.StartIndex += indexOffset;
 
+            if (char.IsUpper(word.Word[0]))
+            {
+                synonymsStr = ToUpperFirstLetter(synonymsStr);
+            }
+            
             rephrasedTextBuilder = ReplaceWordWithSynonym(
-                rephrasedTextBuilder, word, synonyms![0].Value);
+                rephrasedTextBuilder, word, synonymsStr[0]);
             
             indexOffset = IndexOffsetCorrection(
                 indexOffset, 
                 word.Word.Length,
-                synonyms![0].Value.Length);
-
-            List<string> synonymsStr = ConvertFromDictionarySynonymToString(synonyms);
+                synonymsStr[0].Length);
 
             replacedWords.Add(
                     new (
@@ -126,6 +132,22 @@ public class RephraseService : IRephraseService
         text.Insert(word.StartIndex, synonym);
 
         return text;
+    }
+    
+    private static List<string> ToUpperFirstLetter(List<string> strList)
+    {
+        List<string> strListWithUpperFirstLetter = new();
+        
+        foreach (var source in strList)
+        {
+            char[] letters = source.ToCharArray();
+            
+            letters[0] = char.ToUpper(letters[0]);
+            
+            strListWithUpperFirstLetter.Add(new string(letters));
+        }
+
+        return strListWithUpperFirstLetter;
     }
 }
 
