@@ -1,16 +1,29 @@
 ﻿using System.Text;
+using Application.Guests.Services;
+using Application.PlagiarismCheck.Services;
+using Application.Rephrase;
+using Application.Users.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Synword.Domain.Interfaces.Repository;
 using Synword.Domain.Interfaces.Services;
+using Synword.Domain.Services.PlagiarismCheck;
+using Synword.Domain.Services.Rephrase;
 using Synword.Infrastructure.Identity;
+using Synword.Infrastructure.Services.Google;
+using Synword.Infrastructure.Services.PlagiarismCheckAPI;
+using Synword.Infrastructure.SynonymDictionary.EngSynonymDictionary;
+using Synword.Infrastructure.SynonymDictionary.RusSynonymDictionary;
+using Synword.Infrastructure.UserData;
 
 namespace Synword.PublicApi;
 
 public static class ServiceExtensions
 {
-    public static IServiceCollection AddJwtBearerAuthentication(this IServiceCollection services,
+    public static IServiceCollection AddJwtBearerAuthentication(
+        this IServiceCollection services,
         IConfiguration configuration)
     {
         services.AddIdentity<AppUser, IdentityRole>()
@@ -81,6 +94,57 @@ public static class ServiceExtensions
                 }
             });
         });
+        
+        return services;
+    }
+    
+    public static IServiceCollection AddRepositories(this IServiceCollection services)
+    {
+        services.AddScoped(
+            typeof(IUserDataRepository<>), 
+            typeof(UserDataRepository<>));
+    
+        services.AddScoped(
+            typeof(IRusSynonymDictionaryRepository<>),
+            typeof(RusSynonymDictionaryRepository<>));
+    
+        services.AddScoped(
+            typeof(IEngSynonymDictionaryRepository<>),
+            typeof(EngSynonymDictionaryRepository<>));
+        
+        return services;
+    }
+    
+    public static IServiceCollection AddAppServices(this IServiceCollection services)
+    {
+        services.AddScoped(
+            typeof(IGoogleApi), typeof(GoogleApi));
+    
+        services.AddScoped(
+            typeof(IGuestService), typeof(GuestService));
+    
+        services.AddScoped(
+            typeof(IUserService), typeof(UserService));
+    
+        services.AddScoped(
+            typeof(IPlagiarismCheckService), 
+            typeof(PlagiarismCheckService));
+    
+        services.AddScoped(
+            typeof(IAppPlagiarismCheckService), 
+            typeof(AppPlagiarismCheckService));
+    
+        services.AddScoped(
+            typeof(IPlagiarismCheckAPI), 
+            typeof(PlagiarismCheckAPI));
+    
+        services.AddScoped(
+            typeof(IAppRephraseService), 
+            typeof(AppRephraseService));
+    
+        services.AddScoped(
+            typeof(IRephraseService), 
+            typeof(RephraseService));
         
         return services;
     }

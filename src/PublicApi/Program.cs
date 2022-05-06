@@ -38,7 +38,13 @@ builder.Services.AddSwagger();
 
 builder.Services.AddJwtBearerAuthentication(builder.Configuration);
 
-AddCustomServices();
+builder.Services.AddRepositories();
+
+builder.Services.AddAppServices();
+
+builder.Services.AddSingleton(builder.Configuration);
+
+builder.Services.AddAutoMapper(typeof(DomainProfile));
 
 var app = builder.Build();
 
@@ -93,64 +99,6 @@ app.Logger.LogInformation("Swagger: http://localhost:5000/swagger");
 app.Run();
 
 
-
-void AddCustomServices()
-{
-    AddRepositories();
-    
-    AddAppServices();
-    
-    builder.Services.AddSingleton(builder.Configuration);
-
-    builder.Services.AddAutoMapper(typeof(DomainProfile));
-}
-
-void AddRepositories()
-{
-    builder.Services.AddScoped(
-        typeof(IUserDataRepository<>), 
-        typeof(UserDataRepository<>));
-    
-    builder.Services.AddScoped(
-        typeof(IRusSynonymDictionaryRepository<>),
-        typeof(RusSynonymDictionaryRepository<>));
-    
-    builder.Services.AddScoped(
-        typeof(IEngSynonymDictionaryRepository<>),
-        typeof(EngSynonymDictionaryRepository<>));
-}
-
-void AddAppServices()
-{
-    builder.Services.AddScoped(
-        typeof(IGoogleApi), typeof(GoogleApi));
-    
-    builder.Services.AddScoped(
-        typeof(IGuestService), typeof(GuestService));
-    
-    builder.Services.AddScoped(
-        typeof(IUserService), typeof(UserService));
-    
-    builder.Services.AddScoped(
-        typeof(IPlagiarismCheckService), 
-        typeof(PlagiarismCheckService));
-    
-    builder.Services.AddScoped(
-        typeof(IAppPlagiarismCheckService), 
-        typeof(AppPlagiarismCheckService));
-    
-    builder.Services.AddScoped(
-        typeof(IPlagiarismCheckAPI), 
-        typeof(PlagiarismCheckAPI));
-    
-    builder.Services.AddScoped(
-        typeof(IAppRephraseService), 
-        typeof(AppRephraseService));
-    
-    builder.Services.AddScoped(
-        typeof(IRephraseService), 
-        typeof(RephraseService));
-}
 
 void ApplyMigrations()
 {
