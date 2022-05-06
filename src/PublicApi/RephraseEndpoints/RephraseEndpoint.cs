@@ -1,6 +1,7 @@
 using Application.Rephrase;
 using Application.Rephrase.DTOs;
 using Ardalis.ApiEndpoints;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Synword.Domain.Entities.RephraseAggregate;
 using Synword.Domain.Services.Rephrase;
@@ -18,6 +19,7 @@ public class RephraseEndpoint : EndpointBaseAsync
     }
     
     [HttpPost("rephrase")]
+    [Authorize]
     public override async Task<ActionResult<RephraseResultDTO>> HandleAsync(
         [FromForm]RephraseRequestModel request, 
         CancellationToken cancellationToken = default)

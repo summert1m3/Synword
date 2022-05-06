@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Application.Documents.Services;
 using Ardalis.ApiEndpoints;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Synword.PublicApi.DocumentsEndpoints;
@@ -22,6 +23,7 @@ public class GetTextFromDocxEndpoint : EndpointBaseAsync
     }
     
     [HttpPost("getTextFromDocx")]
+    [Authorize]
     public override async Task<ActionResult<GetTextFromDocxResponse>>
         HandleAsync(
             [FromForm] GetTextFromDocxRequest request,
