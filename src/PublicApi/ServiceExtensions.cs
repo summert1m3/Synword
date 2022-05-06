@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Application.Documents.Services;
 using Application.Guests.Services;
 using Application.PlagiarismCheck.Services;
 using Application.Rephrase;
@@ -12,6 +13,7 @@ using Synword.Domain.Interfaces.Services;
 using Synword.Domain.Services.PlagiarismCheck;
 using Synword.Domain.Services.Rephrase;
 using Synword.Infrastructure.Identity;
+using Synword.Infrastructure.Services.Docx;
 using Synword.Infrastructure.Services.Google;
 using Synword.Infrastructure.Services.PlagiarismCheckAPI;
 using Synword.Infrastructure.SynonymDictionary.EngSynonymDictionary;
@@ -145,6 +147,14 @@ public static class ServiceExtensions
         services.AddScoped(
             typeof(IRephraseService), 
             typeof(RephraseService));
+        
+        services.AddScoped(
+            typeof(IAppDocxService), 
+            typeof(AppDocxService));
+
+        services.AddScoped(
+            typeof(IDocxService), 
+            typeof(DocxService));
         
         return services;
     }
