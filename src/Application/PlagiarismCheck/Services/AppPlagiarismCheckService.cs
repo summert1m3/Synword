@@ -26,10 +26,19 @@ public class AppPlagiarismCheckService : IAppPlagiarismCheckService
     public async Task<PlagiarismCheckResultDTO> CheckPlagiarism(
         string text, string uId)
     {
-
         PlagiarismCheckResult plagiarismCheckResult = 
             await _plagiarismCheck.CheckPlagiarism(text);
+
+        await UpdatePlagiarismCheckHistory(plagiarismCheckResult, uId);
         
+        return _mapper.Map<PlagiarismCheckResultDTO>(
+                plagiarismCheckResult
+            );
+    }
+
+    private async Task UpdatePlagiarismCheckHistory(
+        PlagiarismCheckResult plagiarismCheckResult, string uId)
+    {
         User user = await _userRepository.GetByIdAsync(uId);
 
         user.PlagiarismCheckHistory.Add(plagiarismCheckResult);
@@ -37,9 +46,5 @@ public class AppPlagiarismCheckService : IAppPlagiarismCheckService
         await _userRepository.UpdateAsync(user);
         
         await _userRepository.SaveChangesAsync();
-        
-        return _mapper.Map<PlagiarismCheckResultDTO>(
-                plagiarismCheckResult
-            );
     }
 }

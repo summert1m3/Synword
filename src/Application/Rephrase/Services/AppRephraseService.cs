@@ -26,7 +26,8 @@ public class AppRephraseService : IAppRephraseService
         _userRepository = userRepository;
     }
     
-    public async Task<RephraseResultDTO> Rephrase(RephraseRequestModel model, string uId)
+    public async Task<RephraseResultDTO> Rephrase(
+        RephraseRequestModel model, string uId)
     {
         ISynonymDictionaryService dictionaryService = model.Language.ToLower() switch
         {
@@ -38,6 +39,15 @@ public class AppRephraseService : IAppRephraseService
         RephraseResult rephraseResult = _rephraseService.Rephrase(
             model.Text, dictionaryService);
 
+        await UpdateRephraseHistory(rephraseResult, uId);
+        
+        return _mapper.Map<RephraseResultDTO>(
+            rephraseResult
+        );
+    }
+    
+    private async Task UpdateRephraseHistory(RephraseResult rephraseResult, string uId)
+    {
         User user = await _userRepository.GetByIdAsync(uId);
 
         user.RephraseHistory.Add(rephraseResult);
@@ -45,9 +55,5 @@ public class AppRephraseService : IAppRephraseService
         await _userRepository.UpdateAsync(user);
         
         await _userRepository.SaveChangesAsync();
-        
-        return _mapper.Map<RephraseResultDTO>(
-            rephraseResult
-        );
     }
 }
