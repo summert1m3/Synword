@@ -4,8 +4,10 @@
 
 Приложение для проверки и повышения уникальности текста.
 
+**[Website](https://synword.com)**
+
 ## Строки подключения
-1. Для инициализации подключения к MS SQL Server необходимо включить пользовательские секреты. Данную команду необходимо прописать внутри PublicApi проекта
+1. Для инициализации подключения к SQLite необходимо включить пользовательские секреты. Данную команду необходимо прописать внутри PublicApi проекта
 
     ```
     dotnet user-secrets init
@@ -27,7 +29,7 @@
 с помощью команды:
 
     ```
-    add-migration InitialMigration -Context UserDataContext -OutputDir "Data/Migrations"
+    add-migration InitialMigration -Context UserDataContext -OutputDir "UserData/Migrations"
     ```
 1. Применение миграции:
 
@@ -43,6 +45,7 @@
     ```
     update-database -Context AppIdentityDbContext
     ```
+    
 ## JWT
 1. Добавьте закрытый ключ для подписи JWT
 
