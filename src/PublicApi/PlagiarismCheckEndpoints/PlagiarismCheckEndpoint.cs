@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Application.PlagiarismCheck.DTOs;
 using Application.PlagiarismCheck.Services;
 using Ardalis.ApiEndpoints;
@@ -8,7 +9,7 @@ namespace Synword.PublicApi.PlagiarismCheckEndpoints;
 
 public class PlagiarismCheckEndpoint : EndpointBaseAsync
     .WithRequest<PlagiarismCheckRequest>
-    .WithActionResult<PlagiarismCheckResponseDTO>
+    .WithActionResult<PlagiarismCheckResultDTO>
 {
     private readonly IAppPlagiarismCheckService _plagiarismCheck;
     
@@ -19,14 +20,16 @@ public class PlagiarismCheckEndpoint : EndpointBaseAsync
     
     [HttpPost("plagiarismCheck")]
     [Authorize]
-    public override async Task<ActionResult<PlagiarismCheckResponseDTO>> HandleAsync(
+    public override async Task<ActionResult<PlagiarismCheckResultDTO>> HandleAsync(
         [FromForm]PlagiarismCheckRequest request, 
         CancellationToken cancellationToken = default)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
-
-        PlagiarismCheckResponseDTO response 
-            = await _plagiarismCheck.CheckPlagiarism(request.Text);
+        
+        string uId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        
+        PlagiarismCheckResultDTO response 
+            = await _plagiarismCheck.CheckPlagiarism(request.Text, uId);
         
         return Ok(response);
     }

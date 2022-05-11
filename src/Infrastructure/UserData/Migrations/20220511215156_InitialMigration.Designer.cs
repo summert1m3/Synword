@@ -8,10 +8,10 @@ using Synword.Infrastructure.UserData;
 
 #nullable disable
 
-namespace Synword.Infrastructure.Data.Migrations
+namespace Synword.Infrastructure.UserData.Migrations
 {
     [DbContext(typeof(UserDataContext))]
-    [Migration("20220503162943_InitialMigration")]
+    [Migration("20220511215156_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -95,7 +95,73 @@ namespace Synword.Infrastructure.Data.Migrations
                     b.ToTable("PlagiarismCheckHistories");
                 });
 
-            modelBuilder.Entity("Synword.Domain.Entities.SynonymDictionaryAggregate.Synonym", b =>
+            modelBuilder.Entity("Synword.Domain.Entities.RephraseAggregate.RephraseResult", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("RephrasedText")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RephraseHistories");
+                });
+
+            modelBuilder.Entity("Synword.Domain.Entities.RephraseAggregate.SourceWordSynonyms", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("RephraseResultId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("SourceWord")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("SynonymWordEndIndex")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SynonymWordStartIndex")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RephraseResultId");
+
+                    b.ToTable("SourceWordSynonyms");
+                });
+
+            modelBuilder.Entity("Synword.Domain.Entities.RephraseAggregate.Synonym", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("SourceWordSynonymsId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Synonym");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SourceWordSynonymsId");
+
+                    b.ToTable("Synonyms");
+                });
+
+            modelBuilder.Entity("Synword.Domain.Entities.SynonymDictionaryAggregate.DictionarySynonym", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -113,7 +179,7 @@ namespace Synword.Infrastructure.Data.Migrations
 
                     b.HasIndex("WordId");
 
-                    b.ToTable("Synonym");
+                    b.ToTable("DictionarySynonym");
                 });
 
             modelBuilder.Entity("Synword.Domain.Entities.SynonymDictionaryAggregate.Word", b =>
@@ -180,55 +246,6 @@ namespace Synword.Infrastructure.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("Synword.Domain.Entities.UserAggregate.RephraseHistory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("RephrasedText")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("SourceText")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("RephraseHistories");
-                });
-
-            modelBuilder.Entity("Synword.Domain.Entities.UserAggregate.Synonym", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("RephraseHistoryId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("SynonymWordEndIndex")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("SynonymWordStartIndex")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Synonyms")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RephraseHistoryId");
-
-                    b.ToTable("Synonyms");
                 });
 
             modelBuilder.Entity("Synword.Domain.Entities.UserAggregate.UsageData", b =>
@@ -303,7 +320,30 @@ namespace Synword.Infrastructure.Data.Migrations
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("Synword.Domain.Entities.SynonymDictionaryAggregate.Synonym", b =>
+            modelBuilder.Entity("Synword.Domain.Entities.RephraseAggregate.RephraseResult", b =>
+                {
+                    b.HasOne("Synword.Domain.Entities.UserAggregate.User", "User")
+                        .WithMany("RephraseHistory")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Synword.Domain.Entities.RephraseAggregate.SourceWordSynonyms", b =>
+                {
+                    b.HasOne("Synword.Domain.Entities.RephraseAggregate.RephraseResult", null)
+                        .WithMany("Synonyms")
+                        .HasForeignKey("RephraseResultId");
+                });
+
+            modelBuilder.Entity("Synword.Domain.Entities.RephraseAggregate.Synonym", b =>
+                {
+                    b.HasOne("Synword.Domain.Entities.RephraseAggregate.SourceWordSynonyms", null)
+                        .WithMany("Synonyms")
+                        .HasForeignKey("SourceWordSynonymsId");
+                });
+
+            modelBuilder.Entity("Synword.Domain.Entities.SynonymDictionaryAggregate.DictionarySynonym", b =>
                 {
                     b.HasOne("Synword.Domain.Entities.SynonymDictionaryAggregate.Word", null)
                         .WithMany("Synonyms")
@@ -338,22 +378,6 @@ namespace Synword.Infrastructure.Data.Migrations
                     b.HasOne("Synword.Domain.Entities.UserAggregate.User", null)
                         .WithMany("Orders")
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("Synword.Domain.Entities.UserAggregate.RephraseHistory", b =>
-                {
-                    b.HasOne("Synword.Domain.Entities.UserAggregate.User", "User")
-                        .WithMany("RephraseHistory")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Synword.Domain.Entities.UserAggregate.Synonym", b =>
-                {
-                    b.HasOne("Synword.Domain.Entities.UserAggregate.RephraseHistory", null)
-                        .WithMany("Synonyms")
-                        .HasForeignKey("RephraseHistoryId");
                 });
 
             modelBuilder.Entity("Synword.Domain.Entities.UserAggregate.User", b =>
@@ -451,12 +475,17 @@ namespace Synword.Infrastructure.Data.Migrations
                     b.Navigation("Matches");
                 });
 
-            modelBuilder.Entity("Synword.Domain.Entities.SynonymDictionaryAggregate.Word", b =>
+            modelBuilder.Entity("Synword.Domain.Entities.RephraseAggregate.RephraseResult", b =>
                 {
                     b.Navigation("Synonyms");
                 });
 
-            modelBuilder.Entity("Synword.Domain.Entities.UserAggregate.RephraseHistory", b =>
+            modelBuilder.Entity("Synword.Domain.Entities.RephraseAggregate.SourceWordSynonyms", b =>
+                {
+                    b.Navigation("Synonyms");
+                });
+
+            modelBuilder.Entity("Synword.Domain.Entities.SynonymDictionaryAggregate.Word", b =>
                 {
                     b.Navigation("Synonyms");
                 });

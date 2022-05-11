@@ -11,12 +11,13 @@ public class DomainProfile : Profile
     public DomainProfile()
     {
         CreateMap<PlagiarismCheckResult, 
-            PlagiarismCheckResponseDTO>();
+            PlagiarismCheckResultDTO>();
         CreateMap<HighlightRange, 
             HighlightRangeDTO>();
         CreateMap<MatchedUrl, MatchedUrlDTO>();
         
         CreateMap<RephraseResult, RephraseResultDTO>();
+        CreateMap<SourceWordSynonyms, SourceWordSynonymsDTO>();
         CreateMap<Synonym, SynonymDTO>();
     }
 }

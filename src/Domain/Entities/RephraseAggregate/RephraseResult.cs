@@ -10,21 +10,18 @@ public class RephraseResult : BaseEntity
         // required by EF
     }
 
-    public RephraseResult(
-        string sourceText, string rephrasedText, List<Synonym> synonyms)
+    public RephraseResult(string rephrasedText, List<SourceWordSynonyms> synonyms)
     {
-        Guard.Against.NullOrEmpty(sourceText, nameof(sourceText));
         Guard.Against.NullOrEmpty(rephrasedText, nameof(rephrasedText));
         Guard.Against.Null(synonyms, nameof(synonyms));
-
-        SourceText = sourceText;
+        
         RephrasedText = rephrasedText;
         _synonyms = synonyms;
     }
     
-    public string SourceText { get; }
-    public string? RephrasedText { get; }
-    private readonly List<Synonym> _synonyms;
-    public IReadOnlyCollection<Synonym> Synonyms => _synonyms.AsReadOnly();
+    public string? RephrasedText { get; private set; }
+
+    private List<SourceWordSynonyms> _synonyms = new();
+    public IReadOnlyCollection<SourceWordSynonyms> Synonyms => _synonyms.AsReadOnly();
     public User User { get; private set; }
 }

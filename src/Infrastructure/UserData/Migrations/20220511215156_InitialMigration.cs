@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Synword.Infrastructure.Data.Migrations
+namespace Synword.Infrastructure.UserData.Migrations
 {
     public partial class InitialMigration : Migration
     {
@@ -85,7 +85,7 @@ namespace Synword.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Synonym",
+                name: "DictionarySynonym",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -95,9 +95,9 @@ namespace Synword.Infrastructure.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Synonym", x => x.Id);
+                    table.PrimaryKey("PK_DictionarySynonym", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Synonym_Word_WordId",
+                        name: "FK_DictionarySynonym_Word_WordId",
                         column: x => x.WordId,
                         principalTable: "Word",
                         principalColumn: "Id");
@@ -151,7 +151,6 @@ namespace Synword.Infrastructure.Data.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    SourceText = table.Column<string>(type: "TEXT", nullable: false),
                     RephrasedText = table.Column<string>(type: "TEXT", nullable: true),
                     UserId = table.Column<string>(type: "TEXT", nullable: true)
                 },
@@ -186,22 +185,22 @@ namespace Synword.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Synonyms",
+                name: "SourceWordSynonyms",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    SourceWord = table.Column<string>(type: "TEXT", nullable: false),
                     SynonymWordStartIndex = table.Column<int>(type: "INTEGER", nullable: false),
                     SynonymWordEndIndex = table.Column<int>(type: "INTEGER", nullable: false),
-                    Synonyms = table.Column<string>(type: "TEXT", nullable: false),
-                    RephraseHistoryId = table.Column<int>(type: "INTEGER", nullable: true)
+                    RephraseResultId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Synonyms", x => x.Id);
+                    table.PrimaryKey("PK_SourceWordSynonyms", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Synonyms_RephraseHistories_RephraseHistoryId",
-                        column: x => x.RephraseHistoryId,
+                        name: "FK_SourceWordSynonyms_RephraseHistories_RephraseResultId",
+                        column: x => x.RephraseResultId,
                         principalTable: "RephraseHistories",
                         principalColumn: "Id");
                 });
@@ -231,6 +230,30 @@ namespace Synword.Infrastructure.Data.Migrations
                         principalTable: "PlagiarismCheckHistories",
                         principalColumn: "Id");
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Synonyms",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Synonym = table.Column<string>(type: "TEXT", nullable: false),
+                    SourceWordSynonymsId = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Synonyms", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Synonyms_SourceWordSynonyms_SourceWordSynonymsId",
+                        column: x => x.SourceWordSynonymsId,
+                        principalTable: "SourceWordSynonyms",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DictionarySynonym_WordId",
+                table: "DictionarySynonym",
+                column: "WordId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_HighlightRanges_MatchedUrlId",
@@ -263,14 +286,14 @@ namespace Synword.Infrastructure.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Synonym_WordId",
-                table: "Synonym",
-                column: "WordId");
+                name: "IX_SourceWordSynonyms_RephraseResultId",
+                table: "SourceWordSynonyms",
+                column: "RephraseResultId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Synonyms_RephraseHistoryId",
+                name: "IX_Synonyms_SourceWordSynonymsId",
                 table: "Synonyms",
-                column: "RephraseHistoryId");
+                column: "SourceWordSynonymsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_ExternalSignIn_Id",
@@ -292,28 +315,31 @@ namespace Synword.Infrastructure.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "DictionarySynonym");
+
+            migrationBuilder.DropTable(
                 name: "HighlightRanges");
 
             migrationBuilder.DropTable(
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "Synonym");
-
-            migrationBuilder.DropTable(
                 name: "Synonyms");
-
-            migrationBuilder.DropTable(
-                name: "MatchedUrls");
 
             migrationBuilder.DropTable(
                 name: "Word");
 
             migrationBuilder.DropTable(
-                name: "RephraseHistories");
+                name: "MatchedUrls");
+
+            migrationBuilder.DropTable(
+                name: "SourceWordSynonyms");
 
             migrationBuilder.DropTable(
                 name: "PlagiarismCheckHistories");
+
+            migrationBuilder.DropTable(
+                name: "RephraseHistories");
 
             migrationBuilder.DropTable(
                 name: "Users");

@@ -41,7 +41,7 @@ public class User : BaseEntity<string>, IAggregateRoot
     public List<PlagiarismCheckResult>? PlagiarismCheckHistory { get; private set; }
     public List<RephraseResult>? RephraseHistory { get; private set; }
     public Metadata? Metadata { get; init; }
-
+    
     public void AddOrder(Order order)
     {
         Guard.Against.Null(order, nameof(order));

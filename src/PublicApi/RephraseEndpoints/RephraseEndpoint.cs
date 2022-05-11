@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Application.Rephrase;
 using Application.Rephrase.DTOs;
 using Ardalis.ApiEndpoints;
@@ -26,7 +27,10 @@ public class RephraseEndpoint : EndpointBaseAsync
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
         
-        RephraseResultDTO response = _rephraseService.Rephrase(request);
+        string uId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        
+        RephraseResultDTO response = 
+            await _rephraseService.Rephrase(request, uId);
         
         return Ok(response);
     }

@@ -20,7 +20,7 @@ public class RephraseService : IRephraseService
 
         StringBuilder rephrasedTextBuilder = new(text);
 
-        List<Synonym> replacedWords = new();
+        List<SourceWordSynonyms> replacedWords = new();
         
         int indexOffset = 0;
         
@@ -28,7 +28,7 @@ public class RephraseService : IRephraseService
         {
             bool isWordFounded = _dictionary.TryGetValue(
                 word.Word.ToLower(), out IReadOnlyList
-                    <DictionarySynonym>? synonyms);
+                    <DictionarySynonym>? dictionarySynonyms);
 
             if (!isWordFounded)
             {
@@ -36,7 +36,7 @@ public class RephraseService : IRephraseService
             }
             
             List<string> synonymsStr = 
-                ConvertFromDictionarySynonymToString(synonyms);
+                ConvertFromDictionarySynonymToString(dictionarySynonyms);
             
             word.StartIndex += indexOffset;
 
@@ -53,23 +53,36 @@ public class RephraseService : IRephraseService
                 word.Word.Length,
                 synonymsStr[0].Length);
 
+            List<Synonym> synonyms = ConvertFromStringToSynonym(synonymsStr);
+
             replacedWords.Add(
                     new (
                             word.Word,
                             word.StartIndex, 
                             word.StartIndex + synonymsStr[0].Length - 1,
-                            synonymsStr
+                            synonyms
                         )
                 );
         }
 
         RephraseResult rephraseResult = new(
-                text,
-                rephrasedTextBuilder.ToString(),
+            rephrasedTextBuilder.ToString(),
                 replacedWords
             );
 
         return rephraseResult;
+    }
+
+    private List<Synonym> ConvertFromStringToSynonym(List<string> synonymsStr)
+    {
+        List<Synonym> synonyms = new();
+
+        foreach (var synonym in synonymsStr)
+        {
+            synonyms.Add(new Synonym(synonym));
+        }
+
+        return synonyms;
     }
 
     private List<WordWithStartIndexModel> GetWordsFromText(string text)

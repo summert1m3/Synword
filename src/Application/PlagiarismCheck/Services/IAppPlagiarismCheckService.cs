@@ -4,5 +4,6 @@ namespace Application.PlagiarismCheck.Services;
 
 public interface IAppPlagiarismCheckService
 {
-    public Task<PlagiarismCheckResponseDTO> CheckPlagiarism(string text);
+    public Task<PlagiarismCheckResultDTO> CheckPlagiarism(
+        string text, string uId);
 }

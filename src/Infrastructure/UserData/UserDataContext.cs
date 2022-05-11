@@ -19,6 +19,7 @@ public class UserDataContext : DbContext
     public DbSet<MatchedUrl> MatchedUrls { get; set; }
     public DbSet<HighlightRange> HighlightRanges { get; set; }
     public DbSet<RephraseResult> RephraseHistories { get; set; }
+    public DbSet<SourceWordSynonyms> SourceWordSynonyms { get; set; }
     public DbSet<Synonym> Synonyms { get; set; }
     public DbSet<Metadata> Metadata { get; set; }
 
@@ -27,5 +28,20 @@ public class UserDataContext : DbContext
         base.OnModelCreating(builder);
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         builder.Entity<User>().Navigation(u => u.UsageData).AutoInclude();
+        builder.Entity<User>().Navigation(u => u.RephraseHistory).AutoInclude();
+        builder.Entity<User>().Navigation(
+            u => u.PlagiarismCheckHistory).AutoInclude();
+        
+        builder.Entity<RephraseResult>().Navigation(
+            r => r.Synonyms).AutoInclude();
+        builder.Entity<SourceWordSynonyms>().Navigation(
+            r => r.Synonyms).AutoInclude();
+        
+        builder.Entity<PlagiarismCheckResult>().Navigation(
+            r => r.Highlights).AutoInclude();
+        builder.Entity<PlagiarismCheckResult>().Navigation(
+            r => r.Matches).AutoInclude();
+        builder.Entity<MatchedUrl>().Navigation(
+            r => r.Highlights).AutoInclude();
     }
 }

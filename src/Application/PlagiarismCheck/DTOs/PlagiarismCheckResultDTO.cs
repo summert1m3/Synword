@@ -1,6 +1,6 @@
 namespace Application.PlagiarismCheck.DTOs;
 
-public class PlagiarismCheckResponseDTO
+public class PlagiarismCheckResultDTO
 {
     public string Text { get; init; }
     public float Percent { get; init; }

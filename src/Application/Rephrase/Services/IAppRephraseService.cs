@@ -6,5 +6,5 @@ namespace Application.Rephrase;
 
 public interface IAppRephraseService
 {
-    public RephraseResultDTO Rephrase(RephraseRequestModel model);
+    public Task<RephraseResultDTO> Rephrase(RephraseRequestModel model, string uId);
 }
