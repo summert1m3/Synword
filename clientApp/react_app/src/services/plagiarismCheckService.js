@@ -1,22 +1,18 @@
+import ApiBaseService from "./apiBaseService";
+import AuthService from "./authService";
+
 class PlagiarismCheckService {
-    _apiBase = 'https://api.synword.com/'
-    _plagiarismCheckUrl = `${this._apiBase + 'plagiarismCheck'}`;
+    _authService = new AuthService();
 
     async plagiarismCheck(text, signal) {
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text: text }),
-            signal: signal
-        };
-        const response = await
-            fetch(this._plagiarismCheckUrl, requestOptions);
+        let form = new FormData();
+        form.append("text", text);
 
-        const data = await response.json();
-
-        if (response.status != 200) {
-            throw data;
-        }
+        let data = await this._authService.authorizedPostRequest(
+                ApiBaseService.plagiarismCheckUrl,
+                form,
+                signal
+            );
 
         return data;
     }

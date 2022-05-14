@@ -43,7 +43,7 @@ class PlagiarismCheckResultsScreen extends React.Component {
                 startIndex,
                 endIndex
             } = highlights[i];
-
+            
             words[startIndex] = '<b>' + words[startIndex];
 
             words[endIndex] = words[endIndex] + '</b>';
