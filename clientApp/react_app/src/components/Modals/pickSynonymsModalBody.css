@@ -1,0 +1,35 @@
+.wrapper {
+    text-align: center;
+}
+
+.title {
+    font-family: 'Gardens';
+    font-size: 28px;
+    margin: 0 auto;
+    font-weight:bold;
+}
+
+.subtitle {
+    font-family: 'Gardens';
+    font-size: 24px;
+    margin: 10px auto;
+}
+
+.words {
+    font-size: 18px;
+    background: #DDC5A2;
+    font-weight: normal;
+    border-radius: 5px;
+}
+
+.border {
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+.pick-word-button {
+    width: 100%;
+    background-size: cover;
+    background-color: transparent;
+    border: none;
+}

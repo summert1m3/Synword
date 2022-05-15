@@ -13,6 +13,11 @@
 }
 
 .check-plagiarism-button {
+    display: flex;
     text-align: center;
     vertical-align: middle;
+}
+
+.block {
+    width: 50px;
 }

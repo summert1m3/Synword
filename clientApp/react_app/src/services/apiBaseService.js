@@ -1,8 +1,9 @@
 class ApiBaseService {
-    static _apiBase = 'http://localhost:5000/';
+    static _apiBase = 'https://api.synword.com/';
     static guestRegisterUrl = `${this._apiBase + 'guestRegister'}`;
     static guestAuthenticateUrl = `${this._apiBase + 'guestAuthenticate'}`;
     static plagiarismCheckUrl = `${this._apiBase + 'plagiarismCheck'}`;
+    static rephraseUrl = `${this._apiBase + 'rephrase'}`;
 
     static async postRequest(url, headers, form, signal) {
         const requestOptions = {

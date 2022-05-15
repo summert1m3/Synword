@@ -8,13 +8,16 @@ class MainScreen extends React.Component {
     render() {
         const {
             onPlagiarismCheck,
+            onRephrase
         } = this.props;
 
         return (
             <div className="body__main">
                 <HeaderMain />
                 <Textarea />
-                <FooterMain onPlagiarismCheck={onPlagiarismCheck} />
+                <FooterMain
+                    onPlagiarismCheck={onPlagiarismCheck}
+                    onRephrase={onRephrase} />
             </div>
         );
     }

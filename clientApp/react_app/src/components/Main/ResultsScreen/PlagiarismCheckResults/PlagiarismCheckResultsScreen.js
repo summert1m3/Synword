@@ -1,7 +1,7 @@
 import React from "react";
-import Link from "./Link/Link";
-import HeaderResultsContainer from "./HeaderResults/HeaderResultsContainer";
-import Percent from "./Percent/Percent";
+import Link from "../Link/Link";
+import HeaderResultsContainer from "../HeaderResults/HeaderResultsContainer";
+import Percent from "../Percent/Percent";
 import "./plagiarismCheckResultsScreen.css";
 
 class PlagiarismCheckResultsScreen extends React.Component {
@@ -26,7 +26,7 @@ class PlagiarismCheckResultsScreen extends React.Component {
         let linksArr = [];
 
         for (const item in matchesArr) {
-            linksArr.push(<Link 
+            linksArr.push(<Link
                 windowWidth={this.state.windowWidth}
                 match={matchesArr[item]}
                 changeHighlights={this.changeHighlights} />);
@@ -43,7 +43,7 @@ class PlagiarismCheckResultsScreen extends React.Component {
                 startIndex,
                 endIndex
             } = highlights[i];
-            
+
             words[startIndex] = '<b>' + words[startIndex];
 
             words[endIndex] = words[endIndex] + '</b>';
@@ -74,10 +74,17 @@ class PlagiarismCheckResultsScreen extends React.Component {
         let textWithHighlights =
             this.addHighlightsToText(text, this.state.highlights);
 
+        let title;
+        if (this.state.windowWidth < 550) {
+            title = "Уникальность текста<br>равна";
+        }
+        else {
+            title = "Уникальность текста<br>равна"
+        }
         return (
             <div className="body__results__main">
                 <HeaderResultsContainer
-                    windowWidth={this.state.windowWidth}
+                    title={title}
                     moveToMainScreen
                     ={moveToMainScreen} />
 

@@ -4,18 +4,10 @@ import HeaderResults from "./HeaderResults";
 class HeaderResultsContainer extends React.Component {
     render() {
         const {
-            windowWidth,
+            title,
             moveToMainScreen
         } = this.props;
 
-        let title;
-        
-        if(windowWidth >= 550) {
-            title = "Уникальность текста равна";
-        }
-        else {
-            title = "Уникальность текста<br>равна"
-        }
         return (
             <HeaderResults 
             title={title}

@@ -2,14 +2,15 @@ import React from "react";
 import MainScreen from "./MainScreen/MainScreen";
 import LoadingScreen from "./LoadingScreen/LoadingScreen";
 import PlagiarismCheckResultsScreen
-    from "./ResultsScreen/PlagiarismCheckResultsScreen";
-import PlagiarismCheckService from "../../services/plagiarismCheckService";
+    from "./ResultsScreen/PlagiarismCheckResults/PlagiarismCheckResultsScreen";
+import SynwordApiService from "../../services/synwordApiService";
 import { connect } from "react-redux";
 import Header from "../Header/Header";
 import { changeText } from "../../actions/actions";
+import RephraseResultsScreen from "./ResultsScreen/RephraseResults/RephraseResultsScreen";
 
 class Main extends React.Component {
-    plagiarismCheckService = new PlagiarismCheckService();
+    _synwordApi = new SynwordApiService();
     controller;
 
     state = {
@@ -23,17 +24,18 @@ class Main extends React.Component {
         super();
 
         this.mainScreen = this.updateMainScreen();
-        this.loadingScreen = 
-            <LoadingScreen 
+        this.loadingScreen =
+            <LoadingScreen
                 moveToMainScreen={this.moveToMainScreen} />;
 
-        this.state.currentScreen = this.mainScreen;
+        this.state.currentScreen = this.updateMainScreen();
     }
 
     updateMainScreen = () => {
         return (
             <MainScreen
-                onPlagiarismCheck={this.onPlagiarismCheck} />
+                onPlagiarismCheck={this.onPlagiarismCheck}
+                onRephrase={this.onRephrase} />
         );
     }
 
@@ -45,13 +47,35 @@ class Main extends React.Component {
         });
 
         try {
-            let data = await this.plagiarismCheckService
+            let data = await this._synwordApi
                 .plagiarismCheck(this.props.text, this.controller.signal);
 
             this.setState({
                 currentScreen: <PlagiarismCheckResultsScreen data={data}
                     moveToMainScreen=
                     {this.moveToMainScreen} />
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    onRephrase = async () => {
+        this.controller = new AbortController();
+
+        this.setState({
+            currentScreen: this.loadingScreen
+        });
+
+        try {
+            let data = await this._synwordApi
+                .rephrase(this.props.text, this.controller.signal);
+
+            this.setState({
+                currentScreen:
+                    <RephraseResultsScreen
+                        data={data}
+                        moveToMainScreen={this.moveToMainScreen} />
             });
         } catch (e) {
             console.log(e);
