@@ -8,3 +8,11 @@ services:
             - "5000:5000/tcp"
         environment:
             - ASPNETCORE_URLS=http://+:5000
+    web:
+        build:
+            context: ./src/Web/react_app
+            dockerfile: ./Dockerfile
+        ports:
+            - "3000:3000/tcp"
+        depends_on:
+            - api
