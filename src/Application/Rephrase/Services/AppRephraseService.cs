@@ -4,7 +4,6 @@ using Synword.Domain.Entities.RephraseAggregate;
 using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Interfaces.Repository;
 using Synword.Domain.Interfaces.Services;
-using Synword.Domain.Services.Rephrase;
 using Synword.Infrastructure.SynonymDictionary.EngSynonymDictionary.Queries;
 using Synword.Infrastructure.SynonymDictionary.RusSynonymDictionary.Queries;
 

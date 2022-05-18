@@ -3,8 +3,6 @@ using Application.Rephrase.DTOs;
 using Application.Users.DTOs;
 using AutoMapper;
 using MediatR;
-using Synword.Domain.Entities.PlagiarismCheckAggregate;
-using Synword.Domain.Entities.RephraseAggregate;
 using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Interfaces.Repository;
 

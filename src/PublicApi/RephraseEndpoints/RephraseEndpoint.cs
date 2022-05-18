@@ -4,8 +4,6 @@ using Application.Rephrase.DTOs;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Synword.Domain.Entities.RephraseAggregate;
-using Synword.Domain.Services.Rephrase;
 
 namespace Synword.PublicApi.RephraseEndpoints;
 
