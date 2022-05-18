@@ -20,7 +20,7 @@ using Synword.Infrastructure.SynonymDictionary.EngSynonymDictionary;
 using Synword.Infrastructure.SynonymDictionary.EngSynonymDictionary.Queries;
 using Synword.Infrastructure.SynonymDictionary.RusSynonymDictionary;
 using Synword.Infrastructure.SynonymDictionary.RusSynonymDictionary.Queries;
-using Synword.Infrastructure.UserData;
+using Synword.Infrastructure.Synword;
 using Synword.PublicApi;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -106,8 +106,8 @@ void ApplyMigrations()
     
     try
     {
-        var userDb = scopedProvider.GetRequiredService<UserDataContext>();
-        userDb.Database.Migrate();
+        var synwordDb = scopedProvider.GetRequiredService<SynwordContext>();
+        synwordDb.Database.Migrate();
         
         var identityDb = scopedProvider.GetRequiredService<AppIdentityDbContext>();
         identityDb.Database.Migrate();

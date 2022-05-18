@@ -27,11 +27,11 @@ public class RegisterNewGoogleUserCommand : IRequest
 internal class RegisterNewGoogleUserCommandHandler : 
     IRequestHandler<RegisterNewGoogleUserCommand>
 {
-    private readonly IUserDataRepository<User>? _userRepository;
+    private readonly ISynwordRepository<User>? _userRepository;
     private readonly IGoogleApi? _googleApi;
     private readonly UserManager<AppUser>? _userManager;
 
-    public RegisterNewGoogleUserCommandHandler(IUserDataRepository<User> userRepository,
+    public RegisterNewGoogleUserCommandHandler(ISynwordRepository<User> userRepository,
         IGoogleApi googleApi, UserManager<AppUser> userManager)
     {
         _userRepository = userRepository;

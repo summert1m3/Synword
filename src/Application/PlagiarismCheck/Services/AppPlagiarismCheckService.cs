@@ -11,12 +11,12 @@ public class AppPlagiarismCheckService : IAppPlagiarismCheckService
 {
     private readonly IMapper _mapper;
     private readonly IPlagiarismCheckService _plagiarismCheck;
-    private readonly IUserDataRepository<User>? _userRepository;
+    private readonly ISynwordRepository<User>? _userRepository;
     
     public AppPlagiarismCheckService(
         IMapper mapper,
         IPlagiarismCheckService plagiarismCheck,
-        IUserDataRepository<User> userRepository)
+        ISynwordRepository<User> userRepository)
     {
         _mapper = mapper;
         _plagiarismCheck = plagiarismCheck;

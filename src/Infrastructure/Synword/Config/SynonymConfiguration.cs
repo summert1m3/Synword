@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Synword.Domain.Entities.RephraseAggregate;
 
-namespace Synword.Infrastructure.UserData.Config;
+namespace Synword.Infrastructure.Synword.Config;
 
 public class SynonymConfiguration : IEntityTypeConfiguration<Synonym>
 {

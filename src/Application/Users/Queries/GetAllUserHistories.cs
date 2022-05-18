@@ -23,11 +23,11 @@ public class GetAllUserHistories : IRequest<UserHistoriesDTO>
 internal class GetAllUserHistoriesHandler : 
     IRequestHandler<GetAllUserHistories, UserHistoriesDTO>
 {
-    private readonly IUserDataRepository<User>? _userRepository;
+    private readonly ISynwordRepository<User>? _userRepository;
     private readonly IMapper _mapper;
     
     public GetAllUserHistoriesHandler(
-        IUserDataRepository<User> userRepository, 
+        ISynwordRepository<User> userRepository, 
         IMapper mapper)
     {
         _userRepository = userRepository;

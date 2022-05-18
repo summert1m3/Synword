@@ -4,11 +4,11 @@ using Synword.Domain.Entities.PlagiarismCheckAggregate;
 using Synword.Domain.Entities.RephraseAggregate;
 using Synword.Domain.Entities.UserAggregate;
 
-namespace Synword.Infrastructure.UserData;
+namespace Synword.Infrastructure.Synword;
 
-public class UserDataContext : DbContext
+public class SynwordContext : DbContext
 {
-    public UserDataContext(DbContextOptions<UserDataContext> options) : base(options)
+    public SynwordContext(DbContextOptions<SynwordContext> options) : base(options)
     {
     }
     

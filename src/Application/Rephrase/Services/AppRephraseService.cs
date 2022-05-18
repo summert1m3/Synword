@@ -14,12 +14,12 @@ public class AppRephraseService : IAppRephraseService
 {
     private readonly IMapper _mapper;
     private readonly IRephraseService _rephraseService;
-    private readonly IUserDataRepository<User>? _userRepository;
+    private readonly ISynwordRepository<User>? _userRepository;
     
     public AppRephraseService(
         IMapper mapper, 
         IRephraseService rephraseService,
-        IUserDataRepository<User>? userRepository)
+        ISynwordRepository<User>? userRepository)
     {
         _mapper = mapper;
         _rephraseService = rephraseService;

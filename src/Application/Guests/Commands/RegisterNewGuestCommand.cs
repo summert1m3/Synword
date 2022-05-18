@@ -21,11 +21,11 @@ public class RegisterNewGuestCommand : IRequest<GuestRegistrationDTO>
 internal class RegisterNewGuestCommandHandler : IRequestHandler<RegisterNewGuestCommand, GuestRegistrationDTO>
 {
     private readonly UserManager<AppUser>? _userManager;
-    private readonly IUserDataRepository<User>? _userRepository;
+    private readonly ISynwordRepository<User>? _userRepository;
 
     public RegisterNewGuestCommandHandler(
         UserManager<AppUser> userManager, 
-        IUserDataRepository<User> userRepository)
+        ISynwordRepository<User> userRepository)
     {
         _userManager = userManager;
         _userRepository = userRepository;

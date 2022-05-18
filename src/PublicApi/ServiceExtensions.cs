@@ -18,7 +18,7 @@ using Synword.Infrastructure.Services.Google;
 using Synword.Infrastructure.Services.PlagiarismCheckAPI;
 using Synword.Infrastructure.SynonymDictionary.EngSynonymDictionary;
 using Synword.Infrastructure.SynonymDictionary.RusSynonymDictionary;
-using Synword.Infrastructure.UserData;
+using Synword.Infrastructure.Synword;
 
 namespace Synword.PublicApi;
 
@@ -103,8 +103,8 @@ public static class ServiceExtensions
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services.AddScoped(
-            typeof(IUserDataRepository<>), 
-            typeof(UserDataRepository<>));
+            typeof(ISynwordRepository<>), 
+            typeof(SynwordRepository<>));
     
         services.AddScoped(
             typeof(IRusSynonymDictionaryRepository<>),

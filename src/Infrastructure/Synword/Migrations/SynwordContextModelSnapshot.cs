@@ -3,14 +3,14 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Synword.Infrastructure.UserData;
+using Synword.Infrastructure.Synword;
 
 #nullable disable
 
-namespace Synword.Infrastructure.UserData.Migrations
+namespace Synword.Infrastructure.Synword.Migrations
 {
-    [DbContext(typeof(UserDataContext))]
-    partial class UserDataContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(SynwordContext))]
+    partial class SynwordContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

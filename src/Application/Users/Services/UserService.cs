@@ -9,12 +9,12 @@ namespace Application.Users.Services;
 
 public class UserService : IUserService
 {
-    private readonly IUserDataRepository<User>? _userRepository;
+    private readonly ISynwordRepository<User>? _userRepository;
     private readonly IGoogleApi? _googleApi;
     private readonly ITokenClaimsService? _tokenClaimsService;
 
     public UserService(IGoogleApi googleApi, 
-        IUserDataRepository<User> userRepository, 
+        ISynwordRepository<User> userRepository, 
         ITokenClaimsService tokenClaimsService
         )
     {
