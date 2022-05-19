@@ -5,14 +5,21 @@ services:
             context: .
             dockerfile: src/PublicApi/Dockerfile
         ports:
-            - "5000:5000/tcp"
+            - "127.0.0.1:5000:5000/tcp"
         environment:
             - ASPNETCORE_URLS=http://+:5000
+        networks:
+          - app-network
     web:
         build:
             context: ./src/Web/react_app
             dockerfile: ./Dockerfile
         ports:
             - "3000:3000/tcp"
+        networks:
+          - app-network
         depends_on:
             - api
+networks:
+  app-network:
+    driver: bridge
