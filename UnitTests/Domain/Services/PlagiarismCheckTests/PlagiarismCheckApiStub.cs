@@ -1,10 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Synword.Domain.Entities.PlagiarismCheckAggregate;
 using Synword.Domain.Interfaces.Services;
 
-namespace UnitTests.Domain.Services;
+namespace UnitTests.Domain.Services.PlagiarismCheckTests;
 
 public class PlagiarismCheckApiStub : IPlagiarismCheckAPI
 {

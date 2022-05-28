@@ -7,7 +7,7 @@ using Synword.Domain.Interfaces.Services;
 using Synword.Domain.Services.PlagiarismCheck;
 using Xunit;
 
-namespace UnitTests.Domain.Services;
+namespace UnitTests.Domain.Services.PlagiarismCheckTests;
 
 public class PlagiarismCheckServiceTests
 {
