@@ -29,7 +29,7 @@ public class AppPlagiarismCheckService : IAppPlagiarismCheckService
         PlagiarismCheckResult plagiarismCheckResult = 
             await _plagiarismCheck.CheckPlagiarism(text);
 
-        UpdatePlagiarismCheckHistory(plagiarismCheckResult, uId);
+        _ = UpdatePlagiarismCheckHistory(plagiarismCheckResult, uId);
         
         return _mapper.Map<PlagiarismCheckResultDTO>(
                 plagiarismCheckResult

@@ -38,7 +38,7 @@ public class AppRephraseService : IAppRephraseService
         RephraseResult rephraseResult = _rephraseService.Rephrase(
             model.Text, dictionaryService);
 
-        UpdateRephraseHistory(rephraseResult, uId);
+        _ = UpdateRephraseHistory(rephraseResult, uId);
         
         return _mapper.Map<RephraseResultDTO>(
             rephraseResult
