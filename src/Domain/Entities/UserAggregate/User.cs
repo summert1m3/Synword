@@ -40,7 +40,7 @@ public class User : BaseEntity<string>, IAggregateRoot
     public UsageData UsageData { get; private set; }
     public List<PlagiarismCheckResult>? PlagiarismCheckHistory { get; private set; }
     public List<RephraseResult>? RephraseHistory { get; private set; }
-    public Metadata? Metadata { get; init; }
+    public Metadata? Metadata { get; private set; }
     
     public void AddOrder(Order order)
     {
@@ -51,25 +51,30 @@ public class User : BaseEntity<string>, IAggregateRoot
 
     public void AddExternalSignIn(ExternalSignIn externalSignIn)
     {
+        Guard.Against.Null(externalSignIn, nameof(externalSignIn));
+        
         if (ExternalSignIn != null)
         {
-            throw new Exception("ExternalSignIn != null");
+            throw new Exception("ExternalSignIn already exist");
         }
 
         ExternalSignIn = externalSignIn;
     }
 
-    public static User CreateDefaultGuest(string id, string ip)
+    public static User CreateDefaultGuest(string id, string ip, DateTime dateTimeNow)
     {
+        Guard.Against.NullOrEmpty(nameof(id), id);
+        Guard.Against.NullOrEmpty(nameof(ip), ip);
+        
         User guest = new User(
             id: id,
-            ip: new Ip(ip.ToString()),
+            ip: new Ip(ip),
             roles: new List<Role>() { Role.Guest },
             usageData: new UsageData(
                 plagiarismCheckCount: 0,
                 rephraseCount: 0,
-                lastVisitDate: DateTime.Now,
-                creationDate: DateTime.Now
+                lastVisitDate: dateTimeNow,
+                creationDate: dateTimeNow
             ),
             coins: new Coins(1)
         );

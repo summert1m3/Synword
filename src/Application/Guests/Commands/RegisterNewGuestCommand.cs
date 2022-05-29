@@ -42,7 +42,10 @@ internal class RegisterNewGuestCommandHandler : IRequestHandler<RegisterNewGuest
         await _userManager.AddToRoleAsync(guest, Role.Guest.ToString());
         
         await _userRepository!.AddAsync(
-            User.CreateDefaultGuest(guest.Id, request.Ip.ToString()),
+            User.CreateDefaultGuest(
+                guest.Id, 
+                request.Ip.ToString(),
+                DateTime.Now),
             cancellationToken
         );
         

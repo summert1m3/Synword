@@ -11,7 +11,7 @@ public class DictionarySynonym : BaseEntity, IAggregateRoot
     }
     public DictionarySynonym(string value)
     {
-        Guard.Against.NullOrEmpty(nameof(value), value);
+        Guard.Against.NullOrEmpty(value, nameof(value));
 
         Value = value;
     }
