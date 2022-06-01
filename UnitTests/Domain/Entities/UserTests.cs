@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Entities.UserAggregate.ValueObjects;
 using Synword.Domain.Enums;
@@ -16,10 +15,9 @@ public class UserTests
     private readonly string _ip = "100.100.100.100";
     private readonly DateTime _dateTimeNow = DateTime.Now;
     [Fact]
-    public void CreateDefaultGuest_Id_Ip_DefaultGuest()
+    public void CreateDefaultGuest_GuestValid_GuestEqual()
     {
         // Arrange
-
         User expected = new User(
             id: _userId,
             ip: new Ip(_ip),
@@ -41,7 +39,7 @@ public class UserTests
     }
     
     [Fact]
-    public void AddExternalSignIn_ExternalSignInExist()
+    public void AddExternalSignIn_ExternalSignInExist_ExternalSignInNotNull()
     {
         // Arrange
         User user = User.CreateDefaultGuest(_userId, _ip, _dateTimeNow);
@@ -56,7 +54,7 @@ public class UserTests
     }
 
     [Fact]
-    public void AddOrder_OrderExist()
+    public void AddOrder_OrderExist_OrderNotNull()
     {
         // Arrange
         User user = User.CreateDefaultGuest(_userId, _ip, _dateTimeNow);
