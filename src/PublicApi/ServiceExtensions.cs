@@ -4,6 +4,7 @@ using Application.Guests.Services;
 using Application.PlagiarismCheck.Services;
 using Application.Rephrase;
 using Application.Users.Services;
+using Application.Validation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -155,6 +156,10 @@ public static class ServiceExtensions
         services.AddScoped(
             typeof(IDocxService), 
             typeof(DocxService));
+        
+        services.AddScoped(
+            typeof(IUserValidation), 
+            typeof(UserValidation));
         
         return services;
     }

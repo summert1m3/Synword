@@ -1,5 +1,7 @@
 using Application.Rephrase.DTOs;
+using Application.Validation;
 using AutoMapper;
+using Synword.Domain.Constants;
 using Synword.Domain.Entities.RephraseAggregate;
 using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Interfaces.Repository;
@@ -14,20 +16,33 @@ public class AppRephraseService : IAppRephraseService
     private readonly IMapper _mapper;
     private readonly IRephraseService _rephraseService;
     private readonly ISynwordRepository<User>? _userRepository;
+    private readonly IUserValidation _userValidation;
     
     public AppRephraseService(
         IMapper mapper, 
         IRephraseService rephraseService,
-        ISynwordRepository<User>? userRepository)
+        ISynwordRepository<User>? userRepository,
+        IUserValidation userValidation)
     {
         _mapper = mapper;
         _rephraseService = rephraseService;
         _userRepository = userRepository;
+        _userValidation = userValidation;
     }
     
     public async Task<RephraseResultDTO> Rephrase(
         RephraseRequestModel model, string uId)
     {
+        User user = await _userRepository.GetByIdAsync(uId);
+        
+        bool isValid = _userValidation.IsValid(
+            user, AppServicePricesConstants.RephrasePrice);
+
+        if (!isValid)
+        {
+            throw new Exception(_userValidation.ErrorMessage);
+        }
+        
         ISynonymDictionaryService dictionaryService = model.Language.ToLower() switch
         {
             "rus" => new RusSynonymDictionaryService(),
@@ -38,17 +53,16 @@ public class AppRephraseService : IAppRephraseService
         RephraseResult rephraseResult = _rephraseService.Rephrase(
             model.Text, dictionaryService);
 
-        _ = UpdateRephraseHistory(rephraseResult, uId);
+        _ = UpdateRephraseHistory(rephraseResult, user);
         
         return _mapper.Map<RephraseResultDTO>(
             rephraseResult
         );
     }
     
-    private async Task UpdateRephraseHistory(RephraseResult rephraseResult, string uId)
+    private async Task UpdateRephraseHistory(
+        RephraseResult rephraseResult, User user)
     {
-        User user = await _userRepository.GetByIdAsync(uId);
-
         user.RephraseHistory.Add(rephraseResult);
 
         await _userRepository.UpdateAsync(user);
