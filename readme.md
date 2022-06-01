@@ -50,6 +50,8 @@ An application for checking and enhancing the uniqueness of the text.
 - .NET Core Native DI
 - Entity Framework Core 6.0
 - SQLite
+- xUnit
+- Moq
 - AutoMapper
 - MediatR
 - Swagger UI
@@ -61,12 +63,12 @@ UI
 
 - Domain Driven Design
 - CQRS
+- Mediator
 - Repository & Generic Repository
+- Specification Pattern
 - Unit Of Work
 - Inversion of Control / Dependency injection
 - ORM
-- Mediator
-- Specification Pattern
 
 ## Layers
 
