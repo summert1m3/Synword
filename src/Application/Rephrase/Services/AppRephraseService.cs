@@ -1,5 +1,6 @@
 using Application.Rephrase.DTOs;
 using Application.Validation;
+using Ardalis.GuardClauses;
 using AutoMapper;
 using Synword.Domain.Constants;
 using Synword.Domain.Entities.RephraseAggregate;
@@ -9,19 +10,19 @@ using Synword.Domain.Interfaces.Services;
 using Synword.Infrastructure.SynonymDictionary.EngSynonymDictionary.Queries;
 using Synword.Infrastructure.SynonymDictionary.RusSynonymDictionary.Queries;
 
-namespace Application.Rephrase;
+namespace Application.Rephrase.Services;
 
 public class AppRephraseService : IAppRephraseService
 {
     private readonly IMapper _mapper;
     private readonly IRephraseService _rephraseService;
-    private readonly ISynwordRepository<User>? _userRepository;
+    private readonly ISynwordRepository<User> _userRepository;
     private readonly IUserValidation _userValidation;
     
     public AppRephraseService(
         IMapper mapper, 
         IRephraseService rephraseService,
-        ISynwordRepository<User>? userRepository,
+        ISynwordRepository<User> userRepository,
         IUserValidation userValidation)
     {
         _mapper = mapper;
@@ -33,7 +34,8 @@ public class AppRephraseService : IAppRephraseService
     public async Task<RephraseResultDTO> Rephrase(
         RephraseRequestModel model, string uId)
     {
-        User user = await _userRepository.GetByIdAsync(uId);
+        User? user = await _userRepository.GetByIdAsync(uId);
+        Guard.Against.Null(user, nameof(user));
         
         bool isValid = _userValidation.IsValid(
             user, AppServicePricesConstants.RephrasePrice);
@@ -53,7 +55,7 @@ public class AppRephraseService : IAppRephraseService
         RephraseResult rephraseResult = _rephraseService.Rephrase(
             model.Text, dictionaryService);
 
-        _ = UpdateRephraseHistory(rephraseResult, user);
+        await UpdateRephraseHistory(rephraseResult, user);
         
         return _mapper.Map<RephraseResultDTO>(
             rephraseResult
@@ -63,7 +65,7 @@ public class AppRephraseService : IAppRephraseService
     private async Task UpdateRephraseHistory(
         RephraseResult rephraseResult, User user)
     {
-        user.RephraseHistory.Add(rephraseResult);
+        user.RecordRephraseResultInHistory(rephraseResult);
 
         await _userRepository.UpdateAsync(user);
         

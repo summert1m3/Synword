@@ -3,6 +3,7 @@ using Application.Documents.Services;
 using Application.Guests.Services;
 using Application.PlagiarismCheck.Services;
 using Application.Rephrase;
+using Application.Rephrase.Services;
 using Application.Users.Services;
 using Application.Validation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

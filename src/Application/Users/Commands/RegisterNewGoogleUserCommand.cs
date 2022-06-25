@@ -20,16 +20,16 @@ public class RegisterNewGoogleUserCommand : IRequest
         User = user;
     }
     
-    public string? AccessToken { get; }
+    public string AccessToken { get; }
     public ClaimsPrincipal User { get; }
 }
 
 internal class RegisterNewGoogleUserCommandHandler : 
     IRequestHandler<RegisterNewGoogleUserCommand>
 {
-    private readonly ISynwordRepository<User>? _userRepository;
-    private readonly IGoogleApi? _googleApi;
-    private readonly UserManager<AppUser>? _userManager;
+    private readonly ISynwordRepository<User> _userRepository;
+    private readonly IGoogleApi _googleApi;
+    private readonly UserManager<AppUser> _userManager;
 
     public RegisterNewGoogleUserCommandHandler(ISynwordRepository<User> userRepository,
         IGoogleApi googleApi, UserManager<AppUser> userManager)
@@ -42,15 +42,17 @@ internal class RegisterNewGoogleUserCommandHandler :
     public async Task<Unit> Handle(RegisterNewGoogleUserCommand request, CancellationToken cancellationToken)
     {
         GoogleUserModel googleUserModel = await _googleApi.GetGoogleUserData(request.AccessToken);
-        var userSpec = new UserByExternalIdSpecification(googleUserModel.Id);
-        User? userBySpec = await _userRepository.GetBySpecAsync(userSpec, cancellationToken);
+        var spec = new UserByExternalIdSpecification(googleUserModel.Id);
+        User? userBySpec = await _userRepository.GetBySpecAsync(spec, cancellationToken);
         
         if (userBySpec != null)
         {
             throw new Exception("User already exists");
         }
         
-        string userId = request.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        string? userId = request.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        Guard.Against.Null(userId, nameof(userId));
         
         User? user = await _userRepository.GetByIdAsync(userId, cancellationToken);
 

@@ -1,4 +1,5 @@
 using Application.Users.DTOs;
+using Ardalis.GuardClauses;
 using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Interfaces.Repository;
 using Synword.Domain.Interfaces.Services;
@@ -9,9 +10,9 @@ namespace Application.Users.Services;
 
 public class UserService : IUserService
 {
-    private readonly ISynwordRepository<User>? _userRepository;
-    private readonly IGoogleApi? _googleApi;
-    private readonly ITokenClaimsService? _tokenClaimsService;
+    private readonly ISynwordRepository<User> _userRepository;
+    private readonly IGoogleApi _googleApi;
+    private readonly ITokenClaimsService _tokenClaimsService;
 
     public UserService(IGoogleApi googleApi, 
         ISynwordRepository<User> userRepository, 
@@ -31,7 +32,9 @@ public class UserService : IUserService
         var userSpec = new UserByExternalIdSpecification(googleUserModel.Id);
         User? user = await _userRepository.GetBySpecAsync(userSpec, cancellationToken);
 
-        string token = await _tokenClaimsService!.GetTokenAsync(user.Id);
+        Guard.Against.Null(user, nameof(user));
+        
+        string token = await _tokenClaimsService.GetTokenAsync(user.Id);
 
         return new UserAuthenticateDTO {Token = token};
     }

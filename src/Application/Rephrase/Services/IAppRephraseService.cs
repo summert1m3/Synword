@@ -1,6 +1,6 @@
 using Application.Rephrase.DTOs;
 
-namespace Application.Rephrase;
+namespace Application.Rephrase.Services;
 
 public interface IAppRephraseService
 {

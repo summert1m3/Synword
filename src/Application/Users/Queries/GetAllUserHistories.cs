@@ -1,10 +1,12 @@
 using Application.PlagiarismCheck.DTOs;
 using Application.Rephrase.DTOs;
 using Application.Users.DTOs;
+using Ardalis.GuardClauses;
 using AutoMapper;
 using MediatR;
 using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Interfaces.Repository;
+using Synword.Domain.Specifications;
 
 namespace Application.Users.Queries;
 
@@ -21,7 +23,7 @@ public class GetAllUserHistories : IRequest<UserHistoriesDTO>
 internal class GetAllUserHistoriesHandler : 
     IRequestHandler<GetAllUserHistories, UserHistoriesDTO>
 {
-    private readonly ISynwordRepository<User>? _userRepository;
+    private readonly ISynwordRepository<User> _userRepository;
     private readonly IMapper _mapper;
     
     public GetAllUserHistoriesHandler(
@@ -36,9 +38,11 @@ internal class GetAllUserHistoriesHandler :
         GetAllUserHistories request, 
         CancellationToken cancellationToken)
     {
-        User user = await _userRepository.GetByIdAsync(
-            request.UId, cancellationToken);
+        var spec = new UserWithAllHistoriesSpecification(request.UId);
+        User? user = await _userRepository.GetBySpecAsync(spec, cancellationToken);
 
+        Guard.Against.Null(user, nameof(user));
+        
         List<RephraseResultDTO> rephraseHistories = 
             _mapper.Map<List<RephraseResultDTO>>(
             user.RephraseHistory
@@ -51,8 +55,8 @@ internal class GetAllUserHistoriesHandler :
         
         return new UserHistoriesDTO()
         {
-            rephraseHistories = rephraseHistories, 
-            plagiarismCheckHistories = plagiarismCheckHistories
+            RephraseHistories = rephraseHistories, 
+            PlagiarismCheckHistories = plagiarismCheckHistories
         };
     }
 }

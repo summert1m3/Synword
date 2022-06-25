@@ -1,5 +1,6 @@
 using Application.PlagiarismCheck.DTOs;
 using Application.Validation;
+using Ardalis.GuardClauses;
 using AutoMapper;
 using Synword.Domain.Constants;
 using Synword.Domain.Entities.PlagiarismCheckAggregate;
@@ -13,7 +14,7 @@ public class AppPlagiarismCheckService : IAppPlagiarismCheckService
 {
     private readonly IMapper _mapper;
     private readonly IPlagiarismCheckService _plagiarismCheck;
-    private readonly ISynwordRepository<User>? _userRepository;
+    private readonly ISynwordRepository<User> _userRepository;
     private readonly IUserValidation _userValidation;
     
     public AppPlagiarismCheckService(
@@ -31,7 +32,8 @@ public class AppPlagiarismCheckService : IAppPlagiarismCheckService
     public async Task<PlagiarismCheckResultDTO> CheckPlagiarism(
         string text, string uId)
     {
-        User user = await _userRepository.GetByIdAsync(uId);
+        User? user = await _userRepository.GetByIdAsync(uId);
+        Guard.Against.Null(user, nameof(user));
 
         bool isValid = _userValidation.IsValid(
             user, AppServicePricesConstants.PlagiarismCheckPrice);
@@ -41,20 +43,20 @@ public class AppPlagiarismCheckService : IAppPlagiarismCheckService
             throw new Exception(_userValidation.ErrorMessage);
         }
 
-        PlagiarismCheckResult plagiarismCheckResult = 
+        PlagiarismCheckResult result = 
             await _plagiarismCheck.CheckPlagiarism(text);
 
-        _ = UpdatePlagiarismCheckHistory(plagiarismCheckResult, user);
+        await UpdatePlagiarismCheckHistory(result, user);
         
         return _mapper.Map<PlagiarismCheckResultDTO>(
-                plagiarismCheckResult
+                result
             );
     }
 
     private async Task UpdatePlagiarismCheckHistory(
-        PlagiarismCheckResult plagiarismCheckResult, User user)
+        PlagiarismCheckResult result, User user)
     {
-        user.PlagiarismCheckHistory.Add(plagiarismCheckResult);
+        user.RecordPlagiarismResultInHistory(result);
 
         await _userRepository.UpdateAsync(user);
         

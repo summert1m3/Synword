@@ -27,11 +27,7 @@ public class SynwordContext : DbContext
     {
         base.OnModelCreating(builder);
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-        builder.Entity<User>().Navigation(u => u.UsageData).AutoInclude();
-        builder.Entity<User>().Navigation(u => u.RephraseHistory).AutoInclude();
-        builder.Entity<User>().Navigation(
-            u => u.PlagiarismCheckHistory).AutoInclude();
-        
+
         builder.Entity<RephraseResult>().Navigation(
             r => r.Synonyms).AutoInclude();
         builder.Entity<SourceWordSynonyms>().Navigation(
