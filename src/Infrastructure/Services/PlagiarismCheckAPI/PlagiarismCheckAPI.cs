@@ -7,10 +7,10 @@ namespace Synword.Infrastructure.Services.PlagiarismCheckAPI;
 
 public class PlagiarismCheckAPI : IPlagiarismCheckAPI
 {
-    private static SemaphoreSlim pool = new(5, 5);
+    private static readonly SemaphoreSlim pool = new(5, 5);
     private readonly string _apiKey;
     private readonly string _apiUrl;
-    private readonly HttpClient _httpClient = new();
+    private static readonly HttpClient _httpClient = new();
 
     public PlagiarismCheckAPI(IConfiguration configuration)
     {
@@ -20,7 +20,7 @@ public class PlagiarismCheckAPI : IPlagiarismCheckAPI
 
     public async Task<PlagiarismCheckResult> CheckPlagiarism(string text)
     {
-        pool.Wait();
+        await pool.WaitAsync();
 
         HttpResponseMessage response = await RequestAsync(text);
 
