@@ -6,30 +6,6 @@ An application for checking and enhancing the uniqueness of the text.
 
 **[Website](https://synword.com)**
 
-## Connection strings
-1. To initialize the connection to SQLite, you need to enable user secrets.
-
-    ```
-    dotnet user-secrets init
-    ```
-
-1. Defining the connection strings
-
-    ```
-    dotnet user-secrets set "UserDataConnection" "data source=UserDataDB.sqlite"
-    ```
-    
-    ```
-    dotnet user-secrets set "IdentityConnection" "data source=IdentityDB.sqlite"
-    ```
-
-    ```
-    dotnet user-secrets set "RusSynonymDictionaryDbConnection" "data source=RusSynDictionary.sqlite"
-    ```
-
-    ```
-    dotnet user-secrets set "EngSynonymDictionaryDbConnection" "data source=EngSynDictionary.sqlite"
-    ```
 ## Docker
 1. Execute in root directory.
 
