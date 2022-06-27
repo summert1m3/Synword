@@ -1,4 +1,5 @@
 ﻿using Ardalis.GuardClauses;
+using Synword.Domain.Constants;
 using Synword.Domain.Entities.PlagiarismCheckAggregate;
 using Synword.Domain.Entities.RephraseAggregate;
 using Synword.Domain.Entities.UserAggregate.ValueObjects;
@@ -126,7 +127,7 @@ public class User : BaseEntity<string>, IAggregateRoot
                 lastVisitDate: dateTimeNow,
                 creationDate: dateTimeNow
             ),
-            coins: new Coins(100)
+            coins: new Coins(DefaultUserDataConstants.InitialCoinsCount)
         );
 
         return guest;

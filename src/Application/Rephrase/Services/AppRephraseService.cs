@@ -72,8 +72,9 @@ public class AppRephraseService : IAppRephraseService
 
     private int CalculatePrice(string text)
     {
-        int count = (int)Math.Ceiling(text.Length / (float)20000);
-        int price = AppServicePricesConstants.RephrasePrice * count;
+        int count = 
+            (int)Math.Ceiling(text.Length / (float)ServiceConstants.ApiInputRestriction);
+        int price = ServiceConstants.RephrasePrice * count;
 
         return price;
     }

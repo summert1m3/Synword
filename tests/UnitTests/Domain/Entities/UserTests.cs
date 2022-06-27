@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Synword.Domain.Constants;
 using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Entities.UserAggregate.ValueObjects;
 using Synword.Domain.Enums;
@@ -28,7 +29,7 @@ public class UserTests
                 lastVisitDate: _dateTimeNow,
                 creationDate: _dateTimeNow
             ),
-            coins: new Coins(1)
+            coins: new Coins(DefaultUserDataConstants.InitialCoinsCount)
         );
         
         // Act

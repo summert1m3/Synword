@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Synword.Domain.Constants;
 using Synword.Domain.Entities.PlagiarismCheckAggregate;
 using Synword.Domain.Interfaces.Services;
 
@@ -8,7 +9,6 @@ public class PlagiarismCheckService : IPlagiarismCheckService
 {
     private readonly IPlagiarismCheckAPI _plagiarismCheckApi;
     private readonly ILogger<PlagiarismCheckService> _logger;
-    private const int ApiInputRestriction = 20000;
 
     public PlagiarismCheckService(IPlagiarismCheckAPI plagiarismCheckApi, 
         ILogger<PlagiarismCheckService> logger)
@@ -21,7 +21,7 @@ public class PlagiarismCheckService : IPlagiarismCheckService
     {
         PlagiarismCheckResult result;
         
-        if (text.Length <= ApiInputRestriction)
+        if (text.Length <= ServiceConstants.ApiInputRestriction)
         {
             result = await CheckPlagiarismUnderLimit(text);
         }
@@ -334,12 +334,12 @@ public class PlagiarismCheckService : IPlagiarismCheckService
     private List<string> GetSplitText(string text)
     {
         List<string> splitText = new();
-        int endIndex = ApiInputRestriction;
+        int endIndex = ServiceConstants.ApiInputRestriction;
         bool textIsNotEmpty = true;
 
         while (textIsNotEmpty)
         {
-            if (text.Length <= ApiInputRestriction)
+            if (text.Length <= ServiceConstants.ApiInputRestriction)
             {
                 endIndex = text.Length;
                 textIsNotEmpty = false;

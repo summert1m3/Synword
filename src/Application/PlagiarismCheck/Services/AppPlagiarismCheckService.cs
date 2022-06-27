@@ -63,8 +63,9 @@ public class AppPlagiarismCheckService : IAppPlagiarismCheckService
 
     private int CalculatePrice(string text)
     {
-        int count = (int)Math.Ceiling(text.Length / (float)20000);
-        int price = AppServicePricesConstants.PlagiarismCheckPrice * count;
+        int count = 
+            (int)Math.Ceiling(text.Length / (float)ServiceConstants.ApiInputRestriction);
+        int price = ServiceConstants.PlagiarismCheckPrice * count;
 
         return price;
     }
