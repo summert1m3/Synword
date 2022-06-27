@@ -21,14 +21,14 @@ public class GetHistoryEndpoint : EndpointBaseAsync
     
     [HttpPost("getHistory")]
     [Authorize]
-    public async override Task<ActionResult<UserHistoriesDTO>> HandleAsync(
+    public override async Task<ActionResult<UserHistoriesDTO>> HandleAsync(
         CancellationToken cancellationToken = default)
     {
         string uId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
         
         UserHistoriesDTO userHistories = 
             await _mediator.Send(
-                new GetAllUserHistories(uId),
+                new GetAllUserHistoriesQuery(uId),
                     cancellationToken);
         
         return Ok(userHistories);

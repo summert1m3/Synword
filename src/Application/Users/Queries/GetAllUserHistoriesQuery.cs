@@ -10,23 +10,23 @@ using Synword.Domain.Specifications;
 
 namespace Application.Users.Queries;
 
-public class GetAllUserHistories : IRequest<UserHistoriesDTO>
+public class GetAllUserHistoriesQuery : IRequest<UserHistoriesDTO>
 {
     public string UId { get; }
     
-    public GetAllUserHistories(string uId)
+    public GetAllUserHistoriesQuery(string uId)
     {
         UId = uId;
     }
 }
 
-internal class GetAllUserHistoriesHandler : 
-    IRequestHandler<GetAllUserHistories, UserHistoriesDTO>
+internal class GetAllUserHistoriesQueryHandler : 
+    IRequestHandler<GetAllUserHistoriesQuery, UserHistoriesDTO>
 {
     private readonly ISynwordRepository<User> _userRepository;
     private readonly IMapper _mapper;
     
-    public GetAllUserHistoriesHandler(
+    public GetAllUserHistoriesQueryHandler(
         ISynwordRepository<User> userRepository, 
         IMapper mapper)
     {
@@ -35,7 +35,7 @@ internal class GetAllUserHistoriesHandler :
     }
     
     public async Task<UserHistoriesDTO> Handle(
-        GetAllUserHistories request, 
+        GetAllUserHistoriesQuery request, 
         CancellationToken cancellationToken)
     {
         var spec = new UserWithAllHistoriesSpecification(request.UId);
