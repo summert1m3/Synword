@@ -15,18 +15,18 @@ public class AppPlagiarismCheckService : IAppPlagiarismCheckService
     private readonly IMapper _mapper;
     private readonly IPlagiarismCheckService _plagiarismCheck;
     private readonly ISynwordRepository<User> _userRepository;
-    private readonly IUserValidation _userValidation;
+    private readonly IPlagiarismRequestValidation _validation;
     
     public AppPlagiarismCheckService(
         IMapper mapper,
         IPlagiarismCheckService plagiarismCheck,
         ISynwordRepository<User> userRepository,
-        IUserValidation userValidation)
+        IPlagiarismRequestValidation validation)
     {
         _mapper = mapper;
         _plagiarismCheck = plagiarismCheck;
         _userRepository = userRepository;
-        _userValidation = userValidation;
+        _validation = validation;
     }
     
     public async Task<PlagiarismCheckResultDTO> CheckPlagiarism(
@@ -35,31 +35,37 @@ public class AppPlagiarismCheckService : IAppPlagiarismCheckService
         User? user = await _userRepository.GetByIdAsync(uId);
         Guard.Against.Null(user, nameof(user));
 
-        bool isValid = _userValidation.IsValid(
-            user, AppServicePricesConstants.PlagiarismCheckPrice);
+        int price = CalculatePrice(text);
+        
+        bool isValid = _validation.IsValid(
+            user, text, price);
 
         if (!isValid)
         {
-            throw new Exception(_userValidation.ErrorMessage);
+            throw new Exception(_validation.ErrorMessage);
         }
 
         PlagiarismCheckResult result = 
             await _plagiarismCheck.CheckPlagiarism(text);
+        
+        user.SpendCoins(price);
+        
+        user.RecordPlagiarismResultInHistory(result);
 
-        await UpdatePlagiarismCheckHistory(result, user);
+        await _userRepository.UpdateAsync(user);
+        
+        await _userRepository.SaveChangesAsync();
         
         return _mapper.Map<PlagiarismCheckResultDTO>(
                 result
             );
     }
 
-    private async Task UpdatePlagiarismCheckHistory(
-        PlagiarismCheckResult result, User user)
+    private int CalculatePrice(string text)
     {
-        user.RecordPlagiarismResultInHistory(result);
+        int count = (int)Math.Ceiling(text.Length / (float)20000);
+        int price = AppServicePricesConstants.PlagiarismCheckPrice * count;
 
-        await _userRepository.UpdateAsync(user);
-        
-        await _userRepository.SaveChangesAsync();
+        return price;
     }
 }

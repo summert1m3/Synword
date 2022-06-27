@@ -159,8 +159,12 @@ public static class ServiceExtensions
             typeof(DocxService));
         
         services.AddScoped(
-            typeof(IUserValidation), 
-            typeof(UserValidation));
+            typeof(IRephraseRequestValidation), 
+            typeof(RephraseRequestValidation));
+        
+        services.AddScoped(
+            typeof(IPlagiarismRequestValidation), 
+            typeof(PlagiarismRequestValidation));
         
         return services;
     }

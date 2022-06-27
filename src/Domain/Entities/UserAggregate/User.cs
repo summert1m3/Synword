@@ -52,6 +52,25 @@ public class User : BaseEntity<string>, IAggregateRoot
     
     public Metadata? Metadata { get; private set; }
 
+    public void SpendCoins(int count)
+    {
+        Guard.Against.NegativeOrZero(count, nameof(count));
+        
+        if (Coins.Value < count)
+        {
+            throw new Exception("Coins.Value < count");
+        }
+
+        Coins = new Coins(Coins.Value - count);
+    }
+
+    public void IncreaseCoins(int count)
+    {
+        Guard.Against.NegativeOrZero(count, nameof(count));
+
+        Coins = new Coins(Coins.Value + count);
+    }
+    
     public void RecordPlagiarismResultInHistory(PlagiarismCheckResult result)
     {
         Guard.Against.Null(result, nameof(result));
@@ -107,7 +126,7 @@ public class User : BaseEntity<string>, IAggregateRoot
                 lastVisitDate: dateTimeNow,
                 creationDate: dateTimeNow
             ),
-            coins: new Coins(1)
+            coins: new Coins(100)
         );
 
         return guest;
