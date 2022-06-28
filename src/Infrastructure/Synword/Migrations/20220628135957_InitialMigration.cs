@@ -10,6 +10,18 @@ namespace Synword.Infrastructure.Synword.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Histories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Histories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Metadata",
                 columns: table => new
                 {
@@ -133,11 +145,18 @@ namespace Synword.Infrastructure.Synword.Migrations
                     Error = table.Column<string>(type: "TEXT", nullable: true),
                     Text = table.Column<string>(type: "TEXT", nullable: false),
                     Percent = table.Column<float>(type: "REAL", nullable: false),
+                    HistoryId = table.Column<int>(type: "INTEGER", nullable: false),
                     UserId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PlagiarismCheckHistories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PlagiarismCheckHistories_Histories_HistoryId",
+                        column: x => x.HistoryId,
+                        principalTable: "Histories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PlagiarismCheckHistories_Users_UserId",
                         column: x => x.UserId,
@@ -151,12 +170,20 @@ namespace Synword.Infrastructure.Synword.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    SourceText = table.Column<string>(type: "TEXT", nullable: false),
                     RephrasedText = table.Column<string>(type: "TEXT", nullable: true),
+                    HistoryId = table.Column<int>(type: "INTEGER", nullable: false),
                     UserId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_RephraseHistories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RephraseHistories_Histories_HistoryId",
+                        column: x => x.HistoryId,
+                        principalTable: "Histories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_RephraseHistories_Users_UserId",
                         column: x => x.UserId,
@@ -276,9 +303,19 @@ namespace Synword.Infrastructure.Synword.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PlagiarismCheckHistories_HistoryId",
+                table: "PlagiarismCheckHistories",
+                column: "HistoryId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PlagiarismCheckHistories_UserId",
                 table: "PlagiarismCheckHistories",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RephraseHistories_HistoryId",
+                table: "RephraseHistories",
+                column: "HistoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RephraseHistories_UserId",
@@ -340,6 +377,9 @@ namespace Synword.Infrastructure.Synword.Migrations
 
             migrationBuilder.DropTable(
                 name: "RephraseHistories");
+
+            migrationBuilder.DropTable(
+                name: "Histories");
 
             migrationBuilder.DropTable(
                 name: "Users");

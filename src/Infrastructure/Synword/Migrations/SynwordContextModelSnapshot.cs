@@ -17,6 +17,17 @@ namespace Synword.Infrastructure.Synword.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.4");
 
+            modelBuilder.Entity("Synword.Domain.Entities.HistoryAggregate.History", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Histories");
+                });
+
             modelBuilder.Entity("Synword.Domain.Entities.PlagiarismCheckAggregate.HighlightRange", b =>
                 {
                     b.Property<int>("Id")
@@ -76,6 +87,9 @@ namespace Synword.Infrastructure.Synword.Migrations
                     b.Property<string>("Error")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("HistoryId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<float>("Percent")
                         .HasColumnType("REAL");
 
@@ -88,6 +102,8 @@ namespace Synword.Infrastructure.Synword.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("HistoryId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("PlagiarismCheckHistories");
@@ -99,13 +115,22 @@ namespace Synword.Infrastructure.Synword.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("HistoryId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("RephrasedText")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SourceText")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UserId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("HistoryId");
 
                     b.HasIndex("UserId");
 
@@ -313,18 +338,32 @@ namespace Synword.Infrastructure.Synword.Migrations
 
             modelBuilder.Entity("Synword.Domain.Entities.PlagiarismCheckAggregate.PlagiarismCheckResult", b =>
                 {
+                    b.HasOne("Synword.Domain.Entities.HistoryAggregate.History", "History")
+                        .WithMany()
+                        .HasForeignKey("HistoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Synword.Domain.Entities.UserAggregate.User", null)
                         .WithMany("PlagiarismCheckHistory")
                         .HasForeignKey("UserId");
+
+                    b.Navigation("History");
                 });
 
             modelBuilder.Entity("Synword.Domain.Entities.RephraseAggregate.RephraseResult", b =>
                 {
-                    b.HasOne("Synword.Domain.Entities.UserAggregate.User", "User")
+                    b.HasOne("Synword.Domain.Entities.HistoryAggregate.History", "History")
+                        .WithMany()
+                        .HasForeignKey("HistoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Synword.Domain.Entities.UserAggregate.User", null)
                         .WithMany("RephraseHistory")
                         .HasForeignKey("UserId");
 
-                    b.Navigation("User");
+                    b.Navigation("History");
                 });
 
             modelBuilder.Entity("Synword.Domain.Entities.RephraseAggregate.SourceWordSynonyms", b =>

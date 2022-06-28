@@ -21,6 +21,7 @@ public class RephraseServiceTests
         // Arrange
         string text = Text.GetText445Chars();
         RephraseResult expected = new(
+            text,
             Text.GetRephrasedText(),
             new List<SourceWordSynonyms>
             {

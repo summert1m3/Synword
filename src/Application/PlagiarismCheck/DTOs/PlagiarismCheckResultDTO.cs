@@ -2,6 +2,7 @@ namespace Application.PlagiarismCheck.DTOs;
 
 public class PlagiarismCheckResultDTO
 {
+    public int Id { get; init; }
     public string Text { get; init; }
     public float Percent { get; init; }
     public List<HighlightRangeDTO> Highlights { get; init; }

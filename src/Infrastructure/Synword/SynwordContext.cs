@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using Synword.Domain.Entities.HistoryAggregate;
 using Synword.Domain.Entities.PlagiarismCheckAggregate;
 using Synword.Domain.Entities.RephraseAggregate;
 using Synword.Domain.Entities.UserAggregate;
@@ -13,6 +14,7 @@ public class SynwordContext : DbContext
     }
     
     public DbSet<User> Users { get; set; }
+    public DbSet<History> Histories { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<UsageData> UsageData { get; set; }
     public DbSet<PlagiarismCheckResult> PlagiarismCheckHistories { get; set; }
@@ -27,12 +29,16 @@ public class SynwordContext : DbContext
     {
         base.OnModelCreating(builder);
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
+        
+        builder.Entity<RephraseResult>().Navigation(
+            r => r.History).AutoInclude();
         builder.Entity<RephraseResult>().Navigation(
             r => r.Synonyms).AutoInclude();
         builder.Entity<SourceWordSynonyms>().Navigation(
             r => r.Synonyms).AutoInclude();
         
+        builder.Entity<PlagiarismCheckResult>().Navigation(
+            r => r.History).AutoInclude();
         builder.Entity<PlagiarismCheckResult>().Navigation(
             r => r.Highlights).AutoInclude();
         builder.Entity<PlagiarismCheckResult>().Navigation(

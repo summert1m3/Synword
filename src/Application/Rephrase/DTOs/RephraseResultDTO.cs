@@ -2,6 +2,8 @@ namespace Application.Rephrase.DTOs;
 
 public class RephraseResultDTO
 {
+    public int Id { get; init; }
+    public string SourceText { get; init; }
     public string? RephrasedText { get; init; }
     private readonly List<SourceWordSynonymsDTO> _synonyms = new();
     public IList<SourceWordSynonymsDTO> Synonyms => _synonyms;

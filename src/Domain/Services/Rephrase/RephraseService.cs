@@ -8,9 +8,9 @@ namespace Synword.Domain.Services.Rephrase;
 
 public class RephraseService : IRephraseService
 {
-    private IReadOnlyDictionary<string, 
+    private IReadOnlyDictionary<string,
         IReadOnlyList<DictionarySynonym>> _dictionary;
-    
+
     public RephraseResult Rephrase(
         string text, ISynonymDictionaryService dictionary)
     {
@@ -21,9 +21,9 @@ public class RephraseService : IRephraseService
         StringBuilder rephrasedTextBuilder = new(text);
 
         List<SourceWordSynonyms> replacedWords = new();
-        
+
         int indexOffset = 0;
-        
+
         foreach (var word in words)
         {
             bool isWordFounded = _dictionary.TryGetValue(
@@ -34,41 +34,42 @@ public class RephraseService : IRephraseService
             {
                 continue;
             }
-            
-            List<string> synonymsStr = 
+
+            List<string> synonymsStr =
                 ConvertFromDictionarySynonymToString(dictionarySynonyms);
-            
+
             word.StartIndex += indexOffset;
 
             if (char.IsUpper(word.Word[0]))
             {
                 synonymsStr = ToUpperFirstLetter(synonymsStr);
             }
-            
+
             rephrasedTextBuilder = ReplaceWordWithSynonym(
                 rephrasedTextBuilder, word, synonymsStr[0]);
-            
+
             indexOffset = IndexOffsetCorrection(
-                indexOffset, 
+                indexOffset,
                 word.Word.Length,
                 synonymsStr[0].Length);
 
             List<Synonym> synonyms = ConvertFromStringToSynonym(synonymsStr);
 
             replacedWords.Add(
-                    new (
-                            word.Word,
-                            word.StartIndex, 
-                            word.StartIndex + synonymsStr[0].Length - 1,
-                            synonyms
-                        )
-                );
+                new(
+                    word.Word,
+                    word.StartIndex,
+                    word.StartIndex + synonymsStr[0].Length - 1,
+                    synonyms
+                )
+            );
         }
 
         RephraseResult rephraseResult = new(
+            text,
             rephrasedTextBuilder.ToString(),
-                replacedWords
-            );
+            replacedWords
+        );
 
         return rephraseResult;
     }
@@ -91,16 +92,13 @@ public class RephraseService : IRephraseService
             @"((?<part>[^\.\-\ \,]+)(\.\-\ \,))*(?<part>[^\.\-\ \,]+)");
 
         List<WordWithStartIndexModel> words = new();
-            
-        foreach (Match match in col) {
+
+        foreach (Match match in col)
+        {
             var part = match.Groups["part"];
-            
+
             words.Add(
-                new WordWithStartIndexModel()
-                {
-                    Word = part.Value,
-                    StartIndex = part.Index
-                }
+                new WordWithStartIndexModel() {Word = part.Value, StartIndex = part.Index}
             );
         }
 
@@ -120,8 +118,8 @@ public class RephraseService : IRephraseService
     }
 
     private int IndexOffsetCorrection(
-        int currentOffset, 
-        int sourceWordLength, 
+        int currentOffset,
+        int sourceWordLength,
         int synonymWordLength)
     {
         if (sourceWordLength < synonymWordLength)
@@ -137,7 +135,7 @@ public class RephraseService : IRephraseService
     }
 
     private StringBuilder ReplaceWordWithSynonym(
-        StringBuilder text, 
+        StringBuilder text,
         WordWithStartIndexModel word,
         string synonym)
     {
@@ -146,17 +144,17 @@ public class RephraseService : IRephraseService
 
         return text;
     }
-    
+
     private static List<string> ToUpperFirstLetter(List<string> strList)
     {
         List<string> strListWithUpperFirstLetter = new();
-        
+
         foreach (var source in strList)
         {
             char[] letters = source.ToCharArray();
-            
+
             letters[0] = char.ToUpper(letters[0]);
-            
+
             strListWithUpperFirstLetter.Add(new string(letters));
         }
 

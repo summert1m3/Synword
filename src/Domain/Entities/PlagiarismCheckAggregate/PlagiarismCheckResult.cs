@@ -1,4 +1,5 @@
 ﻿using Ardalis.GuardClauses;
+using Synword.Domain.Entities.HistoryAggregate;
 using Synword.Domain.Interfaces;
 
 namespace Synword.Domain.Entities.PlagiarismCheckAggregate;
@@ -32,4 +33,5 @@ public class PlagiarismCheckResult : BaseEntity, IAggregateRoot
     public IReadOnlyCollection<HighlightRange> Highlights => _highlights.AsReadOnly();
     private readonly List<MatchedUrl> _matches = new();
     public IReadOnlyCollection<MatchedUrl> Matches => _matches.AsReadOnly();
+    public History History { get; private set; } = new();
 }
