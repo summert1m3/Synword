@@ -21,7 +21,7 @@ public class PlagiarismCheckService : IPlagiarismCheckService
     {
         PlagiarismCheckResult result;
         
-        if (text.Length <= ServiceConstants.ApiInputRestriction)
+        if (text.Length <= ExternalServicesConstants.ApiInputRestriction)
         {
             result = await CheckPlagiarismUnderLimit(text);
         }
@@ -334,12 +334,12 @@ public class PlagiarismCheckService : IPlagiarismCheckService
     private List<string> GetSplitText(string text)
     {
         List<string> splitText = new();
-        int endIndex = ServiceConstants.ApiInputRestriction;
+        int endIndex = ExternalServicesConstants.ApiInputRestriction;
         bool textIsNotEmpty = true;
 
         while (textIsNotEmpty)
         {
-            if (text.Length <= ServiceConstants.ApiInputRestriction)
+            if (text.Length <= ExternalServicesConstants.ApiInputRestriction)
             {
                 endIndex = text.Length;
                 textIsNotEmpty = false;

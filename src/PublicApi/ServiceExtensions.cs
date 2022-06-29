@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Application.Documents.Services;
+using Application.EnhancedRephrase.Services;
 using Application.Guests.Services;
 using Application.PlagiarismCheck.Services;
 using Application.Rephrase;
@@ -12,9 +13,11 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Synword.Domain.Interfaces.Repository;
 using Synword.Domain.Interfaces.Services;
+using Synword.Domain.Services.EnhancedRephrase;
 using Synword.Domain.Services.PlagiarismCheck;
 using Synword.Domain.Services.Rephrase;
 using Synword.Infrastructure.Identity;
+using Synword.Infrastructure.Services;
 using Synword.Infrastructure.Services.Docx;
 using Synword.Infrastructure.Services.Google;
 using Synword.Infrastructure.Services.PlagiarismCheckAPI;
@@ -165,6 +168,22 @@ public static class ServiceExtensions
         services.AddScoped(
             typeof(IPlagiarismRequestValidation), 
             typeof(PlagiarismRequestValidation));
+        
+        services.AddScoped(
+            typeof(IAppEnhancedRephraseService), 
+            typeof(AppEnhancedRephraseService));
+        
+        services.AddScoped(
+            typeof(IEnhancedRephraseService), 
+            typeof(EnhancedRephraseService));
+        
+        services.AddScoped(
+            typeof(IYandexTranslateApi), 
+            typeof(YandexTranslateApi));
+        
+        services.AddScoped(
+            typeof(IEnhancedRephraseRequestValidation), 
+            typeof(EnhancedRephraseRequestValidation));
         
         return services;
     }

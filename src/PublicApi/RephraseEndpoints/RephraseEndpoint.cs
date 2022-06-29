@@ -3,6 +3,7 @@ using Application.Rephrase;
 using Application.Rephrase.DTOs;
 using Application.Rephrase.Services;
 using Ardalis.ApiEndpoints;
+using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,7 +27,9 @@ public class RephraseEndpoint : EndpointBaseAsync
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
         
-        string uId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        string? uId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+
+        Guard.Against.NullOrEmpty(uId, nameof(uId));
         
         RephraseResultDTO response = 
             await _rephraseService.Rephrase(request, uId);

@@ -17,11 +17,11 @@ public class PriceListEndpoint : IEndpoint<IResult>
         List<AppServicePricesDTO> prices = new()
         {
             new AppServicePricesDTO(
-                nameof(ServiceConstants.PlagiarismCheckPrice), 
-                ServiceConstants.PlagiarismCheckPrice), 
+                nameof(ServicePricesConstants.PlagiarismCheckPrice), 
+                ServicePricesConstants.PlagiarismCheckPrice), 
             new AppServicePricesDTO(
-                nameof(ServiceConstants.RephrasePrice), 
-                ServiceConstants.RephrasePrice)
+                nameof(ServicePricesConstants.RephrasePrice), 
+                ServicePricesConstants.RephrasePrice)
         };
         
         return Results.Ok(new PriceListResponse(prices));

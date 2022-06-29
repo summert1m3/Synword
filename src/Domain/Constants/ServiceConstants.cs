@@ -1,8 +1,8 @@
 namespace Synword.Domain.Constants;
 
-public static class ServiceConstants
+public static class ServicePricesConstants
 {
     public const int PlagiarismCheckPrice = 1;
     public const int RephrasePrice = 1;
-    public const int ApiInputRestriction = 20000;
+    public const int EnhancedRephrasePrice = 1;
 }

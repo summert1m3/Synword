@@ -9,13 +9,12 @@ public class PlagiarismCheckAPI : IPlagiarismCheckAPI
 {
     private static readonly SemaphoreSlim pool = new(5, 5);
     private readonly string _apiKey;
-    private readonly string _apiUrl;
+    private const string ApiUrl = "https://content-watch.ru/public/api/";
     private static readonly HttpClient _httpClient = new();
 
     public PlagiarismCheckAPI(IConfiguration configuration)
     {
         _apiKey = configuration["PlagiarismCheckApiKey"];
-        _apiUrl = configuration["PlagiarismCheckApiUrl"];
     }
 
     public async Task<PlagiarismCheckResult> CheckPlagiarism(string text)
@@ -54,7 +53,7 @@ public class PlagiarismCheckAPI : IPlagiarismCheckAPI
                 };
 
         HttpResponseMessage response = await _httpClient.PostAsync(
-            _apiUrl,
+            ApiUrl,
             new FormUrlEncodedContent(values)
         );
 
