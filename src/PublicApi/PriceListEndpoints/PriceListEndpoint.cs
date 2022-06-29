@@ -21,7 +21,10 @@ public class PriceListEndpoint : IEndpoint<IResult>
                 ServicePricesConstants.PlagiarismCheckPrice), 
             new AppServicePricesDTO(
                 nameof(ServicePricesConstants.RephrasePrice), 
-                ServicePricesConstants.RephrasePrice)
+                ServicePricesConstants.RephrasePrice),
+            new AppServicePricesDTO(
+                nameof(ServicePricesConstants.EnhancedRephrasePrice),
+                ServicePricesConstants.EnhancedRephrasePrice)
         };
         
         return Results.Ok(new PriceListResponse(prices));
