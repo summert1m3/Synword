@@ -21,7 +21,7 @@ public class RephraseRequestValidationTests
             lastVisitDate: DefaultUserInitialData.DateTimeNow,
             creationDate: DefaultUserInitialData.DateTimeNow
         ),
-        coins: new Coins(ServiceConstants.RephrasePrice)
+        coins: new Coins(ServicePricesConstants.RephrasePrice)
     );
     
     [Fact]
@@ -31,7 +31,7 @@ public class RephraseRequestValidationTests
 
         //Act
         bool actual = _validation.IsValid(
-            _correctUser, Text.GetText445Chars(), ServiceConstants.RephrasePrice);
+            _correctUser, Text.GetText445Chars(), ServicePricesConstants.RephrasePrice);
 
         //Assert
         Assert.True(actual);
@@ -44,7 +44,7 @@ public class RephraseRequestValidationTests
 
         //Act
         bool actual = _validation.IsValid(
-            _correctUser, Text.GetText11Chars(), ServiceConstants.RephrasePrice);
+            _correctUser, Text.GetText11Chars(), ServicePricesConstants.RephrasePrice);
         
         //Assert
         Assert.False(actual);
@@ -57,7 +57,9 @@ public class RephraseRequestValidationTests
 
         //Act
         bool actual = _validation.IsValid(
-            _correctUser, Text.GetText20470Chars(), ServiceConstants.RephrasePrice);
+            _correctUser, 
+            Text.GetText20470Chars(), 
+            ServicePricesConstants.RephrasePrice);
 
         //Assert
         Assert.False(actual);
