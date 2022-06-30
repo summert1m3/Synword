@@ -1,3 +1,4 @@
+using Application.Exceptions;
 using Synword.Domain.Constants;
 using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Enums;
@@ -22,7 +23,8 @@ public abstract class RequestValidation
                 Role.Guest or Role.User => new DefaultUserServiceConstraints(),
                 Role.Silver => new SilverUserServiceConstraints(),
                 Role.Gold => new GoldUserServiceConstraints(),
-                _ => throw new Exception("The user does not have a role")
+                _ => throw new AppValidationException(
+                    "The user does not have a role")
             };
         }
     }

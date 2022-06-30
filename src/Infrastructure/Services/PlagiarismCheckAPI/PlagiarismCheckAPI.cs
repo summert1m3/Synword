@@ -25,10 +25,7 @@ public class PlagiarismCheckAPI : IPlagiarismCheckAPI
 
         pool.Release();
 
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new Exception(await response.Content.ReadAsStringAsync());
-        }
+        response.EnsureSuccessStatusCode();
 
         string responseString = await response.Content.ReadAsStringAsync();
         PlagiarismCheckResponseModelRaw plagiarismCheckResponseModel =

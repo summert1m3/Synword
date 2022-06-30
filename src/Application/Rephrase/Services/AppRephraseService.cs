@@ -1,3 +1,4 @@
+using Application.Exceptions;
 using Application.Rephrase.DTOs;
 using Application.Validation;
 using Ardalis.GuardClauses;
@@ -44,7 +45,7 @@ public class AppRephraseService : IAppRephraseService
 
         if (!isValid)
         {
-            throw new Exception(_validation.ErrorMessage);
+            throw new AppValidationException(_validation.ErrorMessage);
         }
         
         ISynonymDictionaryService dictionaryService = model.Language.ToLower() switch

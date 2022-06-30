@@ -1,3 +1,4 @@
+using Application.Exceptions;
 using Application.PlagiarismCheck.DTOs;
 using Application.Validation;
 using Ardalis.GuardClauses;
@@ -42,7 +43,7 @@ public class AppPlagiarismCheckService : IAppPlagiarismCheckService
 
         if (!isValid)
         {
-            throw new Exception(_validation.ErrorMessage);
+            throw new AppValidationException(_validation.ErrorMessage);
         }
 
         PlagiarismCheckResult result = 

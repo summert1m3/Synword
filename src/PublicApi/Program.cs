@@ -11,6 +11,7 @@ using Synword.Infrastructure.SynonymDictionary.EngSynonymDictionary.Queries;
 using Synword.Infrastructure.SynonymDictionary.RusSynonymDictionary.Queries;
 using Synword.Infrastructure.Synword;
 using Synword.PublicApi;
+using Synword.PublicApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +46,8 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
         = ForwardedHeaders.XForwardedFor 
           | ForwardedHeaders.XForwardedProto
 });
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
