@@ -4,9 +4,7 @@ import jwt_decode from "jwt-decode";
 
 class AuthService {
     async authorizedPostRequest(url, form, signal) {
-        await this.verifyJWT(signal);
-
-        const jwt = Cookies.get('jwt');
+        const jwt = await this.getJwt(signal);
 
         let headers = {
             "Accept": "application/json",
@@ -23,21 +21,28 @@ class AuthService {
         return data;
     }
 
-    async verifyJWT(signal) {
-        const jwt = Cookies.get('jwt');
-        const decodedJwt = jwt_decode(token);
+    async getJwt(signal) {
+        let jwt = Cookies.get('jwt');
+
+        if (!jwt) {
+            jwt = await this.authenticate(signal);
+            Cookies.set('jwt', jwt);
+        }
         
+        const decodedJwt = jwt_decode(jwt);
+
         var current_time = Date.now() / 1000;
 
-        if (!jwt || decodedJwt.exp < current_time) {
-            await this.guestAuthenticateRequest(signal);
+        if(decodedJwt.exp < current_time) {
+            jwt = await this.authenticate(signal);
+            Cookies.set('jwt', jwt);
         }
+
+        return jwt;
     }
 
-    async guestAuthenticateRequest(signal) {
-        await this.verifyUserId();
-
-        const userId = Cookies.get('userId');
+    async authenticate(signal) {
+        let userId = await this.getUserId();
 
         let headers = {
             "Accept": "application/json",
@@ -53,18 +58,21 @@ class AuthService {
             signal
         );
 
-        Cookies.set('jwt', data.token);
+        return data.token;
     }
 
-    async verifyUserId(signal) {
-        const userId = Cookies.get('userId');
+    async getUserId(signal) {
+        let userId = Cookies.get('userId');
 
         if (!userId) {
-            await this.guestRegisterRequest(signal);
+            userId = await this.registration(signal);
+            Cookies.set('userId', userId);
         }
+
+        return userId;
     }
 
-    async guestRegisterRequest(signal) {
+    async registration(signal) {
         let headers = {
             "Accept": "application/json",
             "Content-Type": "multipart/form-data",
@@ -76,8 +84,8 @@ class AuthService {
             null,
             signal
         );
-
-        Cookies.set('userId', data.userId);
+        
+        return data.userId;
     }
 }
 
