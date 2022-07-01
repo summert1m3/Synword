@@ -1,8 +1,8 @@
 using MinimalApi.Endpoint;
 
-namespace Synword.PublicApi.AppVersionEndpoints;
+namespace Synword.PublicApi.MobileAppEndpoints.AppVersion;
 
-public class ClientAppVersionEndpoint : IEndpoint<IResult>
+public class MobileAppVersionEndpoint : IEndpoint<IResult>
 {
     private IConfiguration _configuration;
     
@@ -15,12 +15,12 @@ public class ClientAppVersionEndpoint : IEndpoint<IResult>
                 
                 return await HandleAsync();
             })
-            .Produces<ClientAppVersionResponse>();
+            .Produces<MobileAppVersionResponse>();
     }
 
     public async Task<IResult> HandleAsync()
     {
-        return Results.Ok(new ClientAppVersionResponse(
+        return Results.Ok(new MobileAppVersionResponse(
             _configuration["ClientAppVersion"])
         );
     }
