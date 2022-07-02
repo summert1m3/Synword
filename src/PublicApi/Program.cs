@@ -5,6 +5,8 @@ using Synword.Infrastructure.Identity;
 using MediatR;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
+using NLog;
+using NLog.Web;
 using Synword.Domain.Entities.SynonymDictionaryAggregate;
 using Synword.Domain.Interfaces.Repository;
 using Synword.Infrastructure.SynonymDictionary.EngSynonymDictionary.Queries;
@@ -12,6 +14,8 @@ using Synword.Infrastructure.SynonymDictionary.RusSynonymDictionary.Queries;
 using Synword.Infrastructure.Synword;
 using Synword.PublicApi;
 using Synword.PublicApi.Middleware;
+
+NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +40,9 @@ builder.Services.AddSingleton(builder.Configuration);
 
 builder.Services.AddAutoMapper(typeof(DomainProfile));
 
+builder.Logging.ClearProviders();
+builder.Host.UseNLog();
+
 var app = builder.Build();
 
 app.Logger.LogInformation("PublicApi App created...");
@@ -47,12 +54,12 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
           | ForwardedHeaders.XForwardedProto
 });
 
-app.UseMiddleware<ExceptionMiddleware>();
-
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 }
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseRouting();
 

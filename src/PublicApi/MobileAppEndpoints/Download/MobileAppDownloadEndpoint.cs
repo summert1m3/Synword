@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
 using MinimalApi.Endpoint;
 
 namespace Synword.PublicApi.MobileAppEndpoints.Download;
