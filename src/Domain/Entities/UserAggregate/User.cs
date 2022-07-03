@@ -127,7 +127,7 @@ public class User : BaseEntity<string>, IAggregateRoot
                 lastVisitDate: dateTimeNow,
                 creationDate: dateTimeNow
             ),
-            coins: new Coins(DefaultUserDataConstants.InitialCoinsCount)
+            coins: new Coins(InitialUserDataConstants.InitialCoinsCount)
         );
 
         return guest;

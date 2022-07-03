@@ -261,3 +261,4 @@ DeploymentSettings.props
 Directory.Build.props
 Directory.Build.targets
 Packages.props
+*.sqlite

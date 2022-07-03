@@ -1,6 +1,6 @@
 ﻿namespace Synword.Domain.Constants;
 
-public static class DefaultUserDataConstants
+public static class InitialUserDataConstants
 {
     public const int InitialCoinsCount = 100;
 }

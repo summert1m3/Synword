@@ -31,6 +31,7 @@ An application for checking and enhancing the uniqueness of the text.
 - AutoMapper
 - MediatR
 - Swagger UI
+- NLog
 
 UI
 - React + Redux

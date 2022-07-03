@@ -25,7 +25,7 @@ public class UserTests
                 lastVisitDate: DefaultUserInitialData.DateTimeNow,
                 creationDate: DefaultUserInitialData.DateTimeNow
             ),
-            coins: new Coins(DefaultUserDataConstants.InitialCoinsCount)
+            coins: new Coins(InitialUserDataConstants.InitialCoinsCount)
         );
 
         // Act
