@@ -34,7 +34,7 @@ public class UserService : IUserService
 
         Guard.Against.Null(user, nameof(user));
         
-        string token = await _tokenClaimsService.GetTokenAsync(user.Id);
+        string token = await _tokenClaimsService.GenerateAccessToken(user.Id);
 
         return new UserAuthenticateDTO {Token = token};
     }

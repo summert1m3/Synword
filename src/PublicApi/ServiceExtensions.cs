@@ -5,6 +5,7 @@ using Application.Guests.Services;
 using Application.PlagiarismCheck.Services;
 using Application.Rephrase;
 using Application.Rephrase.Services;
+using Application.Token.Services;
 using Application.Users.Services;
 using Application.Validation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -184,6 +185,10 @@ public static class ServiceExtensions
         services.AddScoped(
             typeof(IEnhancedRephraseRequestValidation), 
             typeof(EnhancedRephraseRequestValidation));
+        services.AddScoped(
+            typeof(IAppTokenService), 
+            typeof(AppTokenService));
+        
         
         return services;
     }

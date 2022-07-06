@@ -1,6 +1,7 @@
 using Application.Guests.DTOs;
 using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Identity;
+using Synword.Domain.Entities.TokenAggregate;
 using Synword.Domain.Interfaces.Services;
 using Synword.Infrastructure.Identity;
 
@@ -8,25 +9,40 @@ namespace Application.Guests.Services;
 
 public class GuestService : IGuestService
 {
+    private readonly AppIdentityDbContext _db;
     private readonly UserManager<AppUser>? _userManager;
     private readonly ITokenClaimsService? _tokenClaimsService;
     
     public GuestService(
+        AppIdentityDbContext db,
         UserManager<AppUser> userManager, 
         ITokenClaimsService tokenClaimsService)
     {
+        _db = db;
         _userManager = userManager;
         _tokenClaimsService = tokenClaimsService;
     }
     
-    public async Task<GuestAuthenticateDTO> Authenticate(string userId, CancellationToken cancellationToken)
+    public async Task<GuestAuthenticateDTO> Authenticate(
+        string userId, 
+        CancellationToken cancellationToken)
     {
         AppUser? guest = await _userManager!.FindByIdAsync(userId);
 
         Guard.Against.Null(guest);
         
-        string token = await _tokenClaimsService!.GetTokenAsync(guest.Id);
+        string accessToken = await _tokenClaimsService!.GenerateAccessToken(guest.Id);
 
-        return new GuestAuthenticateDTO { Token = token };
+        RefreshToken refreshToken = await _tokenClaimsService.GenerateRefreshToken(
+                guest.Id, 
+                Guid.NewGuid().ToString());
+        
+        guest.AddRefreshToken(refreshToken);
+
+        _db.Update(guest);
+        
+        await _db.SaveChangesAsync(cancellationToken);
+
+        return new GuestAuthenticateDTO(accessToken, refreshToken.Token);
     }
 }
