@@ -1,4 +1,4 @@
-﻿using Synword.Domain.Entities.TokenAggregate;
+﻿using Synword.Domain.Entities.Identity.Token;
 
 namespace Synword.Domain.Interfaces.Services;
 

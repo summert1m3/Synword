@@ -1,4 +1,4 @@
-﻿using System.Security.Claims;
+using System.Security.Claims;
 using Application.Users.Commands;
 using Ardalis.ApiEndpoints;
 using Ardalis.GuardClauses;
@@ -7,23 +7,23 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Synword.Domain.Enums;
 
-namespace Synword.PublicApi.RegistrationEndpoints.ExternalEndpoints;
+namespace Synword.PublicApi.RegistrationEndpoints.Email;
 
-public class GoogleRegistrationEndpoint : EndpointBaseAsync
-    .WithRequest<GoogleRegistrationRequest>
+public class RegistrationByEmailEndpoint : EndpointBaseAsync
+    .WithRequest<RegistrationByEmailRequest>
     .WithActionResult
 {
     private readonly IMediator _mediator;
-    
-    public GoogleRegistrationEndpoint(IMediator mediator)
+
+    public RegistrationByEmailEndpoint(IMediator mediator)
     {
         _mediator = mediator;
     }
     
-    [HttpPost("registerViaGoogle")]
+    [HttpPost("registerViaEmail")]
     [Authorize(Roles = nameof(Role.Guest))]
     public override async Task<ActionResult> HandleAsync(
-        [FromForm]GoogleRegistrationRequest request,
+        [FromForm]RegistrationByEmailRequest request, 
         CancellationToken cancellationToken = default)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -33,9 +33,12 @@ public class GoogleRegistrationEndpoint : EndpointBaseAsync
         Guard.Against.NullOrEmpty(userId);
         
         await _mediator.Send(
-            new RegisterViaGoogleSignInCommand(request.AccessToken, userId), 
+            new RegisterViaEmailCommand(
+                request.Email,
+                request.Password,
+                userId), 
             cancellationToken);
 
-        return Ok("Google account is linked to Synword account");
+        return Ok("Confirmation code sent to email");
     }
 }

@@ -4,7 +4,7 @@ using Application.Exceptions;
 using Application.Token.DTOs;
 using Ardalis.GuardClauses;
 using Microsoft.EntityFrameworkCore;
-using Synword.Domain.Entities.TokenAggregate;
+using Synword.Domain.Entities.Identity.Token;
 using Synword.Domain.Interfaces.Services;
 using Synword.Infrastructure.Identity;
 

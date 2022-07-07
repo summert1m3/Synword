@@ -49,6 +49,19 @@ namespace Synword.Infrastructure.Identity.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "EmailConfirmationCodes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false),
+                    Code = table.Column<string>(type: "TEXT", nullable: false),
+                    Email = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmailConfirmationCodes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -235,6 +248,9 @@ namespace Synword.Infrastructure.Identity.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "EmailConfirmationCodes");
 
             migrationBuilder.DropTable(
                 name: "RefreshTokens");

@@ -1,4 +1,4 @@
-using System.Security.Claims;
+using Application.Exceptions;
 using Ardalis.GuardClauses;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -48,7 +48,7 @@ internal class RegisterViaGoogleSignInCommandHandler :
 
         if (await IsUserAlreadySignedIn(googleUserModel, cancellationToken))
         {
-            throw new Exception("UserAlreadySignedIn");
+            throw new AppValidationException("UserAlreadySignedIn");
         }
 
         User? user = 
@@ -61,8 +61,8 @@ internal class RegisterViaGoogleSignInCommandHandler :
         user.AddExternalSignIn(externalSignIn);
         
         AppUser identityUser = await _userManager.FindByIdAsync(user.Id);
-        await _userManager.RemoveFromRoleAsync(identityUser, Role.Guest.ToString());
-        await _userManager.AddToRoleAsync(identityUser, Role.User.ToString());
+
+        await ChangeRole(identityUser);
 
         await _userRepository.SaveChangesAsync(cancellationToken);
 
@@ -83,5 +83,11 @@ internal class RegisterViaGoogleSignInCommandHandler :
         }
 
         return false;
+    }
+    
+    private async Task ChangeRole(AppUser identityUser)
+    {
+        await _userManager.RemoveFromRoleAsync(identityUser, Role.Guest.ToString());
+        await _userManager.AddToRoleAsync(identityUser, Role.User.ToString());
     }
 }

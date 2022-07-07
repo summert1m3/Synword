@@ -11,7 +11,7 @@ using Synword.Infrastructure.Identity;
 namespace Synword.Infrastructure.Identity.Migrations
 {
     [DbContext(typeof(AppIdentityDbContext))]
-    [Migration("20220706211539_InitialMigration")]
+    [Migration("20220707170052_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -147,7 +147,18 @@ namespace Synword.Infrastructure.Identity.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Synword.Domain.Entities.TokenAggregate.RefreshToken", b =>
+            modelBuilder.Entity("Synword.Domain.Entities.Identity.EmailConfirmationCode", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EmailConfirmationCodes");
+                });
+
+            modelBuilder.Entity("Synword.Domain.Entities.Identity.Token.RefreshToken", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -292,7 +303,52 @@ namespace Synword.Infrastructure.Identity.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Synword.Domain.Entities.TokenAggregate.RefreshToken", b =>
+            modelBuilder.Entity("Synword.Domain.Entities.Identity.EmailConfirmationCode", b =>
+                {
+                    b.OwnsOne("Synword.Domain.Entities.Identity.ValueObjects.ConfirmationCode", "Code", b1 =>
+                        {
+                            b1.Property<int>("EmailConfirmationCodeId")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<string>("Code")
+                                .IsRequired()
+                                .HasColumnType("TEXT")
+                                .HasColumnName("Code");
+
+                            b1.HasKey("EmailConfirmationCodeId");
+
+                            b1.ToTable("EmailConfirmationCodes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("EmailConfirmationCodeId");
+                        });
+
+                    b.OwnsOne("Synword.Domain.Entities.UserAggregate.ValueObjects.Email", "Email", b1 =>
+                        {
+                            b1.Property<int>("EmailConfirmationCodeId")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("TEXT")
+                                .HasColumnName("Email");
+
+                            b1.HasKey("EmailConfirmationCodeId");
+
+                            b1.ToTable("EmailConfirmationCodes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("EmailConfirmationCodeId");
+                        });
+
+                    b.Navigation("Code")
+                        .IsRequired();
+
+                    b.Navigation("Email")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Synword.Domain.Entities.Identity.Token.RefreshToken", b =>
                 {
                     b.HasOne("Synword.Infrastructure.Identity.AppUser", null)
                         .WithMany("RefreshTokens")

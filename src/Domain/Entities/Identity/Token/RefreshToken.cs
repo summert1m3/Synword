@@ -1,8 +1,8 @@
 using Synword.Domain.Interfaces;
 
-namespace Synword.Domain.Entities.TokenAggregate;
+namespace Synword.Domain.Entities.Identity.Token;
 
-public class RefreshToken : BaseEntity, IAggregateRoot
+public class RefreshToken : BaseEntity
 {
     public RefreshToken(
         string token,

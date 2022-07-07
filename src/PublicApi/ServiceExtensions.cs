@@ -20,6 +20,9 @@ using Synword.Domain.Services.Rephrase;
 using Synword.Infrastructure.Identity;
 using Synword.Infrastructure.Services;
 using Synword.Infrastructure.Services.Docx;
+using Synword.Infrastructure.Services.Email;
+using Synword.Infrastructure.Services.Email.EmailConfirmationCodeService;
+using Synword.Infrastructure.Services.Email.EmailService;
 using Synword.Infrastructure.Services.Google;
 using Synword.Infrastructure.Services.PlagiarismCheckAPI;
 using Synword.Infrastructure.SynonymDictionary.EngSynonymDictionary;
@@ -188,7 +191,12 @@ public static class ServiceExtensions
         services.AddScoped(
             typeof(IAppTokenService), 
             typeof(AppTokenService));
-        
+        services.AddScoped(
+            typeof(IEmailService),
+            typeof(EmailService));
+        services.AddScoped(
+            typeof(IConfirmationCodeService),
+            typeof(ConfirmationCodeService));
         
         return services;
     }

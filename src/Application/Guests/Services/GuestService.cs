@@ -1,7 +1,7 @@
 using Application.Guests.DTOs;
 using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Identity;
-using Synword.Domain.Entities.TokenAggregate;
+using Synword.Domain.Entities.Identity.Token;
 using Synword.Domain.Interfaces.Services;
 using Synword.Infrastructure.Identity;
 

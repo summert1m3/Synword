@@ -4,6 +4,7 @@ using Synword.Domain.Entities.HistoryAggregate;
 using Synword.Domain.Entities.PlagiarismCheckAggregate;
 using Synword.Domain.Entities.RephraseAggregate;
 using Synword.Domain.Entities.UserAggregate;
+using Synword.Infrastructure.Synword.Config;
 
 namespace Synword.Infrastructure.Synword;
 
@@ -28,7 +29,10 @@ public class SynwordContext : DbContext
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        
+        builder.ApplyConfiguration(new UserConfiguration());
+        builder.ApplyConfiguration(new SynonymConfiguration());
+        builder.ApplyConfiguration(new MetadataConfiguration());
         
         builder.Entity<RephraseResult>().Navigation(
             r => r.History).AutoInclude();
