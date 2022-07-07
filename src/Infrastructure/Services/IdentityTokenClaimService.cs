@@ -1,39 +1,27 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Synword.Domain.Entities.Identity.Token;
 using Synword.Domain.Interfaces.Services;
-using Synword.Infrastructure.Identity;
 
 namespace Synword.Infrastructure.Services;
 
 public class IdentityTokenClaimService : ITokenClaimsService
 {
-    private readonly UserManager<AppUser> _userManager;
     private readonly IConfiguration _configuration;
 
     public IdentityTokenClaimService(
-        UserManager<AppUser> userManager,
         IConfiguration configuration)
     {
-        _userManager = userManager;
         _configuration = configuration;
     }
 
     public async Task<string> GenerateAccessToken(string uId)
     {
         var secretKey = _configuration["JWT_SECRET_KEY"];
-        var user = await _userManager.FindByIdAsync(uId);
-        var roles = await _userManager.GetRolesAsync(user);
         var claims = new List<Claim> {new(ClaimTypes.NameIdentifier, uId)};
-
-        foreach (var role in roles)
-        {
-            claims.Add(new Claim(ClaimTypes.Role, role));
-        }
 
         string token = Generate(
             secretKey,
@@ -50,7 +38,11 @@ public class IdentityTokenClaimService : ITokenClaimsService
     )
     {
         var secretKey = _configuration["JWT_SECRET_KEY"];
-        var claims = new List<Claim> {new(ClaimTypes.NameIdentifier, uId), new("deviceId", deviceId)};
+        var claims = new List<Claim>
+        {
+            new(ClaimTypes.NameIdentifier, uId), 
+            new("deviceId", deviceId)
+        };
 
         DateTime expirationDate = DateTime.UtcNow.AddDays(30);
 
