@@ -1,5 +1,7 @@
-﻿using Application.Users.Commands;
+﻿using System.Security.Claims;
+using Application.Users.Commands;
 using Ardalis.ApiEndpoints;
+using Ardalis.GuardClauses;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -26,8 +28,12 @@ public class GoogleRegistrationEndpoint : EndpointBaseAsync
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
         
+        string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        Guard.Against.NullOrEmpty(userId);
+        
         await _mediator.Send(
-            new RegisterNewGoogleUserCommand(request.AccessToken, User), 
+            new RegisterViaGoogleSignInCommand(request.AccessToken, userId), 
             cancellationToken);
 
         return Ok("Google account is linked to Synword account");

@@ -12,26 +12,26 @@ using Synword.Infrastructure.Services.Google;
 
 namespace Application.Users.Commands;
 
-public class RegisterNewGoogleUserCommand : IRequest
+public class RegisterViaGoogleSignInCommand : IRequest
 {
-    public RegisterNewGoogleUserCommand(string accessToken, ClaimsPrincipal user)
+    public RegisterViaGoogleSignInCommand(string accessToken, string uId)
     {
         AccessToken = accessToken;
-        User = user;
+        UId = uId;
     }
     
     public string AccessToken { get; }
-    public ClaimsPrincipal User { get; }
+    public string UId { get; }
 }
 
-internal class RegisterNewGoogleUserCommandHandler : 
-    IRequestHandler<RegisterNewGoogleUserCommand>
+internal class RegisterViaGoogleSignInCommandHandler : 
+    IRequestHandler<RegisterViaGoogleSignInCommand>
 {
     private readonly ISynwordRepository<User> _userRepository;
     private readonly IGoogleApi _googleApi;
     private readonly UserManager<AppUser> _userManager;
 
-    public RegisterNewGoogleUserCommandHandler(ISynwordRepository<User> userRepository,
+    public RegisterViaGoogleSignInCommandHandler(ISynwordRepository<User> userRepository,
         IGoogleApi googleApi, UserManager<AppUser> userManager)
     {
         _userRepository = userRepository;
@@ -39,22 +39,20 @@ internal class RegisterNewGoogleUserCommandHandler :
         _userManager = userManager;
     }
     
-    public async Task<Unit> Handle(RegisterNewGoogleUserCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(
+        RegisterViaGoogleSignInCommand request, 
+        CancellationToken cancellationToken)
     {
-        GoogleUserModel googleUserModel = await _googleApi.GetGoogleUserData(request.AccessToken);
-        var spec = new UserByExternalIdSpecification(googleUserModel.Id);
-        User? userBySpec = await _userRepository.GetBySpecAsync(spec, cancellationToken);
-        
-        if (userBySpec != null)
-        {
-            throw new Exception("User already exists");
-        }
-        
-        string? userId = request.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        GoogleUserModel googleUserModel = 
+            await _googleApi.GetGoogleUserData(request.AccessToken);
 
-        Guard.Against.Null(userId, nameof(userId));
-        
-        User? user = await _userRepository.GetByIdAsync(userId, cancellationToken);
+        if (await IsUserAlreadySignedIn(googleUserModel, cancellationToken))
+        {
+            throw new Exception("UserAlreadySignedIn");
+        }
+
+        User? user = 
+            await _userRepository.GetByIdAsync(request.UId, cancellationToken);
 
         Guard.Against.Null(user, nameof(user));
 
@@ -69,5 +67,21 @@ internal class RegisterNewGoogleUserCommandHandler :
         await _userRepository.SaveChangesAsync(cancellationToken);
 
         return Unit.Value;
+    }
+
+    private async Task<bool> IsUserAlreadySignedIn(
+        GoogleUserModel googleUserModel,
+        CancellationToken cancellationToken)
+    {
+        var spec = new UserByExternalIdSpecification(googleUserModel.Id);
+        User? userBySpec = 
+            await _userRepository.GetBySpecAsync(spec, cancellationToken);
+        
+        if (userBySpec is not null)
+        {
+            return true;
+        }
+
+        return false;
     }
 }
