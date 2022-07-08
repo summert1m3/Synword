@@ -102,6 +102,7 @@ public static class ServiceExtensions
                     new List<string>()
                 }
             });
+            c.EnableAnnotations();
         });
         
         return services;
