@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using Synword.Domain.Enums;
 using Synword.Infrastructure.Identity;
 
@@ -30,6 +31,9 @@ public class RegisterViaGoogleEndpoint : EndpointBaseAsync
     
     [HttpPost("registerViaGoogle")]
     [Authorize]
+    [SwaggerOperation(
+        Tags = new[] { "Registration" }
+    )]
     public override async Task<ActionResult> HandleAsync(
         [FromForm]RegisterViaGoogleRequest request,
         CancellationToken cancellationToken = default)

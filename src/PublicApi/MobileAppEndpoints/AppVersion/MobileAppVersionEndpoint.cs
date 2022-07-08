@@ -1,4 +1,5 @@
 using MinimalApi.Endpoint;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Synword.PublicApi.MobileAppEndpoints.AppVersion;
 
@@ -8,7 +9,10 @@ public class MobileAppVersionEndpoint : IEndpoint<IResult>
     
     public void AddRoute(IEndpointRouteBuilder app)
     {
-        app.MapGet("clientAppVersion", 
+        app.MapGet("clientAppVersion",
+                [SwaggerOperation(
+                    Tags = new[] { "Utility" }
+                )]
             async (IConfiguration configuration) =>
             {
                 _configuration = configuration;

@@ -1,4 +1,5 @@
 using MinimalApi.Endpoint;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Synword.PublicApi.MobileAppEndpoints.Download;
 
@@ -16,6 +17,9 @@ public class MobileAppDownloadEndpoint : IEndpoint<IResult>
     public void AddRoute(IEndpointRouteBuilder app)
     {
         app.MapGet("downloadMobileApp", 
+                [SwaggerOperation(
+                    Tags = new[] { "Utility" }
+                )]
                 async (IConfiguration configuration) => await HandleAsync())
             .Produces<IResult>();
     }

@@ -6,8 +6,9 @@ using Ardalis.ApiEndpoints;
 using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
-namespace Synword.PublicApi.RephraseEndpoints;
+namespace Synword.PublicApi.RephraseEndpoints.DefaultRephrase;
 
 public class RephraseEndpoint : EndpointBaseAsync
     .WithRequest<RephraseRequestModel>
@@ -21,6 +22,9 @@ public class RephraseEndpoint : EndpointBaseAsync
     
     [HttpPost("rephrase")]
     [Authorize]
+    [SwaggerOperation(
+        Tags = new[] { "App Feature" }
+    )]
     public override async Task<ActionResult<RephraseResultDTO>> HandleAsync(
         [FromForm]RephraseRequestModel request, 
         CancellationToken cancellationToken = default)

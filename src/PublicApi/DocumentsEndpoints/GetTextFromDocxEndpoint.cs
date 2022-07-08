@@ -3,6 +3,7 @@ using Application.Documents.Services;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Synword.PublicApi.DocumentsEndpoints;
 
@@ -24,6 +25,9 @@ public class GetTextFromDocxEndpoint : EndpointBaseAsync
     
     [HttpPost("getTextFromDocx")]
     [Authorize]
+    [SwaggerOperation(
+        Tags = new[] { "Utility" }
+    )]
     public override async Task<ActionResult<GetTextFromDocxResponse>>
         HandleAsync(
             [FromForm] GetTextFromDocxRequest request,

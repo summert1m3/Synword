@@ -5,6 +5,7 @@ using Ardalis.ApiEndpoints;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Synword.PublicApi.HistoriesEndpoints;
 
@@ -21,6 +22,9 @@ public class GetHistoryEndpoint : EndpointBaseAsync
     
     [HttpPost("getHistory")]
     [Authorize]
+    [SwaggerOperation(
+        Tags = new[] { "Utility" }
+    )]
     public override async Task<ActionResult<UserHistoriesDTO>> HandleAsync(
         CancellationToken cancellationToken = default)
     {

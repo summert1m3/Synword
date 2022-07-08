@@ -1,4 +1,5 @@
 ﻿using MinimalApi.Endpoint;
+using Swashbuckle.AspNetCore.Annotations;
 using Synword.Domain.Constants;
 
 namespace Synword.PublicApi.PriceListEndpoints;
@@ -8,6 +9,9 @@ public class PriceListEndpoint : IEndpoint<IResult>
     public void AddRoute(IEndpointRouteBuilder app)
     {
         app.MapGet("priceList", 
+            [SwaggerOperation(
+                Tags = new[] { "Utility" }
+            )]
             async () => await HandleAsync()
             ).Produces<PriceListResponse>();
     }

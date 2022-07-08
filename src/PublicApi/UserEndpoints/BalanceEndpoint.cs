@@ -5,6 +5,7 @@ using Ardalis.ApiEndpoints;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Synword.PublicApi.UserEndpoints;
 
@@ -20,7 +21,11 @@ public class BalanceEndpoint : EndpointBaseAsync
     }
     
     [HttpGet("balance")]
-    [Authorize]
+    [Authorize]                
+    [SwaggerOperation(
+        Tags = new[] { "Utility" }
+    )]
+    
     public override async Task<ActionResult<BalanceDTO>> HandleAsync(
         CancellationToken cancellationToken = default)
     {

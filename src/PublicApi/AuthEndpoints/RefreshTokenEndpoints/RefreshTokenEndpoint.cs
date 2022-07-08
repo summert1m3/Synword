@@ -2,6 +2,7 @@ using Application.Token.DTOs;
 using Application.Token.Services;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using Synword.PublicApi.AuthEndpoints.TokenEndpoints;
 
 namespace Synword.PublicApi.AuthEndpoints.RefreshTokenEndpoints;
@@ -18,6 +19,9 @@ public class RefreshTokenEndpoint : EndpointBaseAsync
     }
     
     [HttpPost("refreshToken")]
+    [SwaggerOperation(
+        Tags = new[] { "Utility" }
+    )]
     public override async Task<ActionResult<TokenDto>> 
         HandleAsync(
             [FromForm]RefreshTokenRequest request, 

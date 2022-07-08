@@ -2,6 +2,7 @@
 using Application.Users.Services;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Synword.PublicApi.AuthEndpoints.AuthViaEmailEndpoints;
 
@@ -17,6 +18,9 @@ public class AuthViaEmailEndpoint : EndpointBaseAsync
     }
     
     [HttpPost("authViaEmail")]
+    [SwaggerOperation(
+        Tags = new[] { "Authorization" }
+    )]
     public override async Task<ActionResult> HandleAsync(
         [FromForm]AuthViaEmailRequest request, 
         CancellationToken cancellationToken = default)

@@ -2,6 +2,7 @@
 using Application.Guests.DTOs;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Synword.PublicApi.AuthEndpoints.GuestEndpoints;
 
@@ -16,6 +17,9 @@ public class GuestAuthenticateEndpoint : EndpointBaseAsync
     }
     
     [HttpPost("guestAuth")]
+    [SwaggerOperation(
+        Tags = new[] { "Authorization" }
+    )]
     public override async Task<ActionResult<GuestAuthenticateDTO>> HandleAsync(
         [FromForm]GuestAuthenticateRequest request, 
         CancellationToken cancellationToken = default)

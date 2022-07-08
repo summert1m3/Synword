@@ -4,6 +4,7 @@ using Application.PlagiarismCheck.Services;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Synword.PublicApi.PlagiarismCheckEndpoints;
 
@@ -20,6 +21,9 @@ public class PlagiarismCheckEndpoint : EndpointBaseAsync
     
     [HttpPost("plagiarismCheck")]
     [Authorize]
+    [SwaggerOperation(
+        Tags = new[] { "App Feature" }
+    )]
     public override async Task<ActionResult<PlagiarismCheckResultDTO>> HandleAsync(
         [FromForm]PlagiarismCheckRequest request, 
         CancellationToken cancellationToken = default)

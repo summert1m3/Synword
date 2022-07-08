@@ -28,7 +28,13 @@ builder.Services.AddControllers();
 
 builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
 
-builder.Services.AddSwagger();
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddSwaggerGen(
+    c =>
+    {
+        c.EnableAnnotations();
+    });
 
 builder.Services.AddJwtBearerAuthentication(builder.Configuration);
 

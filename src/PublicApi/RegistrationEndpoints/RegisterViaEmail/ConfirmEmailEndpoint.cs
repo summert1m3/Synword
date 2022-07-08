@@ -5,6 +5,7 @@ using Ardalis.GuardClauses;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Synword.PublicApi.RegistrationEndpoints.RegisterViaEmail;
 
@@ -21,6 +22,9 @@ public class ConfirmEmailEndpoint : EndpointBaseAsync
     
     [HttpPost("confirmEmail")]
     [Authorize]
+    [SwaggerOperation(
+        Tags = new[] { "Registration" }
+    )]
     public override async Task<ActionResult> HandleAsync(
         [FromForm]ConfirmEmailRequest request, 
         CancellationToken cancellationToken = default)

@@ -5,9 +5,10 @@ using Ardalis.ApiEndpoints;
 using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using Synword.Domain.Services.EnhancedRephrase;
 
-namespace Synword.PublicApi.EnhancedRephraseEndpoints;
+namespace Synword.PublicApi.RephraseEndpoints.EnhancedRephrase;
 
 public class EnhancedRephraseEndpoint : EndpointBaseAsync
     .WithRequest<EnhancedRephraseRequestModel>
@@ -21,6 +22,9 @@ public class EnhancedRephraseEndpoint : EndpointBaseAsync
     
     [HttpPost("enhancedRephrase")]
     [Authorize]
+    [SwaggerOperation(
+        Tags = new[] { "App Feature" }
+    )]
     public override async Task<ActionResult<EnhancedRephraseResult>> 
         HandleAsync(
             [FromForm]EnhancedRephraseRequestModel request, 

@@ -2,6 +2,7 @@
 using Application.Users.Services;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Synword.PublicApi.AuthEndpoints.AuthViaGoogle;
 
@@ -17,6 +18,9 @@ public class AuthViaGoogleEndpoint : EndpointBaseAsync
     }
     
     [HttpPost("authViaGoogle")]
+    [SwaggerOperation(
+        Tags = new[] { "Authorization" }
+    )]
     public override async Task<ActionResult<UserAuthenticateDTO>> HandleAsync(
         [FromForm]AuthViaGoogleRequest request, 
         CancellationToken cancellationToken = default)
