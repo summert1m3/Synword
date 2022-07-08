@@ -2,8 +2,9 @@ using Application.Token.DTOs;
 using Application.Token.Services;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
+using Synword.PublicApi.AuthEndpoints.TokenEndpoints;
 
-namespace Synword.PublicApi.AuthEndpoints.TokenEndpoints;
+namespace Synword.PublicApi.AuthEndpoints.RefreshTokenEndpoints;
 
 public class RefreshTokenEndpoint : EndpointBaseAsync
     .WithRequest<RefreshTokenRequest>

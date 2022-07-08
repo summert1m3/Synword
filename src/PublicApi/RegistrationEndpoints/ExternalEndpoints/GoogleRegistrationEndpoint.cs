@@ -1,11 +1,14 @@
 ﻿using System.Security.Claims;
+using Application.Exceptions;
 using Application.Users.Commands;
 using Ardalis.ApiEndpoints;
 using Ardalis.GuardClauses;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Synword.Domain.Enums;
+using Synword.Infrastructure.Identity;
 
 namespace Synword.PublicApi.RegistrationEndpoints.ExternalEndpoints;
 
@@ -14,14 +17,19 @@ public class GoogleRegistrationEndpoint : EndpointBaseAsync
     .WithActionResult
 {
     private readonly IMediator _mediator;
+    private readonly UserManager<AppUser> _userManager;
     
-    public GoogleRegistrationEndpoint(IMediator mediator)
+    public GoogleRegistrationEndpoint(
+        IMediator mediator,
+        UserManager<AppUser> userManager
+        )
     {
         _mediator = mediator;
+        _userManager = userManager;
     }
     
     [HttpPost("registerViaGoogle")]
-    [Authorize(Roles = nameof(Role.Guest))]
+    [Authorize]
     public override async Task<ActionResult> HandleAsync(
         [FromForm]GoogleRegistrationRequest request,
         CancellationToken cancellationToken = default)
@@ -32,10 +40,29 @@ public class GoogleRegistrationEndpoint : EndpointBaseAsync
 
         Guard.Against.NullOrEmpty(userId);
         
+        if (await IsUserAlreadyRegistered(userId))
+        {
+            throw new AppValidationException("You are already registered");
+        }
+        
         await _mediator.Send(
             new RegisterViaGoogleSignInCommand(request.AccessToken, userId), 
             cancellationToken);
 
         return Ok("Google account is linked to Synword account");
+    }
+    
+    private async Task<bool> IsUserAlreadyRegistered(string userId)
+    {
+        AppUser userIdentity = await _userManager.FindByIdAsync(userId);
+
+        var roles = await _userManager.GetRolesAsync(userIdentity);
+
+        if (!roles.Contains(nameof(Role.Guest)))
+        {
+            return true;
+        }
+
+        return false;
     }
 }
