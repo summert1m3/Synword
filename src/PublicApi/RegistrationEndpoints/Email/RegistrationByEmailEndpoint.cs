@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using Application.Exceptions;
+using Application.Guests.Commands;
 using Application.Users.Commands;
 using Ardalis.ApiEndpoints;
 using Ardalis.GuardClauses;

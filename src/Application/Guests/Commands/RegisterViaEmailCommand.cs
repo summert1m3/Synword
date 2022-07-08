@@ -8,7 +8,7 @@ using Synword.Domain.Interfaces.Repository;
 using Synword.Infrastructure.Identity;
 using Synword.Infrastructure.Services.Email.EmailService;
 
-namespace Application.Users.Commands;
+namespace Application.Guests.Commands;
 
 public class RegisterViaEmailCommand : IRequest
 {

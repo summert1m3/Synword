@@ -34,7 +34,7 @@ public class UserService : IUserService
         _tokenClaimsService = tokenClaimsService;
     }
     
-    public async Task<UserAuthenticateDTO> Authenticate(
+    public async Task<UserAuthenticateDTO> AuthenticateViaGoogleSignIn(
         string googleAccessToken, CancellationToken cancellationToken)
     {
         User user = await GetUserByGoogleAccessToken(

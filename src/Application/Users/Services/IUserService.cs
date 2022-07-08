@@ -4,6 +4,6 @@ namespace Application.Users.Services;
 
 public interface IUserService
 {
-    public Task<UserAuthenticateDTO> Authenticate(
+    public Task<UserAuthenticateDTO> AuthenticateViaGoogleSignIn(
         string accessToken, CancellationToken cancellationToken);
 }

@@ -10,7 +10,7 @@ using Synword.Domain.Specifications;
 using Synword.Infrastructure.Identity;
 using Synword.Infrastructure.Services.Google;
 
-namespace Application.Users.Commands;
+namespace Application.Guests.Commands;
 
 public class RegisterViaGoogleSignInCommand : IRequest
 {
