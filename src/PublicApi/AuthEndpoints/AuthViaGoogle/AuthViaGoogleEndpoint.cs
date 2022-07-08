@@ -3,22 +3,22 @@ using Application.Users.Services;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Synword.PublicApi.AuthEndpoints.ExternalEndpoints;
+namespace Synword.PublicApi.AuthEndpoints.AuthViaGoogle;
 
-public class GoogleAuthenticateEndpoint : EndpointBaseAsync
-    .WithRequest<GoogleAuthenticateRequest>
+public class AuthViaGoogleEndpoint : EndpointBaseAsync
+    .WithRequest<AuthViaGoogleRequest>
     .WithActionResult<UserAuthenticateDTO>
 {
     private readonly IUserService _userService;
     
-    public GoogleAuthenticateEndpoint(IUserService userService)
+    public AuthViaGoogleEndpoint(IUserService userService)
     {
         _userService = userService;
     }
     
-    [HttpPost("googleAuthenticate")]
+    [HttpPost("authViaGoogle")]
     public override async Task<ActionResult<UserAuthenticateDTO>> HandleAsync(
-        [FromForm]GoogleAuthenticateRequest request, 
+        [FromForm]AuthViaGoogleRequest request, 
         CancellationToken cancellationToken = default)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);

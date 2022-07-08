@@ -1,7 +1,6 @@
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using Application.Exceptions;
 using Application.Guests.Commands;
-using Application.Users.Commands;
 using Ardalis.ApiEndpoints;
 using Ardalis.GuardClauses;
 using MediatR;
@@ -11,56 +10,48 @@ using Microsoft.AspNetCore.Mvc;
 using Synword.Domain.Enums;
 using Synword.Infrastructure.Identity;
 
-namespace Synword.PublicApi.RegistrationEndpoints.Email;
+namespace Synword.PublicApi.RegistrationEndpoints.RegisterViaGoogle;
 
-public class RegistrationByEmailEndpoint : EndpointBaseAsync
-    .WithRequest<RegistrationByEmailRequest>
+public class RegisterViaGoogleEndpoint : EndpointBaseAsync
+    .WithRequest<RegisterViaGoogleRequest>
     .WithActionResult
 {
     private readonly IMediator _mediator;
     private readonly UserManager<AppUser> _userManager;
-
-    public RegistrationByEmailEndpoint(
+    
+    public RegisterViaGoogleEndpoint(
         IMediator mediator,
-        UserManager<AppUser> userManager)
+        UserManager<AppUser> userManager
+        )
     {
         _mediator = mediator;
         _userManager = userManager;
     }
     
-    [HttpPost("registerViaEmail")]
+    [HttpPost("registerViaGoogle")]
     [Authorize]
     public override async Task<ActionResult> HandleAsync(
-        [FromForm]RegistrationByEmailRequest request, 
+        [FromForm]RegisterViaGoogleRequest request,
         CancellationToken cancellationToken = default)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
         
         string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        
-        Guard.Against.NullOrEmpty(userId);
 
+        Guard.Against.NullOrEmpty(userId);
+        
         if (await IsUserAlreadyRegistered(userId))
         {
             throw new AppValidationException("You are already registered");
         }
-
-        if (await IsUserRegisteredWithSameEmail(request.Email))
-        {
-            throw new AppValidationException(
-                "The user with this email is already registered");
-        }
         
         await _mediator.Send(
-            new RegisterViaEmailCommand(
-                request.Email,
-                request.Password,
-                userId), 
+            new RegisterViaGoogleSignInCommand(request.AccessToken, userId), 
             cancellationToken);
 
-        return Ok("Confirmation code sent to email");
+        return Ok("Google account is linked to Synword account");
     }
-
+    
     private async Task<bool> IsUserAlreadyRegistered(string userId)
     {
         AppUser userIdentity = await _userManager.FindByIdAsync(userId);
@@ -68,18 +59,6 @@ public class RegistrationByEmailEndpoint : EndpointBaseAsync
         var roles = await _userManager.GetRolesAsync(userIdentity);
 
         if (!roles.Contains(nameof(Role.Guest)))
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    private async Task<bool> IsUserRegisteredWithSameEmail(string email)
-    {
-        AppUser userIdentity = await _userManager.FindByEmailAsync(email);
-
-        if (userIdentity is not null)
         {
             return true;
         }

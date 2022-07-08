@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Synword.PublicApi.AuthEndpoints.ExternalEndpoints;
+namespace Synword.PublicApi.RegistrationEndpoints.RegisterViaGoogle;
 
-public class GoogleAuthenticateRequest
+public class RegisterViaGoogleRequest
 {
     [Required]
     public string? AccessToken { get; set; }

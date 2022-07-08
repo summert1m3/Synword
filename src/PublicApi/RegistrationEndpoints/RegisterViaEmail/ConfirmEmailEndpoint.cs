@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Synword.PublicApi.RegistrationEndpoints.Email;
+namespace Synword.PublicApi.RegistrationEndpoints.RegisterViaEmail;
 
 public class ConfirmEmailEndpoint : EndpointBaseAsync
     .WithRequest<ConfirmEmailRequest>

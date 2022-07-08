@@ -5,7 +5,7 @@ using Ardalis.ApiEndpoints;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Synword.PublicApi.RegistrationEndpoints.GuestEndpoints;
+namespace Synword.PublicApi.RegistrationEndpoints.GuestRegistration;
 
 public class GuestRegistrationEndpoint : EndpointBaseAsync
     .WithoutRequest
