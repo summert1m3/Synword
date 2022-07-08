@@ -18,6 +18,8 @@ public class ConfirmationCodeService : IConfirmationCodeService
     
     public async Task<EmailConfirmationCode> CreateNew(string email)
     {
+        RemoveOldCodeIfExist(email);
+
         int _min = 1000;
         int _max = 9999;
         Random _rdm = new Random();
@@ -33,9 +35,9 @@ public class ConfirmationCodeService : IConfirmationCodeService
         return codeModel;
     }
 
-    public async Task RemoveCode(EmailConfirmationCode code)
+    public async Task RemoveCodeFromDb(EmailConfirmationCode code)
     {
-        _db.Remove(code);
+        _db.EmailConfirmationCodes.Remove(code);
         await _db.SaveChangesAsync();
     }
 
@@ -50,5 +52,16 @@ public class ConfirmationCodeService : IConfirmationCodeService
         }
 
         return false;
+    }
+
+    private void RemoveOldCodeIfExist(string email)
+    {
+        var code = _db.EmailConfirmationCodes.FirstOrDefault(
+            e => e.Email.Value == email);
+
+        if (code is not null)
+        {
+            _db.EmailConfirmationCodes.Remove(code);
+        }
     }
 }

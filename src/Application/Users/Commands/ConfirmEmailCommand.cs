@@ -1,8 +1,10 @@
 using Application.Exceptions;
+using Ardalis.GuardClauses;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Synword.Domain.Entities.Identity;
 using Synword.Infrastructure.Identity;
+using Synword.Infrastructure.Services.Email.EmailConfirmationCodeService;
 
 namespace Application.Users.Commands;
 
@@ -10,34 +12,36 @@ public class ConfirmEmailCommand : IRequest
 {
     public ConfirmEmailCommand(
         string confirmationCode,
-        string uId)
+        AppUser identityUser)
     {
+        Guard.Against.Null(identityUser);
+        
         ConfirmationCode = confirmationCode;
-        UId = uId;
+        IdentityUser = identityUser;
     }
     
     public string ConfirmationCode { get; }
-    public string UId { get; }
+    public AppUser IdentityUser { get; }
 }
 
 internal class ConfirmEmailCommandHandler : IRequestHandler<ConfirmEmailCommand>
 {
-    private readonly UserManager<AppUser> _userManager;
     private readonly AppIdentityDbContext _identityDb;
+    private readonly IConfirmationCodeService _confirmationCodeService;
     
     public ConfirmEmailCommandHandler(
-        UserManager<AppUser> userManager,
-        AppIdentityDbContext identityDb)
+        AppIdentityDbContext identityDb,
+        IConfirmationCodeService confirmationCodeService)
     {
-        _userManager = userManager;
         _identityDb = identityDb;
+        _confirmationCodeService = confirmationCodeService;
     }
     
     public async Task<Unit> Handle(
         ConfirmEmailCommand request, 
         CancellationToken cancellationToken)
     {
-        AppUser userIdentity = await _userManager.FindByIdAsync(request.UId);
+        AppUser userIdentity = request.IdentityUser;
 
         EmailConfirmationCode? code = _identityDb.EmailConfirmationCodes
                 .FirstOrDefault(
@@ -47,7 +51,7 @@ internal class ConfirmEmailCommandHandler : IRequestHandler<ConfirmEmailCommand>
 
         userIdentity.EmailConfirmed = true;
 
-        await RemoveCodeFromDb(code!, cancellationToken);
+        await _confirmationCodeService.RemoveCodeFromDb(code);
         
         return Unit.Value;
     }
@@ -65,13 +69,5 @@ internal class ConfirmEmailCommandHandler : IRequestHandler<ConfirmEmailCommand>
         {
             throw new AppValidationException("Invalid code");
         }
-    }
-
-    private async Task RemoveCodeFromDb(
-        EmailConfirmationCode code,
-        CancellationToken cancellationToken)
-    {
-        _identityDb.EmailConfirmationCodes.Remove(code!);
-        await _identityDb.SaveChangesAsync(cancellationToken);
     }
 }

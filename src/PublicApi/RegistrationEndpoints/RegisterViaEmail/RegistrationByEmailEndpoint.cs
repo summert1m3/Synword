@@ -61,7 +61,7 @@ public class RegistrationByEmailEndpoint : EndpointBaseAsync
                 userId), 
             cancellationToken);
 
-        return Ok("Confirmation code sent to email");
+        return Ok("The mail has been successfully attached to the account");
     }
 
     private async Task<bool> IsUserAlreadyRegistered(string userId)

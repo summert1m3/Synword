@@ -69,8 +69,6 @@ internal class RegisterViaEmailCommandHandler
         await ChangeRole(identityUser);
 
         await _userManager.UpdateAsync(identityUser);
-        
-        await SendConfirmationEmail(request.Email);
 
         return Unit.Value;
     }
@@ -85,11 +83,6 @@ internal class RegisterViaEmailCommandHandler
         }
 
         return false;
-    }
-
-    private async Task SendConfirmationEmail(string email)
-    {
-        await _emailService.SendConfirmationEmailAsync(email);
     }
 
     private async Task ChangeRole(AppUser identityUser)

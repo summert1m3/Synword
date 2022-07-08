@@ -1,29 +1,37 @@
 using System.Security.Claims;
+using Application.Exceptions;
 using Application.Users.Commands;
 using Ardalis.ApiEndpoints;
 using Ardalis.GuardClauses;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using Synword.Infrastructure.Identity;
+using Synword.PublicApi.RegistrationEndpoints.RegisterViaEmail;
 
-namespace Synword.PublicApi.RegistrationEndpoints.RegisterViaEmail;
+namespace Synword.PublicApi.ConfirmationEmailEndpoints;
 
 public class ConfirmEmailEndpoint : EndpointBaseAsync
     .WithRequest<ConfirmEmailRequest>
     .WithActionResult
 {
     private readonly IMediator _mediator;
+    private readonly UserManager<AppUser> _userManager;
     
-    public ConfirmEmailEndpoint(IMediator mediator)
+    public ConfirmEmailEndpoint(
+        IMediator mediator,
+        UserManager<AppUser> userManager)
     {
         _mediator = mediator;
+        _userManager = userManager;
     }
     
     [HttpPost("confirmEmail")]
     [Authorize]
     [SwaggerOperation(
-        Tags = new[] { "Registration" }
+        Tags = new[] { "Email" }
     )]
     public override async Task<ActionResult> HandleAsync(
         [FromForm]ConfirmEmailRequest request, 
@@ -32,13 +40,20 @@ public class ConfirmEmailEndpoint : EndpointBaseAsync
         if (!ModelState.IsValid) return BadRequest(ModelState);
         
         string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-        Guard.Against.NullOrEmpty(userId);
         
+        AppUser? identityUser = 
+            await _userManager!.FindByIdAsync(userId);
+        Guard.Against.Null(identityUser);
+
+        if (identityUser.EmailConfirmed)
+        {
+            throw new AppValidationException("Email already confirmed");
+        }
+
         await _mediator.Send(
             new ConfirmEmailCommand(
                 request.ConfirmationCode,
-                userId),
+                identityUser),
             cancellationToken);
         
         return Ok("Email has been successfully confirmed");
