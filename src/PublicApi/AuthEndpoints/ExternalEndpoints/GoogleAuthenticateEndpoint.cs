@@ -24,7 +24,7 @@ public class GoogleAuthenticateEndpoint : EndpointBaseAsync
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
         UserAuthenticateDTO token = await _userService
-            .AuthenticateViaGoogleSignIn(request.AccessToken, cancellationToken);
+            .AuthViaGoogleSignIn(request.AccessToken, cancellationToken);
         
         return Ok(token);
     }

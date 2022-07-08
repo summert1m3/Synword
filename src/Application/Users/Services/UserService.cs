@@ -1,3 +1,4 @@
+using Application.Exceptions;
 using Application.Users.DTOs;
 using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Identity;
@@ -18,13 +19,15 @@ public class UserService : IUserService
     private readonly ISynwordRepository<User> _userRepository;
     private readonly IGoogleApi _googleApi;
     private readonly ITokenClaimsService _tokenClaimsService;
+    private readonly IPasswordHasher<AppUser> _passwordHasher;
 
     public UserService(
         UserManager<AppUser> userManager,
         AppIdentityDbContext identityDb,
         IGoogleApi googleApi, 
         ISynwordRepository<User> userRepository, 
-        ITokenClaimsService tokenClaimsService
+        ITokenClaimsService tokenClaimsService,
+        IPasswordHasher<AppUser> passwordHasher
         )
     {
         _userManager = userManager;
@@ -32,10 +35,12 @@ public class UserService : IUserService
         _userRepository = userRepository;
         _googleApi = googleApi;
         _tokenClaimsService = tokenClaimsService;
+        _passwordHasher = passwordHasher;
     }
     
-    public async Task<UserAuthenticateDTO> AuthenticateViaGoogleSignIn(
-        string googleAccessToken, CancellationToken cancellationToken)
+    public async Task<UserAuthenticateDTO> AuthViaGoogleSignIn(
+        string googleAccessToken, 
+        CancellationToken cancellationToken = default)
     {
         User user = await GetUserByGoogleAccessToken(
             googleAccessToken,
@@ -44,19 +49,43 @@ public class UserService : IUserService
         AppUser? userIdentity = await _userManager!.FindByIdAsync(user.Id);
         Guard.Against.Null(userIdentity);
         
-        string accessToken = await _tokenClaimsService!.GenerateAccessToken(user.Id);
+        UserAuthenticateDTO tokens =
+            await GenerateTokens(userIdentity, cancellationToken);
 
-        RefreshToken refreshToken = await _tokenClaimsService.GenerateRefreshToken(
-            user.Id, 
-            Guid.NewGuid().ToString());
+        return tokens;
+    }
 
-        userIdentity.AddRefreshToken(refreshToken);
+    public async Task<UserAuthenticateDTO> AuthViaEmail(
+        string email, 
+        string password, 
+        CancellationToken cancellationToken = default)
+    {
+        AppUser userIdentity = await _userManager.FindByEmailAsync(email);
 
-        _identityDb.Update(userIdentity);
+        if (userIdentity is null)
+        {
+            throw new AppValidationException("Invalid email or password");
+        }
+
+        if (!userIdentity.EmailConfirmed)
+        {
+            throw new AppValidationException("Email not confirmed");
+        }
+
+        var passwordVerificationResult = _passwordHasher.VerifyHashedPassword(
+            userIdentity,
+            userIdentity.PasswordHash,
+            password);
+
+        if (passwordVerificationResult == PasswordVerificationResult.Failed)
+        {
+            throw new AppValidationException("Invalid email or password");
+        }
         
-        await _identityDb.SaveChangesAsync(cancellationToken);
+        UserAuthenticateDTO tokens =
+            await GenerateTokens(userIdentity, cancellationToken);
 
-        return new UserAuthenticateDTO(accessToken, refreshToken.Token);
+        return tokens;
     }
 
     private async Task<User> GetUserByGoogleAccessToken(
@@ -68,10 +97,31 @@ public class UserService : IUserService
         
         var userSpec = new UserByExternalIdSpecification(googleUserModel.Id);
         
-        User? user = await _userRepository.GetBySpecAsync(userSpec, cancellationToken);
+        User? user = 
+            await _userRepository.GetBySpecAsync(userSpec, cancellationToken);
 
         Guard.Against.Null(user, nameof(user));
 
         return user;
+    }
+
+    private async Task<UserAuthenticateDTO> GenerateTokens(
+        AppUser userIdentity,
+        CancellationToken cancellationToken = default)
+    {
+        string accessToken = 
+            await _tokenClaimsService!.GenerateAccessToken(userIdentity.Id);
+
+        RefreshToken refreshToken = await _tokenClaimsService.GenerateRefreshToken(
+            userIdentity.Id, 
+            Guid.NewGuid().ToString());
+
+        userIdentity.AddRefreshToken(refreshToken);
+
+        _identityDb.Update(userIdentity);
+        
+        await _identityDb.SaveChangesAsync(cancellationToken);
+
+        return new UserAuthenticateDTO(accessToken, refreshToken.Token);
     }
 }
