@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Synword.Infrastructure.Services.Docx;
 
-namespace Application.Documents.Services;
+namespace Application.Utility.Documents.Services;
 
 public class AppDocxService : IAppDocxService
 {

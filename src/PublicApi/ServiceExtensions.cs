@@ -1,11 +1,11 @@
 ﻿using System.Text;
-using Application.Documents.Services;
 using Application.EnhancedRephrase.Services;
 using Application.Guests.Services;
 using Application.PlagiarismCheck.Services;
 using Application.Rephrase.Services;
-using Application.Token.Services;
 using Application.Users.Services;
+using Application.Utility.Documents.Services;
+using Application.Utility.Token.Services;
 using Application.Validation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Http;
 
-namespace Application.Documents.Services;
+namespace Application.Utility.Documents.Services;
 
 public interface IAppDocxService
 {

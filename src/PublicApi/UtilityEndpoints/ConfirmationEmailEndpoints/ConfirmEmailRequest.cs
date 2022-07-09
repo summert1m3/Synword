@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Synword.PublicApi.ConfirmationEmailEndpoints;
+namespace Synword.PublicApi.UtilityEndpoints.ConfirmationEmailEndpoints;
 
 public class ConfirmEmailRequest
 {

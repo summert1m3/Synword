@@ -1,6 +1,6 @@
-using Application.Token.DTOs;
+using Application.Utility.Token.DTOs;
 
-namespace Application.Token.Services;
+namespace Application.Utility.Token.Services;
 
 public interface IAppTokenService
 {

@@ -1,4 +1,4 @@
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using Application.Exceptions;
 using Application.Users.Commands;
 using Ardalis.ApiEndpoints;
@@ -9,36 +9,32 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Synword.Infrastructure.Identity;
-using Synword.PublicApi.RegistrationEndpoints.RegisterViaEmail;
 
-namespace Synword.PublicApi.ConfirmationEmailEndpoints;
+namespace Synword.PublicApi.UtilityEndpoints.ConfirmationEmailEndpoints;
 
-public class ConfirmEmailEndpoint : EndpointBaseAsync
-    .WithRequest<ConfirmEmailRequest>
+public class SendConfirmationCodeEndpoint : EndpointBaseAsync
+    .WithoutRequest
     .WithActionResult
 {
     private readonly IMediator _mediator;
-    private readonly UserManager<AppUser> _userManager;
-    
-    public ConfirmEmailEndpoint(
+    private readonly UserManager<AppUser>? _userManager;
+
+    public SendConfirmationCodeEndpoint(
         IMediator mediator,
-        UserManager<AppUser> userManager)
+        UserManager<AppUser>? userManager)
     {
         _mediator = mediator;
         _userManager = userManager;
     }
     
-    [HttpPost("confirmEmail")]
+    [HttpPost("sendConfirmationCode")]
     [Authorize]
     [SwaggerOperation(
         Tags = new[] { "Email" }
     )]
     public override async Task<ActionResult> HandleAsync(
-        [FromForm]ConfirmEmailRequest request, 
         CancellationToken cancellationToken = default)
     {
-        if (!ModelState.IsValid) return BadRequest(ModelState);
-        
         string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         
         AppUser? identityUser = 
@@ -49,13 +45,11 @@ public class ConfirmEmailEndpoint : EndpointBaseAsync
         {
             throw new AppValidationException("Email already confirmed");
         }
-
+        
         await _mediator.Send(
-            new ConfirmEmailCommand(
-                request.ConfirmationCode,
-                identityUser),
+            new SendConfirmEmailCommand(identityUser),
             cancellationToken);
         
-        return Ok("Email has been successfully confirmed");
+        return Ok("Confirmation code sent to email");
     }
 }

@@ -1,14 +1,14 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Application.Exceptions;
-using Application.Token.DTOs;
+using Application.Utility.Token.DTOs;
 using Ardalis.GuardClauses;
 using Microsoft.EntityFrameworkCore;
 using Synword.Domain.Entities.Identity.Token;
 using Synword.Domain.Interfaces.Services;
 using Synword.Infrastructure.Identity;
 
-namespace Application.Token.Services;
+namespace Application.Utility.Token.Services;
 
 public class AppTokenService : IAppTokenService
 {

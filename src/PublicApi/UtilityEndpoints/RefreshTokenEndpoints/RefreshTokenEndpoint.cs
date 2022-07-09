@@ -1,5 +1,5 @@
-using Application.Token.DTOs;
-using Application.Token.Services;
+using Application.Utility.Token.DTOs;
+using Application.Utility.Token.Services;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
