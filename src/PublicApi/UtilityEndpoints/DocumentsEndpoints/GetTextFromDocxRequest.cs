@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Synword.PublicApi.DocumentsEndpoints;
+namespace Synword.PublicApi.UtilityEndpoints.DocumentsEndpoints;
 
 public class GetTextFromDocxRequest
 {

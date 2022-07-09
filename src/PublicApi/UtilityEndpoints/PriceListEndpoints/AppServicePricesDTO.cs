@@ -1,4 +1,4 @@
-namespace Synword.PublicApi.PriceListEndpoints;
+namespace Synword.PublicApi.UtilityEndpoints.PriceListEndpoints;
 
 public class AppServicePricesDTO
 {

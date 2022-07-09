@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace Synword.PublicApi.DocumentsEndpoints;
+namespace Synword.PublicApi.UtilityEndpoints.DocumentsEndpoints;
 
 public class GetTextFromDocxEndpoint : EndpointBaseAsync
     .WithRequest<GetTextFromDocxRequest>

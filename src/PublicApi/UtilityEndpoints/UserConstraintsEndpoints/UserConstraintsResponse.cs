@@ -1,6 +1,6 @@
 ﻿using Synword.Domain.Constants;
 
-namespace Synword.PublicApi.UserConstraintsEndpoints;
+namespace Synword.PublicApi.UtilityEndpoints.UserConstraintsEndpoints;
 
 public class UserConstraintsResponse
 {

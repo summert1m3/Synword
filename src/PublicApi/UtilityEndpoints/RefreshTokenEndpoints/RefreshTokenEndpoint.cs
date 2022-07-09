@@ -3,9 +3,8 @@ using Application.Token.Services;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using Synword.PublicApi.AuthEndpoints.TokenEndpoints;
 
-namespace Synword.PublicApi.AuthEndpoints.RefreshTokenEndpoints;
+namespace Synword.PublicApi.UtilityEndpoints.RefreshTokenEndpoints;
 
 public class RefreshTokenEndpoint : EndpointBaseAsync
     .WithRequest<RefreshTokenRequest>

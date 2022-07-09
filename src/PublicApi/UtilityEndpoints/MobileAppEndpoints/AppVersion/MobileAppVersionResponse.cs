@@ -1,4 +1,4 @@
-namespace Synword.PublicApi.MobileAppEndpoints.AppVersion;
+namespace Synword.PublicApi.UtilityEndpoints.MobileAppEndpoints.AppVersion;
 
 public class MobileAppVersionResponse
 {

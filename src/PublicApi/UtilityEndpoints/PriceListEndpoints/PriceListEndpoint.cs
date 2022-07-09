@@ -2,7 +2,7 @@
 using Swashbuckle.AspNetCore.Annotations;
 using Synword.Domain.Constants;
 
-namespace Synword.PublicApi.PriceListEndpoints;
+namespace Synword.PublicApi.UtilityEndpoints.PriceListEndpoints;
 
 public class PriceListEndpoint : IEndpoint<IResult>
 {

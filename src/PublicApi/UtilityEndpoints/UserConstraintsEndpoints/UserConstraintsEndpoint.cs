@@ -2,7 +2,7 @@
 using Swashbuckle.AspNetCore.Annotations;
 using Synword.Domain.Constants;
 
-namespace Synword.PublicApi.UserConstraintsEndpoints;
+namespace Synword.PublicApi.UtilityEndpoints.UserConstraintsEndpoints;
 
 public class UserConstraintsEndpoint : IEndpoint<IResult>
 {

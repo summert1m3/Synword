@@ -1,7 +1,7 @@
 using MinimalApi.Endpoint;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace Synword.PublicApi.MobileAppEndpoints.Download;
+namespace Synword.PublicApi.UtilityEndpoints.MobileAppEndpoints.Download;
 
 public class MobileAppDownloadEndpoint : IEndpoint<IResult>
 {

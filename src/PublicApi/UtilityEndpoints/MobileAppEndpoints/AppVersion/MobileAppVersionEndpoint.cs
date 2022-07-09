@@ -1,7 +1,7 @@
 using MinimalApi.Endpoint;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace Synword.PublicApi.MobileAppEndpoints.AppVersion;
+namespace Synword.PublicApi.UtilityEndpoints.MobileAppEndpoints.AppVersion;
 
 public class MobileAppVersionEndpoint : IEndpoint<IResult>
 {

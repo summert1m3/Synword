@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace Synword.PublicApi.HistoriesEndpoints;
+namespace Synword.PublicApi.UtilityEndpoints.HistoriesEndpoints;
 
 public class GetHistoryEndpoint : EndpointBaseAsync
     .WithoutRequest

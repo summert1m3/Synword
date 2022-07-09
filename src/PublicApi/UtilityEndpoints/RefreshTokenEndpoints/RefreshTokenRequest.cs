@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Synword.PublicApi.AuthEndpoints.TokenEndpoints;
+namespace Synword.PublicApi.UtilityEndpoints.RefreshTokenEndpoints;
 
 public class RefreshTokenRequest
 {
