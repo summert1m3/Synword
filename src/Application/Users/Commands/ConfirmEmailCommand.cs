@@ -1,7 +1,6 @@
 using Application.Exceptions;
 using Ardalis.GuardClauses;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using Synword.Domain.Entities.Identity;
 using Synword.Infrastructure.Identity;
 using Synword.Infrastructure.Services.Email.EmailConfirmationCodeService;

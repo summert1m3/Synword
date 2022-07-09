@@ -1,5 +1,4 @@
 ﻿using Ardalis.GuardClauses;
-using Synword.Domain.Constants;
 using Synword.Domain.Entities.UserAggregate;
 
 namespace Application.Validation;

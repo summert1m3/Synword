@@ -2,7 +2,6 @@
 using Ardalis.GuardClauses;
 using Synword.Domain.Constants;
 using Synword.Domain.Entities.UserAggregate;
-using Synword.Domain.Extensions;
 using Synword.Domain.Interfaces.Repository;
 using Synword.Domain.Interfaces.Services;
 using Synword.Domain.Services.EnhancedRephrase;

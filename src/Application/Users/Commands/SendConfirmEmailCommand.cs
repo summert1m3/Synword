@@ -1,6 +1,5 @@
 ﻿using Ardalis.GuardClauses;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using Synword.Infrastructure.Identity;
 using Synword.Infrastructure.Services.Email.EmailService;
 

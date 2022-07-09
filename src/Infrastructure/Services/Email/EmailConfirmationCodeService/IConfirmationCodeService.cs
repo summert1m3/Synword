@@ -1,5 +1,4 @@
 using Synword.Domain.Entities.Identity;
-using Synword.Domain.Entities.Identity.ValueObjects;
 
 namespace Synword.Infrastructure.Services.Email.EmailConfirmationCodeService;
 

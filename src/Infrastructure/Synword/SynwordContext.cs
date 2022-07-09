@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Synword.Domain.Entities.HistoryAggregate;
 using Synword.Domain.Entities.PlagiarismCheckAggregate;
 using Synword.Domain.Entities.RephraseAggregate;

@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Synword.Domain.Extensions;
 using Synword.Domain.Interfaces.Services;
 using Synword.Domain.Services.EnhancedRephrase;
-using Synword.Domain.Services.Rephrase;
 
 namespace Synword.Infrastructure.Services;
 

@@ -1,5 +1,4 @@
-﻿using Ardalis.GuardClauses;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Synword.Domain.Entities.Identity.Token;
 
 namespace Synword.Infrastructure.Identity;
