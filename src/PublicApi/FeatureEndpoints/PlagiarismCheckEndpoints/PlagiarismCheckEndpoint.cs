@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace Synword.PublicApi.PlagiarismCheckEndpoints;
+namespace Synword.PublicApi.FeatureEndpoints.PlagiarismCheckEndpoints;
 
 public class PlagiarismCheckEndpoint : EndpointBaseAsync
     .WithRequest<PlagiarismCheckRequest>

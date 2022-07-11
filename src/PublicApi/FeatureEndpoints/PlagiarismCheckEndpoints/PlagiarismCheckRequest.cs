@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Synword.PublicApi.PlagiarismCheckEndpoints;
+namespace Synword.PublicApi.FeatureEndpoints.PlagiarismCheckEndpoints;
 
 public class PlagiarismCheckRequest
 {

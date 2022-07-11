@@ -1,5 +1,4 @@
 ﻿using System.Security.Claims;
-using Application.EnhancedRephrase;
 using Application.EnhancedRephrase.DTOs;
 using Application.EnhancedRephrase.Services;
 using Ardalis.ApiEndpoints;
@@ -9,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Synword.Domain.Services.EnhancedRephrase;
 
-namespace Synword.PublicApi.RephraseEndpoints.EnhancedRephrase;
+namespace Synword.PublicApi.FeatureEndpoints.RephraseEndpoints.EnhancedRephrase;
 
 public class EnhancedRephraseEndpoint : EndpointBaseAsync
     .WithRequest<EnhancedRephraseRequestDto>

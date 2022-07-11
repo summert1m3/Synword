@@ -1,5 +1,4 @@
 using System.Security.Claims;
-using Application.Rephrase;
 using Application.Rephrase.DTOs;
 using Application.Rephrase.DTOs.RephraseResult;
 using Application.Rephrase.Services;
@@ -9,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace Synword.PublicApi.RephraseEndpoints.DefaultRephrase;
+namespace Synword.PublicApi.FeatureEndpoints.RephraseEndpoints.DefaultRephrase;
 
 public class RephraseEndpoint : EndpointBaseAsync
     .WithRequest<RephraseRequestDto>
