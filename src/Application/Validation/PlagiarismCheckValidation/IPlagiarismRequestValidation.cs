@@ -1,6 +1,6 @@
 using Synword.Domain.Entities.UserAggregate;
 
-namespace Application.Validation;
+namespace Application.Validation.PlagiarismCheckValidation;
 
 public interface IPlagiarismRequestValidation
 {

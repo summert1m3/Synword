@@ -1,6 +1,7 @@
 using Application.Exceptions;
 using Application.Rephrase.DTOs;
 using Application.Validation;
+using Application.Validation.RephraseValidation;
 using Ardalis.GuardClauses;
 using AutoMapper;
 using Synword.Domain.Constants;

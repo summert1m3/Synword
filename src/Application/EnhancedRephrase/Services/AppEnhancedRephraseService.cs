@@ -1,4 +1,5 @@
 ﻿using Application.Validation;
+using Application.Validation.EnhancedRephraseValidation;
 using Ardalis.GuardClauses;
 using Synword.Domain.Constants;
 using Synword.Domain.Entities.UserAggregate;

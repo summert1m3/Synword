@@ -1,9 +1,9 @@
 using Ardalis.GuardClauses;
 using Synword.Domain.Entities.UserAggregate;
 
-namespace Application.Validation;
+namespace Application.Validation.RephraseValidation;
 
-public class PlagiarismRequestValidation : RequestValidation, IPlagiarismRequestValidation
+public class RephraseRequestValidation : RequestValidation, IRephraseRequestValidation
 {
     public override bool IsValid(User user, string text, int price)
     {
@@ -13,7 +13,7 @@ public class PlagiarismRequestValidation : RequestValidation, IPlagiarismRequest
         SetConstraints();
 
         return MinSymbolLimitValidation(text) &&
-               MaxSymbolLimitValidation(text, _constraints.PlagiarismCheckMaxSymbolLimit) &&
+               MaxSymbolLimitValidation(text, _constraints.RephraseMaxSymbolLimit) &&
                IsEnoughCoins(price);
     }
 }
