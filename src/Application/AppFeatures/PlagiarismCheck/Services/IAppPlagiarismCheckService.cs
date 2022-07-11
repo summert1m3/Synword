@@ -1,6 +1,6 @@
-using Application.PlagiarismCheck.DTOs;
+using Application.AppFeatures.PlagiarismCheck.DTOs;
 
-namespace Application.PlagiarismCheck.Services;
+namespace Application.AppFeatures.PlagiarismCheck.Services;
 
 public interface IAppPlagiarismCheckService
 {

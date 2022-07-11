@@ -1,6 +1,6 @@
 using System.Security.Claims;
-using Application.PlagiarismCheck.DTOs;
-using Application.PlagiarismCheck.Services;
+using Application.AppFeatures.PlagiarismCheck.DTOs;
+using Application.AppFeatures.PlagiarismCheck.Services;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

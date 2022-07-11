@@ -1,6 +1,5 @@
+using Application.AppFeatures.PlagiarismCheck.DTOs;
 using Application.Exceptions;
-using Application.PlagiarismCheck.DTOs;
-using Application.Validation;
 using Application.Validation.PlagiarismCheckValidation;
 using Ardalis.GuardClauses;
 using AutoMapper;
@@ -10,7 +9,7 @@ using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Interfaces.Repository;
 using Synword.Domain.Interfaces.Services;
 
-namespace Application.PlagiarismCheck.Services;
+namespace Application.AppFeatures.PlagiarismCheck.Services;
 
 public class AppPlagiarismCheckService : IAppPlagiarismCheckService
 {

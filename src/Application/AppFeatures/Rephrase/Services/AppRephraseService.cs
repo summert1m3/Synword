@@ -1,7 +1,6 @@
+using Application.AppFeatures.Rephrase.DTOs;
+using Application.AppFeatures.Rephrase.DTOs.RephraseResult;
 using Application.Exceptions;
-using Application.Rephrase.DTOs;
-using Application.Rephrase.DTOs.RephraseResult;
-using Application.Validation;
 using Application.Validation.RephraseValidation;
 using Ardalis.GuardClauses;
 using AutoMapper;
@@ -13,7 +12,7 @@ using Synword.Domain.Interfaces.Services;
 using Synword.Infrastructure.SynonymDictionary.EngSynonymDictionary.Queries;
 using Synword.Infrastructure.SynonymDictionary.RusSynonymDictionary.Queries;
 
-namespace Application.Rephrase.Services;
+namespace Application.AppFeatures.Rephrase.Services;
 
 public class AppRephraseService : IAppRephraseService
 {

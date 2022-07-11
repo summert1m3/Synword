@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Application.Rephrase.DTOs;
+namespace Application.AppFeatures.Rephrase.DTOs;
 
 public class RephraseRequestDto
 {

@@ -1,5 +1,4 @@
-﻿using Application.EnhancedRephrase.DTOs;
-using Application.Validation;
+﻿using Application.AppFeatures.EnhancedRephrase.DTOs;
 using Application.Validation.EnhancedRephraseValidation;
 using Ardalis.GuardClauses;
 using Synword.Domain.Constants;
@@ -8,7 +7,7 @@ using Synword.Domain.Interfaces.Repository;
 using Synword.Domain.Interfaces.Services;
 using Synword.Domain.Services.EnhancedRephrase;
 
-namespace Application.EnhancedRephrase.Services;
+namespace Application.AppFeatures.EnhancedRephrase.Services;
 
 public class AppEnhancedRephraseService : IAppEnhancedRephraseService
 {

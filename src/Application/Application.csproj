@@ -16,6 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="AppFeatures" />
       <Folder Include="Utility" />
     </ItemGroup>
 

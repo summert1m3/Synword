@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
-using Application.EnhancedRephrase.DTOs;
-using Application.EnhancedRephrase.Services;
+using Application.AppFeatures.EnhancedRephrase.DTOs;
+using Application.AppFeatures.EnhancedRephrase.Services;
 using Ardalis.ApiEndpoints;
 using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Authorization;

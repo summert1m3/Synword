@@ -1,7 +1,7 @@
-﻿using Application.EnhancedRephrase.DTOs;
+﻿using Application.AppFeatures.EnhancedRephrase.DTOs;
 using Synword.Domain.Services.EnhancedRephrase;
 
-namespace Application.EnhancedRephrase.Services;
+namespace Application.AppFeatures.EnhancedRephrase.Services;
 
 public interface IAppEnhancedRephraseService
 {

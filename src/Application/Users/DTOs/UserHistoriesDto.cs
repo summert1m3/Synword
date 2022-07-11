@@ -1,6 +1,5 @@
-using Application.PlagiarismCheck.DTOs;
-using Application.Rephrase.DTOs;
-using Application.Rephrase.DTOs.RephraseResult;
+using Application.AppFeatures.PlagiarismCheck.DTOs;
+using Application.AppFeatures.Rephrase.DTOs.RephraseResult;
 
 namespace Application.Users.DTOs;
 

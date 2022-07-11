@@ -1,8 +1,8 @@
 ﻿using System.Text;
-using Application.EnhancedRephrase.Services;
+using Application.AppFeatures.EnhancedRephrase.Services;
+using Application.AppFeatures.PlagiarismCheck.Services;
+using Application.AppFeatures.Rephrase.Services;
 using Application.Guests.Services;
-using Application.PlagiarismCheck.Services;
-using Application.Rephrase.Services;
 using Application.Users.Services;
 using Application.Utility.Documents.Services;
 using Application.Utility.Token.Services;
