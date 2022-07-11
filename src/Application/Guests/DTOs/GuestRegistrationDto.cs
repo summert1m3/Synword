@@ -1,6 +1,6 @@
 namespace Application.Guests.DTOs;
 
-public class GuestRegistrationDTO
+public class GuestRegistrationDto
 {
     public string UserId { get; set; }
 }

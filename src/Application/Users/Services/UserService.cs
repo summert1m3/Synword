@@ -38,7 +38,7 @@ public class UserService : IUserService
         _passwordHasher = passwordHasher;
     }
     
-    public async Task<UserAuthenticateDTO> AuthViaGoogleSignIn(
+    public async Task<UserAuthenticateDto> AuthViaGoogleSignIn(
         string googleAccessToken, 
         CancellationToken cancellationToken = default)
     {
@@ -49,13 +49,13 @@ public class UserService : IUserService
         AppUser? userIdentity = await _userManager!.FindByIdAsync(user.Id);
         Guard.Against.Null(userIdentity);
         
-        UserAuthenticateDTO tokens =
+        UserAuthenticateDto tokens =
             await GenerateTokens(userIdentity, cancellationToken);
 
         return tokens;
     }
 
-    public async Task<UserAuthenticateDTO> AuthViaEmail(
+    public async Task<UserAuthenticateDto> AuthViaEmail(
         string email, 
         string password, 
         CancellationToken cancellationToken = default)
@@ -82,7 +82,7 @@ public class UserService : IUserService
             throw new AppValidationException("Invalid email or password");
         }
         
-        UserAuthenticateDTO tokens =
+        UserAuthenticateDto tokens =
             await GenerateTokens(userIdentity, cancellationToken);
 
         return tokens;
@@ -105,7 +105,7 @@ public class UserService : IUserService
         return user;
     }
 
-    private async Task<UserAuthenticateDTO> GenerateTokens(
+    private async Task<UserAuthenticateDto> GenerateTokens(
         AppUser userIdentity,
         CancellationToken cancellationToken = default)
     {
@@ -122,6 +122,6 @@ public class UserService : IUserService
         
         await _identityDb.SaveChangesAsync(cancellationToken);
 
-        return new UserAuthenticateDTO(accessToken, refreshToken.Token);
+        return new UserAuthenticateDto(accessToken, refreshToken.Token);
     }
 }

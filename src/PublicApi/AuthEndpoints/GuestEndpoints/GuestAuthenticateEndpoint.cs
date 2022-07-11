@@ -8,7 +8,7 @@ namespace Synword.PublicApi.AuthEndpoints.GuestEndpoints;
 
 public class GuestAuthenticateEndpoint : EndpointBaseAsync
     .WithRequest<GuestAuthenticateRequest>
-    .WithActionResult<GuestAuthenticateDTO>
+    .WithActionResult<GuestAuthenticateDto>
 {
     private readonly IGuestService _guestService;
     public GuestAuthenticateEndpoint(IGuestService guestService)
@@ -20,7 +20,7 @@ public class GuestAuthenticateEndpoint : EndpointBaseAsync
     [SwaggerOperation(
         Tags = new[] { "Authorization" }
     )]
-    public override async Task<ActionResult<GuestAuthenticateDTO>> HandleAsync(
+    public override async Task<ActionResult<GuestAuthenticateDto>> HandleAsync(
         [FromForm]GuestAuthenticateRequest request, 
         CancellationToken cancellationToken = default)
     {
@@ -33,7 +33,7 @@ public class GuestAuthenticateEndpoint : EndpointBaseAsync
             return BadRequest(new FormatException());
         }
 
-        GuestAuthenticateDTO token = await _guestService
+        GuestAuthenticateDto token = await _guestService
             .Authenticate(request.UserId, cancellationToken);
 
         return Ok(token);

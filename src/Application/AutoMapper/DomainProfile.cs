@@ -1,5 +1,6 @@
 using Application.PlagiarismCheck.DTOs;
 using Application.Rephrase.DTOs;
+using Application.Rephrase.DTOs.RephraseResult;
 using AutoMapper;
 using Synword.Domain.Entities.PlagiarismCheckAggregate;
 using Synword.Domain.Entities.RephraseAggregate;
@@ -11,19 +12,19 @@ public class DomainProfile : Profile
     public DomainProfile()
     {
         CreateMap<PlagiarismCheckResult, 
-            PlagiarismCheckResultDTO>()
+            PlagiarismCheckResultDto>()
             .ForMember(dest => dest.Id,
                 opt 
                     => opt.MapFrom(src => src.History.Id));
         CreateMap<HighlightRange, 
-            HighlightRangeDTO>();
-        CreateMap<MatchedUrl, MatchedUrlDTO>();
+            HighlightRangeDto>();
+        CreateMap<MatchedUrl, MatchedUrlDto>();
         
-        CreateMap<RephraseResult, RephraseResultDTO>()
+        CreateMap<RephraseResult, RephraseResultDto>()
             .ForMember(dest => dest.Id,
                 opt 
                     => opt.MapFrom(src => src.History.Id));
-        CreateMap<SourceWordSynonyms, SourceWordSynonymsDTO>();
-        CreateMap<Synonym, SynonymDTO>();
+        CreateMap<SourceWordSynonyms, SourceWordSynonymsDto>();
+        CreateMap<Synonym, SynonymDto>();
     }
 }

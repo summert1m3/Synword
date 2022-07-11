@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using Application.EnhancedRephrase;
+using Application.EnhancedRephrase.DTOs;
 using Application.EnhancedRephrase.Services;
 using Ardalis.ApiEndpoints;
 using Ardalis.GuardClauses;
@@ -11,7 +12,7 @@ using Synword.Domain.Services.EnhancedRephrase;
 namespace Synword.PublicApi.RephraseEndpoints.EnhancedRephrase;
 
 public class EnhancedRephraseEndpoint : EndpointBaseAsync
-    .WithRequest<EnhancedRephraseRequestModel>
+    .WithRequest<EnhancedRephraseRequestDto>
     .WithActionResult<EnhancedRephraseResult>
 {
     private readonly IAppEnhancedRephraseService _service;
@@ -27,7 +28,7 @@ public class EnhancedRephraseEndpoint : EndpointBaseAsync
     )]
     public override async Task<ActionResult<EnhancedRephraseResult>> 
         HandleAsync(
-            [FromForm]EnhancedRephraseRequestModel request, 
+            [FromForm]EnhancedRephraseRequestDto request, 
             CancellationToken cancellationToken = default)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);

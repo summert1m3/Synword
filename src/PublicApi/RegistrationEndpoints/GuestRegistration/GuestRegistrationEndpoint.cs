@@ -10,7 +10,7 @@ namespace Synword.PublicApi.RegistrationEndpoints.GuestRegistration;
 
 public class GuestRegistrationEndpoint : EndpointBaseAsync
     .WithoutRequest
-    .WithActionResult<GuestRegistrationDTO>
+    .WithActionResult<GuestRegistrationDto>
 {
     private readonly IMediator _mediator;
 
@@ -23,7 +23,7 @@ public class GuestRegistrationEndpoint : EndpointBaseAsync
     [SwaggerOperation(
         Tags = new[] { "Registration" }
     )]
-    public override async Task<ActionResult<GuestRegistrationDTO>> HandleAsync(
+    public override async Task<ActionResult<GuestRegistrationDto>> HandleAsync(
         CancellationToken cancellationToken = default)
     {
         IPAddress? ip = HttpContext.Connection.RemoteIpAddress;
@@ -33,7 +33,7 @@ public class GuestRegistrationEndpoint : EndpointBaseAsync
             return BadRequest();
         }
 
-        GuestRegistrationDTO id = 
+        GuestRegistrationDto id = 
             await _mediator.Send(
                 new RegisterNewGuestCommand(ip), cancellationToken);
         

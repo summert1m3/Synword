@@ -1,9 +1,10 @@
-﻿using Synword.Domain.Services.EnhancedRephrase;
+﻿using Application.EnhancedRephrase.DTOs;
+using Synword.Domain.Services.EnhancedRephrase;
 
 namespace Application.EnhancedRephrase.Services;
 
 public interface IAppEnhancedRephraseService
 {
     public Task<EnhancedRephraseResult> Rephrase(
-        EnhancedRephraseRequestModel request, string uId);
+        EnhancedRephraseRequestDto request, string uId);
 }

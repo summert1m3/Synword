@@ -9,7 +9,7 @@ using Synword.Infrastructure.Identity;
 
 namespace Application.Guests.Commands;
 
-public class RegisterNewGuestCommand : IRequest<GuestRegistrationDTO>
+public class RegisterNewGuestCommand : IRequest<GuestRegistrationDto>
 {
     public RegisterNewGuestCommand(IPAddress ip)
     {
@@ -18,7 +18,7 @@ public class RegisterNewGuestCommand : IRequest<GuestRegistrationDTO>
     public IPAddress Ip { get; }
 }
 
-internal class RegisterNewGuestCommandHandler : IRequestHandler<RegisterNewGuestCommand, GuestRegistrationDTO>
+internal class RegisterNewGuestCommandHandler : IRequestHandler<RegisterNewGuestCommand, GuestRegistrationDto>
 {
     private readonly UserManager<AppUser>? _userManager;
     private readonly ISynwordRepository<User>? _userRepository;
@@ -31,7 +31,7 @@ internal class RegisterNewGuestCommandHandler : IRequestHandler<RegisterNewGuest
         _userRepository = userRepository;
     }
     
-    public async Task<GuestRegistrationDTO> Handle(RegisterNewGuestCommand request, CancellationToken cancellationToken)
+    public async Task<GuestRegistrationDto> Handle(RegisterNewGuestCommand request, CancellationToken cancellationToken)
     {
         AppUser guest = new();
 
@@ -51,7 +51,7 @@ internal class RegisterNewGuestCommandHandler : IRequestHandler<RegisterNewGuest
         
         await _userRepository.SaveChangesAsync(cancellationToken);
         
-        return new GuestRegistrationDTO()
+        return new GuestRegistrationDto()
         {
             UserId = guest.Id
         };

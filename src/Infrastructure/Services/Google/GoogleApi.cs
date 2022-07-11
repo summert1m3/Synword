@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿// ReSharper disable RedundantUsingDirective
+using System.Net;
 using Synword.Domain.Extensions;
 
 namespace Synword.Infrastructure.Services.Google;

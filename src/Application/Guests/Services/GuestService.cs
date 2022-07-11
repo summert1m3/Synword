@@ -23,7 +23,7 @@ public class GuestService : IGuestService
         _tokenClaimsService = tokenClaimsService;
     }
     
-    public async Task<GuestAuthenticateDTO> Authenticate(
+    public async Task<GuestAuthenticateDto> Authenticate(
         string userId, 
         CancellationToken cancellationToken)
     {
@@ -43,6 +43,6 @@ public class GuestService : IGuestService
         
         await _db.SaveChangesAsync(cancellationToken);
 
-        return new GuestAuthenticateDTO(accessToken, refreshToken.Token);
+        return new GuestAuthenticateDto(accessToken, refreshToken.Token);
     }
 }

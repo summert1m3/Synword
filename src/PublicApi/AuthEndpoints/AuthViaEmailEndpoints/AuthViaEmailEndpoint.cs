@@ -27,7 +27,7 @@ public class AuthViaEmailEndpoint : EndpointBaseAsync
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
-        UserAuthenticateDTO token = await _userService.AuthViaEmail(
+        UserAuthenticateDto token = await _userService.AuthViaEmail(
             request.Email, request.Password, cancellationToken);
         
         return Ok(token);

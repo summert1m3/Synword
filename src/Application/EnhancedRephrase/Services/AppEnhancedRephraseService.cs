@@ -1,4 +1,5 @@
-﻿using Application.Validation;
+﻿using Application.EnhancedRephrase.DTOs;
+using Application.Validation;
 using Application.Validation.EnhancedRephraseValidation;
 using Ardalis.GuardClauses;
 using Synword.Domain.Constants;
@@ -26,7 +27,7 @@ public class AppEnhancedRephraseService : IAppEnhancedRephraseService
     }
     
     public async Task<EnhancedRephraseResult> Rephrase(
-        EnhancedRephraseRequestModel request,
+        EnhancedRephraseRequestDto request,
         string uId)
     {
         User? user = await _userRepository.GetByIdAsync(uId);

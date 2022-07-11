@@ -1,5 +1,6 @@
 using Application.Exceptions;
 using Application.Rephrase.DTOs;
+using Application.Rephrase.DTOs.RephraseResult;
 using Application.Validation;
 using Application.Validation.RephraseValidation;
 using Ardalis.GuardClauses;
@@ -33,8 +34,8 @@ public class AppRephraseService : IAppRephraseService
         _validation = validation;
     }
     
-    public async Task<RephraseResultDTO> Rephrase(
-        RephraseRequestModel model, string uId)
+    public async Task<RephraseResultDto> Rephrase(
+        RephraseRequestDto model, string uId)
     {
         User? user = await _userRepository.GetByIdAsync(uId);
         Guard.Against.Null(user, nameof(user));
@@ -67,7 +68,7 @@ public class AppRephraseService : IAppRephraseService
         
         await _userRepository.SaveChangesAsync();
         
-        return _mapper.Map<RephraseResultDTO>(
+        return _mapper.Map<RephraseResultDto>(
             rephraseResult
         );
     }

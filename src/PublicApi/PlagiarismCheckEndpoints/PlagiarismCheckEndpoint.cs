@@ -10,7 +10,7 @@ namespace Synword.PublicApi.PlagiarismCheckEndpoints;
 
 public class PlagiarismCheckEndpoint : EndpointBaseAsync
     .WithRequest<PlagiarismCheckRequest>
-    .WithActionResult<PlagiarismCheckResultDTO>
+    .WithActionResult<PlagiarismCheckResultDto>
 {
     private readonly IAppPlagiarismCheckService _plagiarismCheck;
     
@@ -24,7 +24,7 @@ public class PlagiarismCheckEndpoint : EndpointBaseAsync
     [SwaggerOperation(
         Tags = new[] { "App Feature" }
     )]
-    public override async Task<ActionResult<PlagiarismCheckResultDTO>> HandleAsync(
+    public override async Task<ActionResult<PlagiarismCheckResultDto>> HandleAsync(
         [FromForm]PlagiarismCheckRequest request, 
         CancellationToken cancellationToken = default)
     {
@@ -32,7 +32,7 @@ public class PlagiarismCheckEndpoint : EndpointBaseAsync
         
         string uId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
         
-        PlagiarismCheckResultDTO response 
+        PlagiarismCheckResultDto response 
             = await _plagiarismCheck.CheckPlagiarism(request.Text, uId);
         
         return Ok(response);

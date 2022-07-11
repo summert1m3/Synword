@@ -1,6 +1,6 @@
 namespace Application.Users.DTOs;
 
-public class BalanceDTO
+public class BalanceDto
 {
     public int Coins { get; set; }
 }

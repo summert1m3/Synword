@@ -1,5 +1,6 @@
 using Application.PlagiarismCheck.DTOs;
 using Application.Rephrase.DTOs;
+using Application.Rephrase.DTOs.RephraseResult;
 using Application.Users.DTOs;
 using Ardalis.GuardClauses;
 using AutoMapper;
@@ -10,7 +11,7 @@ using Synword.Domain.Specifications;
 
 namespace Application.Users.Queries;
 
-public class GetAllUserHistoriesQuery : IRequest<UserHistoriesDTO>
+public class GetAllUserHistoriesQuery : IRequest<UserHistoriesDto>
 {
     public string UId { get; }
     
@@ -21,7 +22,7 @@ public class GetAllUserHistoriesQuery : IRequest<UserHistoriesDTO>
 }
 
 internal class GetAllUserHistoriesQueryHandler : 
-    IRequestHandler<GetAllUserHistoriesQuery, UserHistoriesDTO>
+    IRequestHandler<GetAllUserHistoriesQuery, UserHistoriesDto>
 {
     private readonly ISynwordRepository<User> _userRepository;
     private readonly IMapper _mapper;
@@ -34,7 +35,7 @@ internal class GetAllUserHistoriesQueryHandler :
         _mapper = mapper;
     }
     
-    public async Task<UserHistoriesDTO> Handle(
+    public async Task<UserHistoriesDto> Handle(
         GetAllUserHistoriesQuery request, 
         CancellationToken cancellationToken)
     {
@@ -43,17 +44,17 @@ internal class GetAllUserHistoriesQueryHandler :
 
         Guard.Against.Null(user, nameof(user));
         
-        List<RephraseResultDTO> rephraseHistories = 
-            _mapper.Map<List<RephraseResultDTO>>(
+        List<RephraseResultDto> rephraseHistories = 
+            _mapper.Map<List<RephraseResultDto>>(
             user.RephraseHistory
         );
         
-        List<PlagiarismCheckResultDTO> plagiarismCheckHistories = 
-            _mapper.Map<List<PlagiarismCheckResultDTO>>(
+        List<PlagiarismCheckResultDto> plagiarismCheckHistories = 
+            _mapper.Map<List<PlagiarismCheckResultDto>>(
                 user.PlagiarismCheckHistory
             );
         
-        return new UserHistoriesDTO()
+        return new UserHistoriesDto()
         {
             RephraseHistories = rephraseHistories, 
             PlagiarismCheckHistories = plagiarismCheckHistories

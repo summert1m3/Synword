@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Application.Rephrase;
+namespace Application.Rephrase.DTOs;
 
-public class RephraseRequestModel
+public class RephraseRequestDto
 {
     [Required]
     public string Text { get; set; }

@@ -8,7 +8,7 @@ namespace Synword.PublicApi.AuthEndpoints.AuthViaGoogle;
 
 public class AuthViaGoogleEndpoint : EndpointBaseAsync
     .WithRequest<AuthViaGoogleRequest>
-    .WithActionResult<UserAuthenticateDTO>
+    .WithActionResult<UserAuthenticateDto>
 {
     private readonly IUserService _userService;
     
@@ -21,13 +21,13 @@ public class AuthViaGoogleEndpoint : EndpointBaseAsync
     [SwaggerOperation(
         Tags = new[] { "Authorization" }
     )]
-    public override async Task<ActionResult<UserAuthenticateDTO>> HandleAsync(
+    public override async Task<ActionResult<UserAuthenticateDto>> HandleAsync(
         [FromForm]AuthViaGoogleRequest request, 
         CancellationToken cancellationToken = default)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
-        UserAuthenticateDTO token = await _userService
+        UserAuthenticateDto token = await _userService
             .AuthViaGoogleSignIn(request.AccessToken, cancellationToken);
         
         return Ok(token);

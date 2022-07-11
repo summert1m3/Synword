@@ -31,7 +31,7 @@ public class AppPlagiarismCheckService : IAppPlagiarismCheckService
         _validation = validation;
     }
     
-    public async Task<PlagiarismCheckResultDTO> CheckPlagiarism(
+    public async Task<PlagiarismCheckResultDto> CheckPlagiarism(
         string text, string uId)
     {
         User? user = await _userRepository.GetByIdAsync(uId);
@@ -58,7 +58,7 @@ public class AppPlagiarismCheckService : IAppPlagiarismCheckService
         
         await _userRepository.SaveChangesAsync();
         
-        return _mapper.Map<PlagiarismCheckResultDTO>(
+        return _mapper.Map<PlagiarismCheckResultDto>(
                 result
             );
     }

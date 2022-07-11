@@ -1,8 +1,8 @@
-namespace Application.Guests.DTOs;
+namespace Application.Users.DTOs;
 
-public class GuestAuthenticateDTO
+public class UserAuthenticateDto
 {
-    public GuestAuthenticateDTO(
+    public UserAuthenticateDto(
         string accessToken,
         string refreshToken)
     {

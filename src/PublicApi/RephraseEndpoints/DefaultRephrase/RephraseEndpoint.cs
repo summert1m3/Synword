@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Application.Rephrase;
 using Application.Rephrase.DTOs;
+using Application.Rephrase.DTOs.RephraseResult;
 using Application.Rephrase.Services;
 using Ardalis.ApiEndpoints;
 using Ardalis.GuardClauses;
@@ -11,8 +12,8 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Synword.PublicApi.RephraseEndpoints.DefaultRephrase;
 
 public class RephraseEndpoint : EndpointBaseAsync
-    .WithRequest<RephraseRequestModel>
-    .WithActionResult<RephraseResultDTO>
+    .WithRequest<RephraseRequestDto>
+    .WithActionResult<RephraseResultDto>
 {
     private readonly IAppRephraseService _rephraseService;
     public RephraseEndpoint(IAppRephraseService rephraseService)
@@ -25,8 +26,8 @@ public class RephraseEndpoint : EndpointBaseAsync
     [SwaggerOperation(
         Tags = new[] { "App Feature" }
     )]
-    public override async Task<ActionResult<RephraseResultDTO>> HandleAsync(
-        [FromForm]RephraseRequestModel request, 
+    public override async Task<ActionResult<RephraseResultDto>> HandleAsync(
+        [FromForm]RephraseRequestDto request, 
         CancellationToken cancellationToken = default)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -35,7 +36,7 @@ public class RephraseEndpoint : EndpointBaseAsync
 
         Guard.Against.NullOrEmpty(uId, nameof(uId));
         
-        RephraseResultDTO response = 
+        RephraseResultDto response = 
             await _rephraseService.Rephrase(request, uId);
         
         return Ok(response);
