@@ -1,4 +1,5 @@
 using Application.Guests.DTOs;
+using Application.Interfaces.Services.Token;
 using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Identity;
 using Synword.Domain.Entities.Identity.Token;

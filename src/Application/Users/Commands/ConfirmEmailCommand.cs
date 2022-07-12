@@ -1,9 +1,9 @@
 using Application.Exceptions;
+using Application.Interfaces.Services.Email;
 using Ardalis.GuardClauses;
 using MediatR;
 using Synword.Domain.Entities.Identity;
 using Synword.Infrastructure.Identity;
-using Synword.Infrastructure.Services.Email.EmailConfirmationCodeService;
 
 namespace Application.Users.Commands;
 

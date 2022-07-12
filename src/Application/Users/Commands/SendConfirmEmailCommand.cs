@@ -1,7 +1,7 @@
-﻿using Ardalis.GuardClauses;
+﻿using Application.Interfaces;
+using Ardalis.GuardClauses;
 using MediatR;
 using Synword.Infrastructure.Identity;
-using Synword.Infrastructure.Services.Email.EmailService;
 
 namespace Application.Users.Commands;
 
@@ -30,7 +30,7 @@ internal class SendConfirmEmailCommandHandler : IRequestHandler<SendConfirmEmail
         SendConfirmEmailCommand request, 
         CancellationToken cancellationToken)
     {
-        AppUser? identityUser = request.IdentityUser;
+        AppUser identityUser = request.IdentityUser;
 
         string email = identityUser.Email;
         Guard.Against.NullOrEmpty(email);

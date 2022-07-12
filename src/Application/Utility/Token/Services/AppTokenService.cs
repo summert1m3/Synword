@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Application.Exceptions;
+using Application.Interfaces.Services.Token;
 using Application.Utility.Token.DTOs;
 using Ardalis.GuardClauses;
 using Microsoft.EntityFrameworkCore;

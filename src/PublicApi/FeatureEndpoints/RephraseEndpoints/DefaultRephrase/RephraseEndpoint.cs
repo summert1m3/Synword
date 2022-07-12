@@ -4,9 +4,11 @@ using Application.AppFeatures.Rephrase.DTOs.RephraseResult;
 using Application.AppFeatures.Rephrase.Services;
 using Ardalis.ApiEndpoints;
 using Ardalis.GuardClauses;
+using Infrastructure.SynonymDictionary;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using Synword.Domain.Interfaces.Services;
 
 namespace Synword.PublicApi.FeatureEndpoints.RephraseEndpoints.DefaultRephrase;
 
@@ -35,8 +37,15 @@ public class RephraseEndpoint : EndpointBaseAsync
 
         Guard.Against.NullOrEmpty(uId, nameof(uId));
         
+        ISynonymDictionaryService dictionaryService = request.Language.ToLower() switch
+        {
+            "rus" => new RusSynonymDictionaryService(),
+            "eng" => new EngSynonymDictionaryService(),
+            _ => throw new Exception("language is null")
+        };
+        
         RephraseResultDto response = 
-            await _rephraseService.Rephrase(request, uId);
+            await _rephraseService.Rephrase(request, dictionaryService, uId);
         
         return Ok(response);
     }

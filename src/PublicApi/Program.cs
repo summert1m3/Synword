@@ -1,4 +1,5 @@
 ﻿using Application.AutoMapper;
+using Infrastructure.SynonymDictionary;
 using Microsoft.AspNetCore.Identity;
 using MinimalApi.Endpoint.Extensions;
 using Synword.Infrastructure.Identity;
@@ -9,8 +10,6 @@ using NLog;
 using NLog.Web;
 using Synword.Domain.Entities.SynonymDictionaryAggregate;
 using Synword.Domain.Interfaces.Repository;
-using Synword.Infrastructure.SynonymDictionary.EngSynonymDictionary.Queries;
-using Synword.Infrastructure.SynonymDictionary.RusSynonymDictionary.Queries;
 using Synword.Infrastructure.Synword;
 using Synword.PublicApi;
 using Synword.PublicApi.Middleware;

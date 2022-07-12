@@ -9,8 +9,6 @@ using Synword.Domain.Entities.RephraseAggregate;
 using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Interfaces.Repository;
 using Synword.Domain.Interfaces.Services;
-using Synword.Infrastructure.SynonymDictionary.EngSynonymDictionary.Queries;
-using Synword.Infrastructure.SynonymDictionary.RusSynonymDictionary.Queries;
 
 namespace Application.AppFeatures.Rephrase.Services;
 
@@ -34,7 +32,9 @@ public class AppRephraseService : IAppRephraseService
     }
     
     public async Task<RephraseResultDto> Rephrase(
-        RephraseRequestDto model, string uId)
+        RephraseRequestDto model, 
+        ISynonymDictionaryService dictionaryService, 
+        string uId)
     {
         User? user = await _userRepository.GetByIdAsync(uId);
         Guard.Against.Null(user, nameof(user));
@@ -48,13 +48,6 @@ public class AppRephraseService : IAppRephraseService
         {
             throw new AppValidationException(_validation.ErrorMessage);
         }
-        
-        ISynonymDictionaryService dictionaryService = model.Language.ToLower() switch
-        {
-            "rus" => new RusSynonymDictionaryService(),
-            "eng" => new EngSynonymDictionaryService(),
-            _ => throw new Exception("language is null")
-        };
 
         RephraseResult rephraseResult = _rephraseService.Rephrase(
             model.Text, dictionaryService);

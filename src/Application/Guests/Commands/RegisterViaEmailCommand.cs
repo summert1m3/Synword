@@ -1,4 +1,5 @@
 using Application.Exceptions;
+using Application.Interfaces;
 using Ardalis.GuardClauses;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -6,7 +7,6 @@ using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Enums;
 using Synword.Domain.Interfaces.Repository;
 using Synword.Infrastructure.Identity;
-using Synword.Infrastructure.Services.Email.EmailService;
 
 namespace Application.Guests.Commands;
 

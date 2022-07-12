@@ -1,4 +1,7 @@
 using Application.Exceptions;
+using Application.Interfaces;
+using Application.Interfaces.Google;
+using Application.Interfaces.Services.Token;
 using Application.Users.DTOs;
 using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Identity;
@@ -8,7 +11,6 @@ using Synword.Domain.Interfaces.Repository;
 using Synword.Domain.Interfaces.Services;
 using Synword.Domain.Specifications;
 using Synword.Infrastructure.Identity;
-using Synword.Infrastructure.Services.Google;
 
 namespace Application.Users.Services;
 

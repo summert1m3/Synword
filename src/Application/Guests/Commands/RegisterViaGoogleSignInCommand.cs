@@ -1,4 +1,6 @@
 using Application.Exceptions;
+using Application.Interfaces;
+using Application.Interfaces.Google;
 using Ardalis.GuardClauses;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -8,7 +10,6 @@ using Synword.Domain.Enums;
 using Synword.Domain.Interfaces.Repository;
 using Synword.Domain.Specifications;
 using Synword.Infrastructure.Identity;
-using Synword.Infrastructure.Services.Google;
 
 namespace Application.Guests.Commands;
 
