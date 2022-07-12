@@ -31,13 +31,13 @@ internal class RegisterViaEmailCommandHandler
     : IRequestHandler<RegisterViaEmailCommand>
 {
     private readonly ISynwordRepository<User> _userRepository;
-    private readonly UserManager<AppUser>? _userManager;
+    private readonly UserManager<AppUser> _userManager;
     private readonly IPasswordHasher<AppUser> _passwordHasher;
     private readonly IEmailService _emailService;
     
     public RegisterViaEmailCommandHandler(
         ISynwordRepository<User> userRepository,
-        UserManager<AppUser>? userManager,
+        UserManager<AppUser> userManager,
         IPasswordHasher<AppUser> passwordHasher,
         IEmailService emailService
         )
@@ -56,7 +56,7 @@ internal class RegisterViaEmailCommandHandler
             await _userManager!.FindByIdAsync(request.UId);
         Guard.Against.Null(identityUser);
         
-        if (await IsUserAlreadyHaveEmail(identityUser, cancellationToken))
+        if (IsUserAlreadyHaveEmail(identityUser))
         {
             throw new AppValidationException("UserAlreadyHaveEmail");
         }
@@ -73,9 +73,8 @@ internal class RegisterViaEmailCommandHandler
         return Unit.Value;
     }
 
-    private async Task<bool> IsUserAlreadyHaveEmail(
-        AppUser identityUser,
-        CancellationToken cancellationToken)
+    private bool IsUserAlreadyHaveEmail(
+        AppUser identityUser)
     {
         if (identityUser.Email is not null)
         {

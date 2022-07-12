@@ -1,6 +1,7 @@
-﻿using System.Net;
-using Application.Interfaces.Google;
+﻿// ReSharper disable RedundantUsingDirective
+using System.Net;
 using Synword.Domain.Extensions;
+using Application.Interfaces.Google;
 
 namespace Infrastructure.Google;
 

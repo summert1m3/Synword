@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>Synword.PublicApi</RootNamespace>
-    <Nullable>enable</Nullable>
+    <Nullable>annotations</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>d1aab802-1f7e-49a5-a5f1-8359757e46af</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>

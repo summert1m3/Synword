@@ -7,7 +7,7 @@ namespace Application.Validation;
 
 public abstract class RequestValidation
 {
-    protected User? _user;
+    protected User _user;
     protected IServiceConstraints _constraints;
     public int RequestPrice { get; private set; }
     public string ErrorMessage { get; private set; } = string.Empty;

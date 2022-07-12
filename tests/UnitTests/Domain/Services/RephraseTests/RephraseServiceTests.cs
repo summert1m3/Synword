@@ -16,7 +16,7 @@ public class RephraseServiceTests
         new SynonymDictionaryServiceStub();
 
     [Fact]
-    public async Task Rephrase_Text_RephraseResult()
+    public void Rephrase_Text_RephraseResult()
     {
         // Arrange
         string text = Text.GetText445Chars();

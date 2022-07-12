@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>Synword.Infrastructure</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <Nullable>annotations</Nullable>
     <UserSecretsId>d1aab802-1f7e-49a5-a5f1-8359757e46af</UserSecretsId>
   </PropertyGroup>
 

@@ -19,5 +19,5 @@ public class EnhancedRephraseRequestValidation : RequestValidation, IEnhancedRep
                IsEnoughCoins(price);
     }
 
-    public string ErrorMessage { get; }
+    public new string ErrorMessage { get; }
 }

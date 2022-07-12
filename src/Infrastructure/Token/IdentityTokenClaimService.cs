@@ -79,7 +79,7 @@ public class IdentityTokenClaimService : ITokenClaimsService
         JwtSecurityTokenHandler jwtSecurityTokenHandler = new();
         
         jwtSecurityTokenHandler.ValidateToken(token, validationParameters,
-            out SecurityToken q);
+            out SecurityToken _);
     }
 
     private string Generate(

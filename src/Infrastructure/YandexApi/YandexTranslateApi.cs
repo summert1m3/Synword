@@ -72,8 +72,6 @@ public class YandexTranslateApi : IYandexTranslateApi
                 {"texts", texts}, {"targetLanguageCode", targetLanguageCode}, {"folderId", _folderId}
             };
 
-        string json = values.ToJson();
-
         request.Content = new StringContent(values.ToJson());
 
         HttpResponseMessage response = await _httpClient.SendAsync(request);
