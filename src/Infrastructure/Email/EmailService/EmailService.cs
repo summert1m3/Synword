@@ -9,32 +9,46 @@ namespace Infrastructure.Email.EmailService;
 
 public class EmailService : IEmailService
 {
-    private readonly IConfirmationCodeService _confirmationCodeService;
+    private readonly IConfirmEmailService _confirmEmailService;
     private readonly IConfiguration _configuration;
     
     public EmailService(
-        IConfirmationCodeService confirmationCodeService,
+        IConfirmEmailService confirmEmailService,
         IConfiguration configuration)
     {
-        _confirmationCodeService = confirmationCodeService;
+        _confirmEmailService = confirmEmailService;
         _configuration = configuration;
     }
     
     public async Task SendConfirmationEmailAsync(string email)
     {
         EmailConfirmationCode code = 
-            await _confirmationCodeService.CreateNew(email);
+            await _confirmEmailService.GenerateNewConfirmCode(email);
+
+        string subject = "Synword - Please Verify Your Email";
+        string body = $"Confirmation code - {code.ConfirmationCode.Code}";
         
+        await SendEmailAsync(
+            email,
+            _configuration["SmtpServiceUserName"],
+            subject,
+            body
+            );
+    }
+
+    private async Task SendEmailAsync(
+        string to, string from, string subject, string body)
+    {
         var emailMessage = new MimeMessage();
  
         emailMessage.From.Add(new MailboxAddress(
             "Synword", 
-            _configuration["SmtpServiceUserName"]));
-        emailMessage.To.Add(new MailboxAddress("", email));
-        emailMessage.Subject = "Synword - Please Verify Your Email";
+            from));
+        emailMessage.To.Add(new MailboxAddress("", to));
+        emailMessage.Subject = subject;
         emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
         {
-            Text = $"Confirmation code - {code.Code.Code}"
+            Text = body
         };
 
         using var client = new SmtpClient();
@@ -44,7 +58,7 @@ public class EmailService : IEmailService
             Int32.Parse(_configuration["SmtpServicePort"]), 
             true);
         await client.AuthenticateAsync(
-            _configuration["SmtpServiceUserName"], 
+            from, 
             _configuration["SmtpServicePassword"]);
         await client.SendAsync(emailMessage);
  

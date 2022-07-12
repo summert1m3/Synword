@@ -6,18 +6,18 @@ using Synword.Infrastructure.Identity;
 
 namespace Infrastructure.Email.EmailConfirmationCodeService;
 
-public class ConfirmationCodeService : IConfirmationCodeService
+public class ConfirmEmailService : IConfirmEmailService
 {
     private readonly AppIdentityDbContext _db;
 
-    public ConfirmationCodeService(AppIdentityDbContext db)
+    public ConfirmEmailService(AppIdentityDbContext db)
     {
         Guard.Against.Null(db);
         
         _db = db;
     }
     
-    public async Task<EmailConfirmationCode> CreateNew(string email)
+    public async Task<EmailConfirmationCode> GenerateNewConfirmCode(string email)
     {
         RemoveOldCodeIfExist(email);
 

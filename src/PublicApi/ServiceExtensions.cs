@@ -204,8 +204,8 @@ public static class ServiceExtensions
             typeof(IEmailService),
             typeof(EmailService));
         services.AddScoped(
-            typeof(IConfirmationCodeService),
-            typeof(ConfirmationCodeService));
+            typeof(IConfirmEmailService),
+            typeof(ConfirmEmailService));
         
         return services;
     }

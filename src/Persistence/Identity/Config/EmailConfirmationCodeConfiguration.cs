@@ -9,7 +9,7 @@ public class EmailConfirmationCodeConfiguration
 {
     public void Configure(EntityTypeBuilder<EmailConfirmationCode> builder)
     {
-        builder.OwnsOne(m => m.Code, me =>
+        builder.OwnsOne(m => m.ConfirmationCode, me =>
         {
             me.WithOwner();
             me.Property(e => e.Code)

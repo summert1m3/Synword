@@ -16,10 +16,10 @@ public class EmailConfirmationCode : BaseEntity
         Guard.Against.Null(code);
         Guard.Against.Null(email);
 
-        Code = code;
+        ConfirmationCode = code;
         Email = email;
     }
     
-    public ConfirmationCode Code { get; private set; }
+    public ConfirmationCode ConfirmationCode { get; private set; }
     public Email Email { get; private set; }
 }

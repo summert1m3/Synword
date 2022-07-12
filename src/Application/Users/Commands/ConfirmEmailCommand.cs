@@ -26,14 +26,14 @@ public class ConfirmEmailCommand : IRequest
 internal class ConfirmEmailCommandHandler : IRequestHandler<ConfirmEmailCommand>
 {
     private readonly AppIdentityDbContext _identityDb;
-    private readonly IConfirmationCodeService _confirmationCodeService;
+    private readonly IConfirmEmailService _confirmEmailService;
     
     public ConfirmEmailCommandHandler(
         AppIdentityDbContext identityDb,
-        IConfirmationCodeService confirmationCodeService)
+        IConfirmEmailService confirmEmailService)
     {
         _identityDb = identityDb;
-        _confirmationCodeService = confirmationCodeService;
+        _confirmEmailService = confirmEmailService;
     }
     
     public async Task<Unit> Handle(
@@ -50,7 +50,7 @@ internal class ConfirmEmailCommandHandler : IRequestHandler<ConfirmEmailCommand>
 
         userIdentity.EmailConfirmed = true;
 
-        await _confirmationCodeService.RemoveCodeFromDb(code);
+        await _confirmEmailService.RemoveCodeFromDb(code);
         
         return Unit.Value;
     }
@@ -64,7 +64,7 @@ internal class ConfirmEmailCommandHandler : IRequestHandler<ConfirmEmailCommand>
             throw new AppValidationException("Code not found");
         }
 
-        if (code.Code.Code != request.ConfirmationCode)
+        if (code.ConfirmationCode.Code != request.ConfirmationCode)
         {
             throw new AppValidationException("Invalid code");
         }
