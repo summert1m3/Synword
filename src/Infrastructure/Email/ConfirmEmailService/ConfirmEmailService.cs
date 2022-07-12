@@ -4,7 +4,7 @@ using Synword.Domain.Entities.Identity;
 using Synword.Domain.Entities.Identity.ValueObjects;
 using Synword.Infrastructure.Identity;
 
-namespace Infrastructure.Email.EmailConfirmationCodeService;
+namespace Infrastructure.Email.ConfirmEmailService;
 
 public class ConfirmEmailService : IConfirmEmailService
 {

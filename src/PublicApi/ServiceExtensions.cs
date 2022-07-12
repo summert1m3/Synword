@@ -17,7 +17,7 @@ using Application.Validation.PlagiarismCheckValidation;
 using Application.Validation.RephraseValidation;
 using Infrastructure;
 using Infrastructure.Docx;
-using Infrastructure.Email.EmailConfirmationCodeService;
+using Infrastructure.Email.ConfirmEmailService;
 using Infrastructure.Email.EmailService;
 using Infrastructure.Google;
 using Infrastructure.PlagiarismCheckAPI;

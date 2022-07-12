@@ -16,7 +16,7 @@ namespace Application.Users.Services;
 
 public class UserService : IUserService
 {
-    private readonly UserManager<AppUser>? _userManager;
+    private readonly UserManager<AppUser> _userManager;
     private readonly AppIdentityDbContext _identityDb;
     private readonly ISynwordRepository<User> _userRepository;
     private readonly IGoogleApi _googleApi;
@@ -112,9 +112,9 @@ public class UserService : IUserService
         CancellationToken cancellationToken = default)
     {
         string accessToken = 
-            await _tokenClaimsService!.GenerateAccessToken(userIdentity.Id);
+            _tokenClaimsService.GenerateAccessToken(userIdentity.Id);
 
-        RefreshToken refreshToken = await _tokenClaimsService.GenerateRefreshToken(
+        RefreshToken refreshToken = _tokenClaimsService.GenerateRefreshToken(
             userIdentity.Id, 
             Guid.NewGuid().ToString());
 

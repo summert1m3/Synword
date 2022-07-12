@@ -11,8 +11,8 @@ namespace Application.Guests.Services;
 public class GuestService : IGuestService
 {
     private readonly AppIdentityDbContext _db;
-    private readonly UserManager<AppUser>? _userManager;
-    private readonly ITokenClaimsService? _tokenClaimsService;
+    private readonly UserManager<AppUser> _userManager;
+    private readonly ITokenClaimsService _tokenClaimsService;
     
     public GuestService(
         AppIdentityDbContext db,
@@ -32,9 +32,9 @@ public class GuestService : IGuestService
 
         Guard.Against.Null(guest);
         
-        string accessToken = await _tokenClaimsService!.GenerateAccessToken(guest.Id);
+        string accessToken = _tokenClaimsService!.GenerateAccessToken(guest.Id);
 
-        RefreshToken refreshToken = await _tokenClaimsService.GenerateRefreshToken(
+        RefreshToken refreshToken = _tokenClaimsService.GenerateRefreshToken(
                 guest.Id, 
                 Guid.NewGuid().ToString());
         

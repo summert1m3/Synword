@@ -54,7 +54,7 @@ public class AppTokenService : IAppTokenService
 
         await ValidateToken(inputToken, currentToken, cancellationToken);
 
-        RefreshToken newToken = await _tokenService.GenerateRefreshToken(
+        RefreshToken newToken = _tokenService.GenerateRefreshToken(
             uId,
             deviceId
             );
@@ -68,7 +68,7 @@ public class AppTokenService : IAppTokenService
         
         await _db.SaveChangesAsync(cancellationToken);
         
-        string accessToken = await _tokenService!.GenerateAccessToken(user.Id);
+        string accessToken = _tokenService!.GenerateAccessToken(user.Id);
 
         return new TokenDto(accessToken, newToken.Token);
     }

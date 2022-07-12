@@ -18,7 +18,7 @@ public class IdentityTokenClaimService : ITokenClaimsService
         _configuration = configuration;
     }
 
-    public async Task<string> GenerateAccessToken(string uId)
+    public string GenerateAccessToken(string uId)
     {
         var secretKey = _configuration["JWT_SECRET_KEY"];
         var claims = new List<Claim> {new(ClaimTypes.NameIdentifier, uId)};
@@ -32,7 +32,7 @@ public class IdentityTokenClaimService : ITokenClaimsService
         return token;
     }
 
-    public async Task<RefreshToken> GenerateRefreshToken(
+    public RefreshToken GenerateRefreshToken(
         string uId,
         string deviceId
     )
