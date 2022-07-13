@@ -1,16 +1,16 @@
-﻿using Application.AutoMapper;
-using Infrastructure.SynonymDictionary;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using MinimalApi.Endpoint.Extensions;
-using Synword.Infrastructure.Identity;
 using MediatR;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using NLog.Web;
+using Synword.Application.AutoMapper;
 using Synword.Domain.Entities.SynonymDictionaryAggregate;
 using Synword.Domain.Interfaces.Repository;
-using Synword.Infrastructure.Synword;
+using Synword.Infrastructure.SynonymDictionary;
+using Synword.Persistence.Identity;
+using Synword.Persistence.Synword;
 using Synword.PublicApi;
 using Synword.PublicApi.Middleware;
 
@@ -20,8 +20,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpoints();
 
+Synword.Persistence.Dependencies
+    .AddPersistence(builder.Configuration, builder.Services);
+
 Synword.Infrastructure.Dependencies
-    .ConfigureServices(builder.Configuration, builder.Services);
+    .AddInfrastructure(builder.Configuration, builder.Services);
+
+Synword.Application.Dependencies
+    .AddApplication(builder.Configuration, builder.Services);
 
 builder.Services.AddControllers();
 
@@ -33,9 +39,7 @@ builder.Services.AddSwagger();
 
 builder.Services.AddJwtBearerAuthentication(builder.Configuration);
 
-builder.Services.AddRepositories();
-
-builder.Services.AddAppServices();
+builder.Services.AddDomainServices();
 
 builder.Services.AddSingleton(builder.Configuration);
 

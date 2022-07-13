@@ -2,7 +2,7 @@ using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Synword.Domain.Entities.SynonymDictionaryAggregate;
 
-namespace Synword.Infrastructure.SynonymDictionary.EngSynonymDictionary;
+namespace Synword.Persistence.SynonymDictionary.EngSynonymDictionary;
 
 public class EngSynonymDictionaryContext : DbContext
 {

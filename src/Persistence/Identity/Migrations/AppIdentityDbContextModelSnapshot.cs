@@ -3,11 +3,11 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Synword.Infrastructure.Identity;
+using Synword.Persistence.Identity;
 
 #nullable disable
 
-namespace Synword.Infrastructure.Identity.Migrations
+namespace Synword.Persistence.Identity.Migrations
 {
     [DbContext(typeof(AppIdentityDbContext))]
     partial class AppIdentityDbContextModelSnapshot : ModelSnapshot
@@ -186,7 +186,7 @@ namespace Synword.Infrastructure.Identity.Migrations
                     b.ToTable("RefreshTokens");
                 });
 
-            modelBuilder.Entity("Synword.Infrastructure.Identity.AppUser", b =>
+            modelBuilder.Entity("Synword.Persistence.Identity.AppUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
@@ -261,7 +261,7 @@ namespace Synword.Infrastructure.Identity.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Synword.Infrastructure.Identity.AppUser", null)
+                    b.HasOne("Synword.Persistence.Identity.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -270,7 +270,7 @@ namespace Synword.Infrastructure.Identity.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Synword.Infrastructure.Identity.AppUser", null)
+                    b.HasOne("Synword.Persistence.Identity.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -285,7 +285,7 @@ namespace Synword.Infrastructure.Identity.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Synword.Infrastructure.Identity.AppUser", null)
+                    b.HasOne("Synword.Persistence.Identity.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -294,7 +294,7 @@ namespace Synword.Infrastructure.Identity.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Synword.Infrastructure.Identity.AppUser", null)
+                    b.HasOne("Synword.Persistence.Identity.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -303,7 +303,7 @@ namespace Synword.Infrastructure.Identity.Migrations
 
             modelBuilder.Entity("Synword.Domain.Entities.Identity.EmailConfirmationCode", b =>
                 {
-                    b.OwnsOne("Synword.Domain.Entities.Identity.ValueObjects.ConfirmationCode", "Code", b1 =>
+                    b.OwnsOne("Synword.Domain.Entities.Identity.ValueObjects.ConfirmationCode", "ConfirmationCode", b1 =>
                         {
                             b1.Property<int>("EmailConfirmationCodeId")
                                 .HasColumnType("INTEGER");
@@ -339,7 +339,7 @@ namespace Synword.Infrastructure.Identity.Migrations
                                 .HasForeignKey("EmailConfirmationCodeId");
                         });
 
-                    b.Navigation("Code")
+                    b.Navigation("ConfirmationCode")
                         .IsRequired();
 
                     b.Navigation("Email")
@@ -348,12 +348,12 @@ namespace Synword.Infrastructure.Identity.Migrations
 
             modelBuilder.Entity("Synword.Domain.Entities.Identity.Token.RefreshToken", b =>
                 {
-                    b.HasOne("Synword.Infrastructure.Identity.AppUser", null)
+                    b.HasOne("Synword.Persistence.Identity.AppUser", null)
                         .WithMany("RefreshTokens")
                         .HasForeignKey("AppUserId");
                 });
 
-            modelBuilder.Entity("Synword.Infrastructure.Identity.AppUser", b =>
+            modelBuilder.Entity("Synword.Persistence.Identity.AppUser", b =>
                 {
                     b.Navigation("RefreshTokens");
                 });

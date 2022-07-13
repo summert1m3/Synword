@@ -1,4 +1,4 @@
-namespace Application.Exceptions;
+namespace Synword.Application.Exceptions;
 
 public class AppValidationException : Exception
 {

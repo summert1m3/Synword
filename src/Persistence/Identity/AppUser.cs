@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Synword.Domain.Entities.Identity.Token;
 
-namespace Synword.Infrastructure.Identity;
+namespace Synword.Persistence.Identity;
 
 public class AppUser : IdentityUser
 {

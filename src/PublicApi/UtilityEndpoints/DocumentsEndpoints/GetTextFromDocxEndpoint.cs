@@ -1,9 +1,9 @@
 using System.Security.Claims;
-using Application.Utility.Documents.Services;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using Synword.Application.Utility.Documents.Services;
 
 namespace Synword.PublicApi.UtilityEndpoints.DocumentsEndpoints;
 

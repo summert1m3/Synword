@@ -1,9 +1,9 @@
-using Application.Interfaces.Services.Documents;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Http;
+using Synword.Application.Interfaces.Services.Documents;
 
-namespace Infrastructure.Docx;
+namespace Synword.Infrastructure.Docx;
 
 public class DocxService : IDocxService
 {

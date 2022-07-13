@@ -1,12 +1,12 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Application.Interfaces.Services.Token;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Synword.Application.Interfaces.Services.Token;
 using Synword.Domain.Entities.Identity.Token;
 
-namespace Infrastructure.Token;
+namespace Synword.Infrastructure.Token;
 
 public class IdentityTokenClaimService : ITokenClaimsService
 {

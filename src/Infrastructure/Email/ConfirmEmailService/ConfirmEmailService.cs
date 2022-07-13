@@ -1,10 +1,10 @@
-using Application.Interfaces.Services.Email;
 using Ardalis.GuardClauses;
+using Synword.Application.Interfaces.Services.Email;
 using Synword.Domain.Entities.Identity;
 using Synword.Domain.Entities.Identity.ValueObjects;
-using Synword.Infrastructure.Identity;
+using Synword.Persistence.Identity;
 
-namespace Infrastructure.Email.ConfirmEmailService;
+namespace Synword.Infrastructure.Email.ConfirmEmailService;
 
 public class ConfirmEmailService : IConfirmEmailService
 {

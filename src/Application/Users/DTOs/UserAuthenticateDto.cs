@@ -1,4 +1,4 @@
-namespace Application.Users.DTOs;
+namespace Synword.Application.Users.DTOs;
 
 public class UserAuthenticateDto
 {

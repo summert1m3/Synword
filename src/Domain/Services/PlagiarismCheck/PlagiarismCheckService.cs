@@ -7,10 +7,10 @@ namespace Synword.Domain.Services.PlagiarismCheck;
 
 public class PlagiarismCheckService : IPlagiarismCheckService
 {
-    private readonly IPlagiarismCheckAPI _plagiarismCheckApi;
+    private readonly IPlagiarismCheckApi _plagiarismCheckApi;
     private readonly ILogger<PlagiarismCheckService> _logger;
 
-    public PlagiarismCheckService(IPlagiarismCheckAPI plagiarismCheckApi, 
+    public PlagiarismCheckService(IPlagiarismCheckApi plagiarismCheckApi, 
         ILogger<PlagiarismCheckService> logger)
     {
         _plagiarismCheckApi = plagiarismCheckApi;

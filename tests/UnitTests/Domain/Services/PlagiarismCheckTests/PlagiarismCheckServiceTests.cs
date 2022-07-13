@@ -11,8 +11,8 @@ namespace UnitTests.Domain.Services.PlagiarismCheckTests;
 
 public class PlagiarismCheckServiceTests
 {
-    private readonly Mock<IPlagiarismCheckAPI> _mockPlagiarismCheckApi = new();
-    private readonly IPlagiarismCheckAPI _plagiarismCheckApiApiStub = 
+    private readonly Mock<IPlagiarismCheckApi> _mockPlagiarismCheckApi = new();
+    private readonly IPlagiarismCheckApi _plagiarismCheckApiApiStub = 
         new PlagiarismCheckApiStub();
 
     [Fact]

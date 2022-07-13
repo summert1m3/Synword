@@ -1,11 +1,11 @@
 ﻿using System.Security.Claims;
-using Application.Users.DTOs;
-using Application.Users.Queries;
 using Ardalis.ApiEndpoints;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using Synword.Application.Users.DTOs;
+using Synword.Application.Users.Queries;
 
 namespace Synword.PublicApi.UtilityEndpoints.HistoriesEndpoints;
 

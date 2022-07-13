@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Synword.Domain.Enums;
 
-namespace Synword.Infrastructure.Identity;
+namespace Synword.Persistence.Identity;
 
 public static class AppIdentityDbContextSeed
 {

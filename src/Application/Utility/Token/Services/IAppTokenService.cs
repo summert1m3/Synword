@@ -1,6 +1,6 @@
-using Application.Utility.Token.DTOs;
+using Synword.Application.Utility.Token.DTOs;
 
-namespace Application.Utility.Token.Services;
+namespace Synword.Application.Utility.Token.Services;
 
 public interface IAppTokenService
 {

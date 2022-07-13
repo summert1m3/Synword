@@ -1,7 +1,7 @@
-using Application.AppFeatures.PlagiarismCheck.DTOs;
-using Application.AppFeatures.Rephrase.DTOs.RephraseResult;
+using Synword.Application.AppFeatures.PlagiarismCheck.DTOs;
+using Synword.Application.AppFeatures.Rephrase.DTOs.RephraseResult;
 
-namespace Application.Users.DTOs;
+namespace Synword.Application.Users.DTOs;
 
 public class UserHistoriesDto
 {

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Synword.Domain.Entities.RephraseAggregate;
 
-namespace Synword.Infrastructure.Synword.Config;
+namespace Synword.Persistence.Synword.Config;
 
 public class SynonymConfiguration : IEntityTypeConfiguration<Synonym>
 {

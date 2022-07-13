@@ -5,7 +5,7 @@ using Synword.Domain.Interfaces.Services;
 
 namespace UnitTests.Domain.Services.PlagiarismCheckTests;
 
-public class PlagiarismCheckApiStub : IPlagiarismCheckAPI
+public class PlagiarismCheckApiStub : IPlagiarismCheckApi
 {
     public Task<PlagiarismCheckResult> CheckPlagiarism(string text)
     {

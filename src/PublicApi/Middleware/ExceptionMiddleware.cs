@@ -1,6 +1,6 @@
 using System.Net;
 using System.Text.Json;
-using Application.Exceptions;
+using Synword.Application.Exceptions;
 
 namespace Synword.PublicApi.Middleware;
 

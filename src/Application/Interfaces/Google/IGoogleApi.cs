@@ -1,4 +1,4 @@
-﻿namespace Application.Interfaces.Google;
+﻿namespace Synword.Application.Interfaces.Google;
 
 public interface IGoogleApi
 {

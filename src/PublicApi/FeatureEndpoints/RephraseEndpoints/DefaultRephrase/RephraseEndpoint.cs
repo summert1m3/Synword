@@ -1,14 +1,14 @@
 using System.Security.Claims;
-using Application.AppFeatures.Rephrase.DTOs;
-using Application.AppFeatures.Rephrase.DTOs.RephraseResult;
-using Application.AppFeatures.Rephrase.Services;
 using Ardalis.ApiEndpoints;
 using Ardalis.GuardClauses;
-using Infrastructure.SynonymDictionary;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using Synword.Application.AppFeatures.Rephrase.DTOs;
+using Synword.Application.AppFeatures.Rephrase.DTOs.RephraseResult;
+using Synword.Application.AppFeatures.Rephrase.Services;
 using Synword.Domain.Interfaces.Services;
+using Synword.Infrastructure.SynonymDictionary;
 
 namespace Synword.PublicApi.FeatureEndpoints.RephraseEndpoints.DefaultRephrase;
 

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Enums;
 
-namespace Synword.Infrastructure.Synword.Config;
+namespace Synword.Persistence.Synword.Config;
 
 public class UserConfiguration : IEntityTypeConfiguration<User>
 {

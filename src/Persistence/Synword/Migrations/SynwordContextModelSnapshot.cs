@@ -3,11 +3,11 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Synword.Infrastructure.Synword;
+using Synword.Persistence.Synword;
 
 #nullable disable
 
-namespace Synword.Infrastructure.Synword.Migrations
+namespace Synword.Persistence.Synword.Migrations
 {
     [DbContext(typeof(SynwordContext))]
     partial class SynwordContextModelSnapshot : ModelSnapshot

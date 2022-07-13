@@ -1,16 +1,16 @@
-using Application.AppFeatures.Rephrase.DTOs;
-using Application.AppFeatures.Rephrase.DTOs.RephraseResult;
-using Application.Exceptions;
-using Application.Validation.RephraseValidation;
 using Ardalis.GuardClauses;
 using AutoMapper;
+using Synword.Application.AppFeatures.Rephrase.DTOs;
+using Synword.Application.AppFeatures.Rephrase.DTOs.RephraseResult;
+using Synword.Application.Exceptions;
+using Synword.Application.Validation.RephraseValidation;
 using Synword.Domain.Constants;
 using Synword.Domain.Entities.RephraseAggregate;
 using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Interfaces.Repository;
 using Synword.Domain.Interfaces.Services;
 
-namespace Application.AppFeatures.Rephrase.Services;
+namespace Synword.Application.AppFeatures.Rephrase.Services;
 
 public class AppRephraseService : IAppRephraseService
 {

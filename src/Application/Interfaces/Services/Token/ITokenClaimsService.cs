@@ -1,6 +1,6 @@
 ﻿using Synword.Domain.Entities.Identity.Token;
 
-namespace Application.Interfaces.Services.Token;
+namespace Synword.Application.Interfaces.Services.Token;
 
 public interface ITokenClaimsService
 {

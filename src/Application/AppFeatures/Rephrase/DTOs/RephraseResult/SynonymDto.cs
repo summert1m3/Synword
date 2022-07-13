@@ -1,4 +1,4 @@
-namespace Application.AppFeatures.Rephrase.DTOs.RephraseResult;
+namespace Synword.Application.AppFeatures.Rephrase.DTOs.RephraseResult;
 
 public class SynonymDto
 {

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Interfaces.Repository;
-using Synword.Infrastructure.Identity;
+using Synword.Persistence.Identity;
 
 namespace Synword.PublicApi.UtilityEndpoints.UserDataEndpoints;
 

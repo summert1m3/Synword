@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Application.Validation.RephraseValidation;
+using Synword.Application.Validation.RephraseValidation;
 using Synword.Domain.Constants;
 using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Entities.UserAggregate.ValueObjects;

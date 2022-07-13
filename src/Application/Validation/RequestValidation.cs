@@ -1,9 +1,9 @@
-using Application.Exceptions;
+using Synword.Application.Exceptions;
 using Synword.Domain.Constants;
 using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Enums;
 
-namespace Application.Validation;
+namespace Synword.Application.Validation;
 
 public abstract class RequestValidation
 {

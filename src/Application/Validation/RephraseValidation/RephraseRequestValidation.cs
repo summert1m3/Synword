@@ -1,7 +1,7 @@
 using Ardalis.GuardClauses;
 using Synword.Domain.Entities.UserAggregate;
 
-namespace Application.Validation.RephraseValidation;
+namespace Synword.Application.Validation.RephraseValidation;
 
 public class RephraseRequestValidation : RequestValidation, IRephraseRequestValidation
 {

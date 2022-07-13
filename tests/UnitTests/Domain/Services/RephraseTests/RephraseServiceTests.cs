@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Synword.Domain.Entities.RephraseAggregate;
 using Synword.Domain.Extensions;
 using Synword.Domain.Interfaces.Services;

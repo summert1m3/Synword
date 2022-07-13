@@ -1,7 +1,7 @@
 using Ardalis.GuardClauses;
 using Synword.Domain.Entities.UserAggregate;
 
-namespace Application.Validation.PlagiarismCheckValidation;
+namespace Synword.Application.Validation.PlagiarismCheckValidation;
 
 public class PlagiarismRequestValidation : RequestValidation, IPlagiarismRequestValidation
 {

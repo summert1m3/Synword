@@ -1,9 +1,10 @@
 ﻿// ReSharper disable RedundantUsingDirective
-using System.Net;
-using Synword.Domain.Extensions;
-using Application.Interfaces.Google;
 
-namespace Infrastructure.Google;
+using System.Net;
+using Synword.Application.Interfaces.Google;
+using Synword.Domain.Extensions;
+
+namespace Synword.Infrastructure.Google;
 
 public class GoogleApi : IGoogleApi
 {

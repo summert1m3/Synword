@@ -1,18 +1,16 @@
-using Application.Exceptions;
-using Application.Interfaces;
-using Application.Interfaces.Google;
-using Application.Interfaces.Services.Token;
-using Application.Users.DTOs;
 using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Identity;
+using Synword.Application.Exceptions;
+using Synword.Application.Interfaces.Google;
+using Synword.Application.Interfaces.Services.Token;
+using Synword.Application.Users.DTOs;
 using Synword.Domain.Entities.Identity.Token;
 using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Interfaces.Repository;
-using Synword.Domain.Interfaces.Services;
 using Synword.Domain.Specifications;
-using Synword.Infrastructure.Identity;
+using Synword.Persistence.Identity;
 
-namespace Application.Users.Services;
+namespace Synword.Application.Users.Services;
 
 public class UserService : IUserService
 {

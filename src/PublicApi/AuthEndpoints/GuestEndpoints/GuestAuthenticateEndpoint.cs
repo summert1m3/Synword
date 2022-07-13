@@ -1,8 +1,8 @@
-﻿using Application.Guests.Services;
-using Application.Guests.DTOs;
-using Ardalis.ApiEndpoints;
+﻿using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using Synword.Application.Guests.DTOs;
+using Synword.Application.Guests.Services;
 
 namespace Synword.PublicApi.AuthEndpoints.GuestEndpoints;
 

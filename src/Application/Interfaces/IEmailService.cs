@@ -1,4 +1,4 @@
-namespace Application.Interfaces;
+namespace Synword.Application.Interfaces;
 
 public interface IEmailService
 {

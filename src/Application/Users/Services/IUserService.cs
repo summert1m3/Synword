@@ -1,6 +1,6 @@
-using Application.Users.DTOs;
+using Synword.Application.Users.DTOs;
 
-namespace Application.Users.Services;
+namespace Synword.Application.Users.Services;
 
 public interface IUserService
 {

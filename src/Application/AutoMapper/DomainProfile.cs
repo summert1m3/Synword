@@ -1,10 +1,10 @@
-using Application.AppFeatures.PlagiarismCheck.DTOs;
-using Application.AppFeatures.Rephrase.DTOs.RephraseResult;
 using AutoMapper;
+using Synword.Application.AppFeatures.PlagiarismCheck.DTOs;
+using Synword.Application.AppFeatures.Rephrase.DTOs.RephraseResult;
 using Synword.Domain.Entities.PlagiarismCheckAggregate;
 using Synword.Domain.Entities.RephraseAggregate;
 
-namespace Application.AutoMapper;
+namespace Synword.Application.AutoMapper;
 
 public class DomainProfile : Profile
 {

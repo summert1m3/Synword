@@ -1,17 +1,16 @@
-using Application.Exceptions;
-using Application.Interfaces;
-using Application.Interfaces.Google;
 using Ardalis.GuardClauses;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Synword.Application.Exceptions;
+using Synword.Application.Interfaces.Google;
 using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Entities.UserAggregate.ValueObjects;
 using Synword.Domain.Enums;
 using Synword.Domain.Interfaces.Repository;
 using Synword.Domain.Specifications;
-using Synword.Infrastructure.Identity;
+using Synword.Persistence.Identity;
 
-namespace Application.Guests.Commands;
+namespace Synword.Application.Guests.Commands;
 
 public class RegisterViaGoogleSignInCommand : IRequest
 {

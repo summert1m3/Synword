@@ -1,6 +1,4 @@
 ﻿using System.Security.Claims;
-using Application.Exceptions;
-using Application.Guests.Commands;
 using Ardalis.ApiEndpoints;
 using Ardalis.GuardClauses;
 using MediatR;
@@ -8,8 +6,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using Synword.Application.Exceptions;
+using Synword.Application.Guests.Commands;
 using Synword.Domain.Enums;
-using Synword.Infrastructure.Identity;
+using Synword.Persistence.Identity;
 
 namespace Synword.PublicApi.RegistrationEndpoints.RegisterViaGoogle;
 

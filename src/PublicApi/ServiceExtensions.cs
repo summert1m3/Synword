@@ -1,28 +1,4 @@
 ﻿using System.Text;
-using Application.AppFeatures.EnhancedRephrase.Services;
-using Application.AppFeatures.PlagiarismCheck.Services;
-using Application.AppFeatures.Rephrase.Services;
-using Application.Guests.Services;
-using Application.Interfaces;
-using Application.Interfaces.Google;
-using Application.Interfaces.Services.Documents;
-using Application.Interfaces.Services.Email;
-using Application.Interfaces.Services.Token;
-using Application.Users.Services;
-using Application.Utility.Documents.Services;
-using Application.Utility.Token.Services;
-using Application.Validation;
-using Application.Validation.EnhancedRephraseValidation;
-using Application.Validation.PlagiarismCheckValidation;
-using Application.Validation.RephraseValidation;
-using Infrastructure;
-using Infrastructure.Docx;
-using Infrastructure.Email.ConfirmEmailService;
-using Infrastructure.Email.EmailService;
-using Infrastructure.Google;
-using Infrastructure.PlagiarismCheckAPI;
-using Infrastructure.Token;
-using Infrastructure.YandexApi;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -32,10 +8,7 @@ using Synword.Domain.Interfaces.Services;
 using Synword.Domain.Services.EnhancedRephrase;
 using Synword.Domain.Services.PlagiarismCheck;
 using Synword.Domain.Services.Rephrase;
-using Synword.Infrastructure.Identity;
-using Synword.Infrastructure.SynonymDictionary.EngSynonymDictionary;
-using Synword.Infrastructure.SynonymDictionary.RusSynonymDictionary;
-using Synword.Infrastructure.Synword;
+using Synword.Persistence.Identity;
 
 namespace Synword.PublicApi;
 
@@ -71,9 +44,7 @@ public static class ServiceExtensions
             });
         
         services.AddAuthorization();
-        
-        services.AddScoped<ITokenClaimsService, IdentityTokenClaimService>();
-        
+
         return services;
     }
 
@@ -117,96 +88,21 @@ public static class ServiceExtensions
         
         return services;
     }
-    
-    public static IServiceCollection AddRepositories(this IServiceCollection services)
+
+    public static IServiceCollection AddDomainServices(this IServiceCollection services)
     {
-        services.AddScoped(
-            typeof(ISynwordRepository<>), 
-            typeof(SynwordRepository<>));
-    
-        services.AddScoped(
-            typeof(IRusSynonymDictionaryRepository<>),
-            typeof(RusSynonymDictionaryRepository<>));
-    
-        services.AddScoped(
-            typeof(IEngSynonymDictionaryRepository<>),
-            typeof(EngSynonymDictionaryRepository<>));
-        
-        return services;
-    }
-    
-    public static IServiceCollection AddAppServices(this IServiceCollection services)
-    {
-        services.AddScoped(
-            typeof(IGoogleApi), typeof(GoogleApi));
-    
-        services.AddScoped(
-            typeof(IGuestService), typeof(GuestService));
-    
-        services.AddScoped(
-            typeof(IUserService), typeof(UserService));
-    
         services.AddScoped(
             typeof(IPlagiarismCheckService), 
             typeof(PlagiarismCheckService));
-    
-        services.AddScoped(
-            typeof(IAppPlagiarismCheckService), 
-            typeof(AppPlagiarismCheckService));
-    
-        services.AddScoped(
-            typeof(IPlagiarismCheckAPI), 
-            typeof(PlagiarismCheckAPI));
-    
-        services.AddScoped(
-            typeof(IAppRephraseService), 
-            typeof(AppRephraseService));
     
         services.AddScoped(
             typeof(IRephraseService), 
             typeof(RephraseService));
         
         services.AddScoped(
-            typeof(IAppDocxService), 
-            typeof(AppDocxService));
-
-        services.AddScoped(
-            typeof(IDocxService), 
-            typeof(DocxService));
-        
-        services.AddScoped(
-            typeof(IRephraseRequestValidation), 
-            typeof(RephraseRequestValidation));
-        
-        services.AddScoped(
-            typeof(IPlagiarismRequestValidation), 
-            typeof(PlagiarismRequestValidation));
-        
-        services.AddScoped(
-            typeof(IAppEnhancedRephraseService), 
-            typeof(AppEnhancedRephraseService));
-        
-        services.AddScoped(
             typeof(IEnhancedRephraseService), 
             typeof(EnhancedRephraseService));
-        
-        services.AddScoped(
-            typeof(IYandexTranslateApi), 
-            typeof(YandexTranslateApi));
-        
-        services.AddScoped(
-            typeof(IEnhancedRephraseRequestValidation), 
-            typeof(EnhancedRephraseRequestValidation));
-        services.AddScoped(
-            typeof(IAppTokenService), 
-            typeof(AppTokenService));
-        services.AddScoped(
-            typeof(IEmailService),
-            typeof(EmailService));
-        services.AddScoped(
-            typeof(IConfirmEmailService),
-            typeof(ConfirmEmailService));
-        
+
         return services;
     }
 }

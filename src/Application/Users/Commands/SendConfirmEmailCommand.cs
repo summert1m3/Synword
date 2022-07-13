@@ -1,9 +1,9 @@
-﻿using Application.Interfaces;
-using Ardalis.GuardClauses;
+﻿using Ardalis.GuardClauses;
 using MediatR;
-using Synword.Infrastructure.Identity;
+using Synword.Application.Interfaces;
+using Synword.Persistence.Identity;
 
-namespace Application.Users.Commands;
+namespace Synword.Application.Users.Commands;
 
 public class SendConfirmEmailCommand : IRequest
 {

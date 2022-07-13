@@ -1,12 +1,11 @@
-using Application.Guests.DTOs;
-using Application.Interfaces.Services.Token;
 using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Identity;
+using Synword.Application.Guests.DTOs;
+using Synword.Application.Interfaces.Services.Token;
 using Synword.Domain.Entities.Identity.Token;
-using Synword.Domain.Interfaces.Services;
-using Synword.Infrastructure.Identity;
+using Synword.Persistence.Identity;
 
-namespace Application.Guests.Services;
+namespace Synword.Application.Guests.Services;
 
 public class GuestService : IGuestService
 {

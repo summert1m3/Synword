@@ -1,11 +1,11 @@
-using Application.Interfaces;
-using Application.Interfaces.Services.Email;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
+using Synword.Application.Interfaces;
+using Synword.Application.Interfaces.Services.Email;
 using Synword.Domain.Entities.Identity;
 
-namespace Infrastructure.Email.EmailService;
+namespace Synword.Infrastructure.Email.EmailService;
 
 public class EmailService : IEmailService
 {

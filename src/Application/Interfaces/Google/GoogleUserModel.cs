@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Application.Interfaces.Google;
+namespace Synword.Application.Interfaces.Google;
 
 public class GoogleUserModel
 {

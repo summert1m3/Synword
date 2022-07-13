@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Synword.Infrastructure.Identity.Migrations
+namespace Synword.Persistence.Identity.Migrations
 {
     public partial class InitialMigration : Migration
     {

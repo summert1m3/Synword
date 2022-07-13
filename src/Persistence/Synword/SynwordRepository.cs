@@ -2,7 +2,7 @@
 using Synword.Domain.Interfaces;
 using Synword.Domain.Interfaces.Repository;
 
-namespace Synword.Infrastructure.Synword;
+namespace Synword.Persistence.Synword;
 
 public class SynwordRepository<T> : 
     RepositoryBase<T>, ISynwordRepository<T> where T : class, IAggregateRoot

@@ -1,6 +1,6 @@
 using Synword.Domain.Entities.Identity;
 
-namespace Application.Interfaces.Services.Email;
+namespace Synword.Application.Interfaces.Services.Email;
 
 public interface IConfirmEmailService
 {

@@ -1,14 +1,14 @@
-using Application.AppFeatures.PlagiarismCheck.DTOs;
-using Application.AppFeatures.Rephrase.DTOs.RephraseResult;
-using Application.Users.DTOs;
 using Ardalis.GuardClauses;
 using AutoMapper;
 using MediatR;
+using Synword.Application.AppFeatures.PlagiarismCheck.DTOs;
+using Synword.Application.AppFeatures.Rephrase.DTOs.RephraseResult;
+using Synword.Application.Users.DTOs;
 using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Interfaces.Repository;
 using Synword.Domain.Specifications;
 
-namespace Application.Users.Queries;
+namespace Synword.Application.Users.Queries;
 
 public class GetAllUserHistoriesQuery : IRequest<UserHistoriesDto>
 {

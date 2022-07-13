@@ -1,13 +1,13 @@
 using System.Net;
-using Application.Guests.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Synword.Application.Guests.DTOs;
 using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Enums;
 using Synword.Domain.Interfaces.Repository;
-using Synword.Infrastructure.Identity;
+using Synword.Persistence.Identity;
 
-namespace Application.Guests.Commands;
+namespace Synword.Application.Guests.Commands;
 
 public class RegisterNewGuestCommand : IRequest<GuestRegistrationDto>
 {

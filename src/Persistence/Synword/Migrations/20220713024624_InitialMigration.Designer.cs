@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Synword.Infrastructure.Synword;
+using Synword.Persistence.Synword;
 
 #nullable disable
 
-namespace Synword.Infrastructure.Synword.Migrations
+namespace Synword.Persistence.Synword.Migrations
 {
     [DbContext(typeof(SynwordContext))]
-    [Migration("20220712022734_InitialMigration")]
+    [Migration("20220713024624_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

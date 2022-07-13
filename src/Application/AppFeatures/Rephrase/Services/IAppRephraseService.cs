@@ -1,8 +1,8 @@
-using Application.AppFeatures.Rephrase.DTOs;
-using Application.AppFeatures.Rephrase.DTOs.RephraseResult;
+using Synword.Application.AppFeatures.Rephrase.DTOs;
+using Synword.Application.AppFeatures.Rephrase.DTOs.RephraseResult;
 using Synword.Domain.Interfaces.Services;
 
-namespace Application.AppFeatures.Rephrase.Services;
+namespace Synword.Application.AppFeatures.Rephrase.Services;
 
 public interface IAppRephraseService
 {

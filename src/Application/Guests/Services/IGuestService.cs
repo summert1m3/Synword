@@ -1,6 +1,6 @@
-using Application.Guests.DTOs;
+using Synword.Application.Guests.DTOs;
 
-namespace Application.Guests.Services;
+namespace Synword.Application.Guests.Services;
 
 public interface IGuestService
 {

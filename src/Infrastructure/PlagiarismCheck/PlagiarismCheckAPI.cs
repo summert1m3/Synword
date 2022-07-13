@@ -3,16 +3,16 @@ using Synword.Domain.Entities.PlagiarismCheckAggregate;
 using Synword.Domain.Extensions;
 using Synword.Domain.Interfaces.Services;
 
-namespace Infrastructure.PlagiarismCheckAPI;
+namespace Synword.Infrastructure.PlagiarismCheck;
 
-public class PlagiarismCheckAPI : IPlagiarismCheckAPI
+public class PlagiarismCheckApi : IPlagiarismCheckApi
 {
     private static readonly SemaphoreSlim pool = new(5, 5);
     private readonly string _apiKey;
     private const string ApiUrl = "https://content-watch.ru/public/api/";
     private static readonly HttpClient _httpClient = new();
 
-    public PlagiarismCheckAPI(IConfiguration configuration)
+    public PlagiarismCheckApi(IConfiguration configuration)
     {
         _apiKey = configuration["PlagiarismCheckApiKey"];
     }

@@ -1,10 +1,10 @@
 ﻿using System.Net;
-using Application.Guests.Commands;
-using Application.Guests.DTOs;
 using Ardalis.ApiEndpoints;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using Synword.Application.Guests.Commands;
+using Synword.Application.Guests.DTOs;
 
 namespace Synword.PublicApi.RegistrationEndpoints.GuestRegistration;
 

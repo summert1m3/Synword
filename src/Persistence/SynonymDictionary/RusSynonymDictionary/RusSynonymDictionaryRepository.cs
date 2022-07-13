@@ -2,7 +2,7 @@ using Ardalis.Specification.EntityFrameworkCore;
 using Synword.Domain.Interfaces;
 using Synword.Domain.Interfaces.Repository;
 
-namespace Synword.Infrastructure.SynonymDictionary.RusSynonymDictionary;
+namespace Synword.Persistence.SynonymDictionary.RusSynonymDictionary;
 
 public class RusSynonymDictionaryRepository<T> :
     RepositoryBase<T>, IRusSynonymDictionaryRepository<T> where T : class, IAggregateRoot

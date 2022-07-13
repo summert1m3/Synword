@@ -1,6 +1,4 @@
 ﻿using System.Security.Claims;
-using Application.Exceptions;
-using Application.Users.Commands;
 using Ardalis.ApiEndpoints;
 using Ardalis.GuardClauses;
 using MediatR;
@@ -8,7 +6,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using Synword.Infrastructure.Identity;
+using Synword.Application.Exceptions;
+using Synword.Application.Users.Commands;
+using Synword.Persistence.Identity;
 
 namespace Synword.PublicApi.UtilityEndpoints.ConfirmationEmailEndpoints;
 

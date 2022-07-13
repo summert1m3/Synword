@@ -1,14 +1,14 @@
-using Application.Exceptions;
-using Application.Interfaces;
 using Ardalis.GuardClauses;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Synword.Application.Exceptions;
+using Synword.Application.Interfaces;
 using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Enums;
 using Synword.Domain.Interfaces.Repository;
-using Synword.Infrastructure.Identity;
+using Synword.Persistence.Identity;
 
-namespace Application.Guests.Commands;
+namespace Synword.Application.Guests.Commands;
 
 public class RegisterViaEmailCommand : IRequest
 {

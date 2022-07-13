@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Http;
 
-namespace Application.Interfaces.Services.Documents;
+namespace Synword.Application.Interfaces.Services.Documents;
 
 public interface IDocxService
 {

@@ -1,6 +1,6 @@
 using Synword.Domain.Entities.UserAggregate;
 
-namespace Application.Validation.RephraseValidation;
+namespace Synword.Application.Validation.RephraseValidation;
 
 public interface IRephraseRequestValidation
 {

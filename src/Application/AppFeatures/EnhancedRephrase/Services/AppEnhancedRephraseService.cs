@@ -1,13 +1,13 @@
-﻿using Application.AppFeatures.EnhancedRephrase.DTOs;
-using Application.Validation.EnhancedRephraseValidation;
-using Ardalis.GuardClauses;
+﻿using Ardalis.GuardClauses;
+using Synword.Application.AppFeatures.EnhancedRephrase.DTOs;
+using Synword.Application.Validation.EnhancedRephraseValidation;
 using Synword.Domain.Constants;
 using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Interfaces.Repository;
 using Synword.Domain.Interfaces.Services;
 using Synword.Domain.Services.EnhancedRephrase;
 
-namespace Application.AppFeatures.EnhancedRephrase.Services;
+namespace Synword.Application.AppFeatures.EnhancedRephrase.Services;
 
 public class AppEnhancedRephraseService : IAppEnhancedRephraseService
 {

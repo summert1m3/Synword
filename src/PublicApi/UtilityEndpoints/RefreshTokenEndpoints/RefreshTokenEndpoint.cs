@@ -1,8 +1,8 @@
-using Application.Utility.Token.DTOs;
-using Application.Utility.Token.Services;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using Synword.Application.Utility.Token.DTOs;
+using Synword.Application.Utility.Token.Services;
 
 namespace Synword.PublicApi.UtilityEndpoints.RefreshTokenEndpoints;
 

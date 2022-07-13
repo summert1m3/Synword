@@ -2,7 +2,7 @@
 using Synword.Domain.Interfaces.Repository;
 using Synword.Domain.Interfaces.Services;
 
-namespace Infrastructure.SynonymDictionary;
+namespace Synword.Infrastructure.SynonymDictionary;
 
 public class EngSynonymDictionaryService : ISynonymDictionaryService
 {

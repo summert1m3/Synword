@@ -1,4 +1,4 @@
-namespace Application.Guests.DTOs;
+namespace Synword.Application.Guests.DTOs;
 
 public class GuestRegistrationDto
 {

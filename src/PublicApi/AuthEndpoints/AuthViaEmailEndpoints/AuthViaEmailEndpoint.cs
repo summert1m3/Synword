@@ -1,8 +1,8 @@
-﻿using Application.Users.DTOs;
-using Application.Users.Services;
-using Ardalis.ApiEndpoints;
+﻿using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using Synword.Application.Users.DTOs;
+using Synword.Application.Users.Services;
 
 namespace Synword.PublicApi.AuthEndpoints.AuthViaEmailEndpoints;
 

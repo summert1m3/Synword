@@ -1,4 +1,4 @@
-namespace Application.AppFeatures.PlagiarismCheck.DTOs;
+namespace Synword.Application.AppFeatures.PlagiarismCheck.DTOs;
 
 public class MatchedUrlDto
 {

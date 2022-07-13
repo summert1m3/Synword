@@ -1,17 +1,30 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Synword.Infrastructure.Identity;
-using Synword.Infrastructure.SynonymDictionary.EngSynonymDictionary;
-using Synword.Infrastructure.SynonymDictionary.RusSynonymDictionary;
-using Synword.Infrastructure.Synword;
+using Synword.Domain.Interfaces.Repository;
+using Synword.Persistence.Identity;
+using Synword.Persistence.SynonymDictionary.EngSynonymDictionary;
+using Synword.Persistence.SynonymDictionary.RusSynonymDictionary;
+using Synword.Persistence.Synword;
 
-namespace Synword.Infrastructure;
+namespace Synword.Persistence;
 
 public static class Dependencies
 {
-    public static void ConfigureServices(IConfiguration configuration, IServiceCollection services)
+    public static void AddPersistence(IConfiguration configuration, IServiceCollection services)
     {
+        services.AddScoped(
+            typeof(ISynwordRepository<>), 
+            typeof(SynwordRepository<>));
+    
+        services.AddScoped(
+            typeof(IRusSynonymDictionaryRepository<>),
+            typeof(RusSynonymDictionaryRepository<>));
+    
+        services.AddScoped(
+            typeof(IEngSynonymDictionaryRepository<>),
+            typeof(EngSynonymDictionaryRepository<>));
+        
         services.AddDbContext<SynwordContext>(c =>
             c.UseSqlite(configuration["UserDataDbConnection"]));
         

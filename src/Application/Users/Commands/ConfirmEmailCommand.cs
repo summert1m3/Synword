@@ -1,11 +1,11 @@
-using Application.Exceptions;
-using Application.Interfaces.Services.Email;
 using Ardalis.GuardClauses;
 using MediatR;
+using Synword.Application.Exceptions;
+using Synword.Application.Interfaces.Services.Email;
 using Synword.Domain.Entities.Identity;
-using Synword.Infrastructure.Identity;
+using Synword.Persistence.Identity;
 
-namespace Application.Users.Commands;
+namespace Synword.Application.Users.Commands;
 
 public class ConfirmEmailCommand : IRequest
 {

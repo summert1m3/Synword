@@ -1,4 +1,4 @@
-namespace Application.Utility.Token.DTOs;
+namespace Synword.Application.Utility.Token.DTOs;
 
 public class TokenDto
 {

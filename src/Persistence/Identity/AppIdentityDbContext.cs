@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Synword.Domain.Entities.Identity;
 using Synword.Domain.Entities.Identity.Token;
-using Synword.Infrastructure.Identity.Config;
+using Synword.Persistence.Identity.Config;
 
-namespace Synword.Infrastructure.Identity;
+namespace Synword.Persistence.Identity;
 
 public class AppIdentityDbContext : IdentityDbContext<AppUser>
 {

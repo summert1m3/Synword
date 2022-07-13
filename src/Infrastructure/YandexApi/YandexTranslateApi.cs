@@ -5,7 +5,7 @@ using Synword.Domain.Extensions;
 using Synword.Domain.Interfaces.Services;
 using Synword.Domain.Services.EnhancedRephrase;
 
-namespace Infrastructure.YandexApi;
+namespace Synword.Infrastructure.YandexApi;
 
 public class YandexTranslateApi : IYandexTranslateApi
 {

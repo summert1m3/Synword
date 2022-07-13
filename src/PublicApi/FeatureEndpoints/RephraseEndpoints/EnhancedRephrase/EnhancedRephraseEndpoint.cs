@@ -1,11 +1,11 @@
 ﻿using System.Security.Claims;
-using Application.AppFeatures.EnhancedRephrase.DTOs;
-using Application.AppFeatures.EnhancedRephrase.Services;
 using Ardalis.ApiEndpoints;
 using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using Synword.Application.AppFeatures.EnhancedRephrase.DTOs;
+using Synword.Application.AppFeatures.EnhancedRephrase.Services;
 using Synword.Domain.Services.EnhancedRephrase;
 
 namespace Synword.PublicApi.FeatureEndpoints.RephraseEndpoints.EnhancedRephrase;

@@ -1,10 +1,10 @@
 using System.Security.Claims;
-using Application.AppFeatures.PlagiarismCheck.DTOs;
-using Application.AppFeatures.PlagiarismCheck.Services;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using Synword.Application.AppFeatures.PlagiarismCheck.DTOs;
+using Synword.Application.AppFeatures.PlagiarismCheck.Services;
 
 namespace Synword.PublicApi.FeatureEndpoints.PlagiarismCheckEndpoints;
 

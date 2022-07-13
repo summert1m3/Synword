@@ -1,15 +1,15 @@
-using Application.AppFeatures.PlagiarismCheck.DTOs;
-using Application.Exceptions;
-using Application.Validation.PlagiarismCheckValidation;
 using Ardalis.GuardClauses;
 using AutoMapper;
+using Synword.Application.AppFeatures.PlagiarismCheck.DTOs;
+using Synword.Application.Exceptions;
+using Synword.Application.Validation.PlagiarismCheckValidation;
 using Synword.Domain.Constants;
 using Synword.Domain.Entities.PlagiarismCheckAggregate;
 using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Interfaces.Repository;
 using Synword.Domain.Interfaces.Services;
 
-namespace Application.AppFeatures.PlagiarismCheck.Services;
+namespace Synword.Application.AppFeatures.PlagiarismCheck.Services;
 
 public class AppPlagiarismCheckService : IAppPlagiarismCheckService
 {

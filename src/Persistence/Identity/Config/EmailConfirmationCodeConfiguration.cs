@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Synword.Domain.Entities.Identity;
 
-namespace Synword.Infrastructure.Identity.Config;
+namespace Synword.Persistence.Identity.Config;
 
 public class EmailConfirmationCodeConfiguration 
     : IEntityTypeConfiguration<EmailConfirmationCode>
