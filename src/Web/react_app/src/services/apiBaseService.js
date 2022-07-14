@@ -1,7 +1,7 @@
 class ApiBaseService {
     static _apiBase = 'http://localhost:5000/';
     static guestRegisterUrl = `${this._apiBase + 'guestRegister'}`;
-    static guestAuthenticateUrl = `${this._apiBase + 'guestAuthenticate'}`;
+    static guestAuthenticateUrl = `${this._apiBase + 'guestAuth'}`;
     static plagiarismCheckUrl = `${this._apiBase + 'plagiarismCheck'}`;
     static rephraseUrl = `${this._apiBase + 'rephrase'}`;
 

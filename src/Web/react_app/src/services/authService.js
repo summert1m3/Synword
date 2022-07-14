@@ -58,7 +58,7 @@ class AuthService {
             signal
         );
 
-        return data.token;
+        return data.accessToken;
     }
 
     async getUserId(signal) {
