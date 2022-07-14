@@ -74,3 +74,17 @@ UI
 <p align="center">
     <img src="docs/Images/Rephrase layer.png" alt="drawing" width="30%"/>
 </p>
+
+## Web app screens
+
+<p align="center">
+    <img src="docs/Images/web_main.png" alt="drawing" width="90%"/>
+</p>
+
+<p align="center">
+    <img src="docs/Images/web_plagiarism_check.png" alt="drawing" width="90%"/>
+</p>
+
+<p align="center">
+    <img src="docs/Images/web_rephrase.png" alt="drawing" width="90%"/>
+</p>
