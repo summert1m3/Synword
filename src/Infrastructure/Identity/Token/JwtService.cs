@@ -3,19 +3,22 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Synword.Application.Interfaces.Services.Token;
-using Synword.Domain.Entities.Identity.Token;
+using Synword.Persistence.Entities.Identity.Token;
+using Synword.Persistence.Identity;
 
-namespace Synword.Infrastructure.Token;
+namespace Synword.Infrastructure.Identity.Token;
 
-public class IdentityTokenClaimService : ITokenClaimsService
+public class JwtService : IJwtService
 {
     private readonly IConfiguration _configuration;
+    private readonly AppIdentityDbContext _identityDb;
 
-    public IdentityTokenClaimService(
-        IConfiguration configuration)
+    public JwtService(
+        IConfiguration configuration,
+        AppIdentityDbContext identityDb)
     {
         _configuration = configuration;
+        _identityDb = identityDb;
     }
 
     public string GenerateAccessToken(string uId)
@@ -23,7 +26,7 @@ public class IdentityTokenClaimService : ITokenClaimsService
         var secretKey = _configuration["JWT_SECRET_KEY"];
         var claims = new List<Claim> {new(ClaimTypes.NameIdentifier, uId)};
 
-        string token = Generate(
+        string token = GenerateJwt(
             secretKey,
             DateTime.UtcNow.AddMinutes(15),
             claims
@@ -46,7 +49,7 @@ public class IdentityTokenClaimService : ITokenClaimsService
 
         DateTime expirationDate = DateTime.UtcNow.AddDays(30);
 
-        string refreshToken = Generate(
+        string refreshToken = GenerateJwt(
             secretKey,
             expirationDate,
             claims
@@ -82,7 +85,7 @@ public class IdentityTokenClaimService : ITokenClaimsService
             out SecurityToken _);
     }
 
-    private string Generate(
+    private string GenerateJwt(
         string secretKey,
         DateTime expires,
         IEnumerable<Claim> claims = null)
@@ -102,4 +105,15 @@ public class IdentityTokenClaimService : ITokenClaimsService
 
         return new JwtSecurityTokenHandler().WriteToken(securityToken);
     }
+    
+    public JwtSecurityToken EncodeJwtToken(string jwt)
+    {
+        return new JwtSecurityTokenHandler().ReadJwtToken(jwt);
+    }
+    
+
+
+
+
+
 }

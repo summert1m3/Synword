@@ -30,14 +30,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 .IsRequired();
         });
 
-        builder.OwnsOne(u => u.ExternalSignIn, ue =>
-        {
-            ue.WithOwner();
-            ue.Property(e => e.Type)
-                .HasConversion<string>();
-            ue.HasIndex(e => e.Id).IsUnique();
-        });
-        
         builder.OwnsOne(u => u.Ip, ui =>
         {
             ui.WithOwner();

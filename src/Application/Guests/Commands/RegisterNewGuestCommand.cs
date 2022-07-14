@@ -1,11 +1,9 @@
 using System.Net;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using Synword.Application.Guests.DTOs;
+using Synword.Application.Interfaces.Identity.UserIdentity;
 using Synword.Domain.Entities.UserAggregate;
-using Synword.Domain.Enums;
 using Synword.Domain.Interfaces.Repository;
-using Synword.Persistence.Identity;
 
 namespace Synword.Application.Guests.Commands;
 
@@ -20,30 +18,26 @@ public class RegisterNewGuestCommand : IRequest<GuestRegistrationDto>
 
 internal class RegisterNewGuestCommandHandler : IRequestHandler<RegisterNewGuestCommand, GuestRegistrationDto>
 {
-    private readonly UserManager<AppUser>? _userManager;
+    private readonly IUserRegistrationService _registration;
     private readonly ISynwordRepository<User>? _userRepository;
-
+    
     public RegisterNewGuestCommandHandler(
-        UserManager<AppUser> userManager, 
+        IUserRegistrationService registration,
         ISynwordRepository<User> userRepository)
     {
-        _userManager = userManager;
         _userRepository = userRepository;
+        _registration = registration;
     }
     
     public async Task<GuestRegistrationDto> Handle(RegisterNewGuestCommand request, CancellationToken cancellationToken)
     {
-        AppUser guest = new();
+        string uId = Guid.NewGuid().ToString();
 
-        guest.UserName = guest.Id;
-        
-        await _userManager!.CreateAsync(guest);
+        await _registration.RegisterNewGuest(uId);
 
-        await _userManager.AddToRoleAsync(guest, Role.Guest.ToString());
-        
         await _userRepository!.AddAsync(
             User.CreateDefaultGuest(
-                guest.Id, 
+                uId, 
                 request.Ip.ToString(),
                 DateTime.Now),
             cancellationToken
@@ -53,7 +47,7 @@ internal class RegisterNewGuestCommandHandler : IRequestHandler<RegisterNewGuest
         
         return new GuestRegistrationDto()
         {
-            UserId = guest.Id
+            UserId = uId
         };
     }
 }

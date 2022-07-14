@@ -59,8 +59,6 @@ namespace Synword.Persistence.Synword.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
-                    ExternalSignIn_Type = table.Column<string>(type: "TEXT", nullable: true),
-                    ExternalSignIn_Id = table.Column<string>(type: "TEXT", nullable: true),
                     Ip = table.Column<string>(type: "TEXT", nullable: false),
                     Roles = table.Column<string>(type: "TEXT", nullable: false),
                     Coins = table.Column<int>(type: "INTEGER", nullable: false),
@@ -294,12 +292,6 @@ namespace Synword.Persistence.Synword.Migrations
                 name: "IX_Synonyms_SourceWordSynonymsId",
                 table: "Synonyms",
                 column: "SourceWordSynonymsId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_ExternalSignIn_Id",
-                table: "Users",
-                column: "ExternalSignIn_Id",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_MetadataId",

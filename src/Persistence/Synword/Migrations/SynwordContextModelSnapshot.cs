@@ -402,29 +402,6 @@ namespace Synword.Persistence.Synword.Migrations
                                 .HasForeignKey("UserId");
                         });
 
-                    b.OwnsOne("Synword.Domain.Entities.UserAggregate.ValueObjects.ExternalSignIn", "ExternalSignIn", b1 =>
-                        {
-                            b1.Property<string>("UserId")
-                                .HasColumnType("TEXT");
-
-                            b1.Property<string>("Id")
-                                .HasColumnType("TEXT");
-
-                            b1.Property<string>("Type")
-                                .IsRequired()
-                                .HasColumnType("TEXT");
-
-                            b1.HasKey("UserId");
-
-                            b1.HasIndex("Id")
-                                .IsUnique();
-
-                            b1.ToTable("Users");
-
-                            b1.WithOwner()
-                                .HasForeignKey("UserId");
-                        });
-
                     b.OwnsOne("Synword.Domain.Entities.UserAggregate.ValueObjects.Ip", "Ip", b1 =>
                         {
                             b1.Property<string>("UserId")
@@ -445,8 +422,6 @@ namespace Synword.Persistence.Synword.Migrations
 
                     b.Navigation("Coins")
                         .IsRequired();
-
-                    b.Navigation("ExternalSignIn");
 
                     b.Navigation("Ip")
                         .IsRequired();

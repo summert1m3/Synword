@@ -9,6 +9,7 @@ using Synword.Application.AutoMapper;
 using Synword.Domain.Entities.SynonymDictionaryAggregate;
 using Synword.Domain.Interfaces.Repository;
 using Synword.Infrastructure.SynonymDictionary;
+using Synword.Persistence.Entities.Identity;
 using Synword.Persistence.Identity;
 using Synword.Persistence.Synword;
 using Synword.PublicApi;
@@ -129,7 +130,7 @@ async Task SeedDatabase()
     try
     {
         var userManager = scopedProvider.
-            GetRequiredService<UserManager<AppUser>>();
+            GetRequiredService<UserManager<UserIdentity>>();
         var roleManager = scopedProvider.
             GetRequiredService<RoleManager<IdentityRole>>();
         await AppIdentityDbContextSeed.SeedAsync(userManager, roleManager);

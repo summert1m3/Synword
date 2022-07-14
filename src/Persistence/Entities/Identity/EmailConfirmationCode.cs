@@ -1,8 +1,9 @@
 using Ardalis.GuardClauses;
-using Synword.Domain.Entities.Identity.ValueObjects;
+using Synword.Domain.Entities;
 using Synword.Domain.Entities.UserAggregate.ValueObjects;
+using Synword.Persistence.Entities.Identity.ValueObjects;
 
-namespace Synword.Domain.Entities.Identity;
+namespace Synword.Persistence.Entities.Identity;
 
 public class EmailConfirmationCode : BaseEntity
 {

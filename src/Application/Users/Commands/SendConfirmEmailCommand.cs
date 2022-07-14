@@ -1,47 +1,41 @@
-﻿using Ardalis.GuardClauses;
-using MediatR;
+﻿using MediatR;
 using Synword.Application.Interfaces;
-using Synword.Persistence.Identity;
+using Synword.Application.Interfaces.Email;
 
 namespace Synword.Application.Users.Commands;
 
 public class SendConfirmEmailCommand : IRequest
 {
-    public SendConfirmEmailCommand(AppUser identityUser)
+    public SendConfirmEmailCommand(string uId)
     {
-        Guard.Against.Null(identityUser);
-        
-        IdentityUser = identityUser;
+        UId = uId;
     }
     
-    public AppUser IdentityUser { get; }
+    public string UId { get; }
 }
 
 internal class SendConfirmEmailCommandHandler : IRequestHandler<SendConfirmEmailCommand>
 {
     private readonly IEmailService _emailService;
+    private readonly IConfirmEmailService _confirmEmailService;
 
-    public SendConfirmEmailCommandHandler(IEmailService emailService)
+    public SendConfirmEmailCommandHandler(
+        IEmailService emailService,
+        IConfirmEmailService confirmEmailService)
     {
         _emailService = emailService;
+        _confirmEmailService = confirmEmailService;
     }
     
     public async Task<Unit> Handle(
         SendConfirmEmailCommand request, 
         CancellationToken cancellationToken)
     {
-        AppUser identityUser = request.IdentityUser;
-
-        string email = identityUser.Email;
-        Guard.Against.NullOrEmpty(email);
-
-        await SendConfirmationEmail(email);
+        string confirmationCode = 
+            await _confirmEmailService.GenerateNewConfirmCode(request.UId);
+        await _emailService.SendConfirmationEmailAsync(
+            request.UId, confirmationCode);
         
         return Unit.Value;
-    }
-    
-    private async Task SendConfirmationEmail(string email)
-    {
-        await _emailService.SendConfirmationEmailAsync(email);
     }
 }

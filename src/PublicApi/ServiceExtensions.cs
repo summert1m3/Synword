@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Synword.Domain.Interfaces.Repository;
 using Synword.Domain.Interfaces.Services;
 using Synword.Domain.Services.EnhancedRephrase;
 using Synword.Domain.Services.PlagiarismCheck;
 using Synword.Domain.Services.Rephrase;
+using Synword.Persistence.Entities.Identity;
 using Synword.Persistence.Identity;
 
 namespace Synword.PublicApi;
@@ -18,7 +18,7 @@ public static class ServiceExtensions
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddIdentity<AppUser, IdentityRole>()
+        services.AddIdentity<UserIdentity, IdentityRole>()
             .AddEntityFrameworkStores<AppIdentityDbContext>()
             .AddDefaultTokenProviders();
         

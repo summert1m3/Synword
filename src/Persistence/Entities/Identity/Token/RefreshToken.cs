@@ -1,4 +1,6 @@
-namespace Synword.Domain.Entities.Identity.Token;
+using Synword.Domain.Entities;
+
+namespace Synword.Persistence.Entities.Identity.Token;
 
 public class RefreshToken : BaseEntity
 {

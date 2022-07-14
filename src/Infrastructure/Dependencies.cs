@@ -1,17 +1,19 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Synword.Application.Interfaces;
+using Synword.Application.Interfaces.Documents;
+using Synword.Application.Interfaces.Email;
 using Synword.Application.Interfaces.Google;
-using Synword.Application.Interfaces.Services.Documents;
-using Synword.Application.Interfaces.Services.Email;
-using Synword.Application.Interfaces.Services.Token;
+using Synword.Application.Interfaces.Identity.Token;
+using Synword.Application.Interfaces.Identity.UserIdentity;
 using Synword.Domain.Interfaces.Services;
 using Synword.Infrastructure.Docx;
 using Synword.Infrastructure.Email.ConfirmEmailService;
 using Synword.Infrastructure.Email.EmailService;
 using Synword.Infrastructure.Google;
+using Synword.Infrastructure.Identity.Token;
+using Synword.Infrastructure.Identity.UserIdentityServices;
 using Synword.Infrastructure.PlagiarismCheck;
-using Synword.Infrastructure.Token;
 using Synword.Infrastructure.YandexApi;
 
 namespace Synword.Infrastructure;
@@ -27,7 +29,7 @@ public static class Dependencies
             typeof(IPlagiarismCheckApi), 
             typeof(PlagiarismCheckApi));
         
-        services.AddScoped<ITokenClaimsService, IdentityTokenClaimService>();
+        services.AddScoped<IJwtService, JwtService>();
         
         services.AddScoped(
             typeof(IDocxService), 
@@ -44,5 +46,17 @@ public static class Dependencies
         services.AddScoped(
             typeof(IConfirmEmailService),
             typeof(ConfirmEmailService));
+        
+        services.AddScoped(
+            typeof(IUserAuthService),
+            typeof(UserAuthService));
+        
+        services.AddScoped(
+            typeof(IUserRegistrationService),
+            typeof(UserRegistrationService));
+        
+        services.AddScoped(
+            typeof(IRefreshTokenService),
+            typeof(RefreshTokenService));
     }
 }

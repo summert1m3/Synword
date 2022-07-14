@@ -32,7 +32,6 @@ public class User : BaseEntity<string>, IAggregateRoot
     }
 
     public new string Id { get; private set; }
-    public ExternalSignIn? ExternalSignIn { get; private set; }
     public Ip Ip { get; private set; }
     private readonly List<Role> _roles = new();
     public IReadOnlyCollection<Role> Roles => _roles.AsReadOnly();
@@ -93,18 +92,6 @@ public class User : BaseEntity<string>, IAggregateRoot
         _orders.Add(order);
     }
 
-    public void AddExternalSignIn(ExternalSignIn externalSignIn)
-    {
-        Guard.Against.Null(externalSignIn, nameof(externalSignIn));
-
-        if (ExternalSignIn != null)
-        {
-            throw new Exception("ExternalSignIn already exist");
-        }
-
-        ExternalSignIn = externalSignIn;
-    }
-    
     public void AddMetadata(Metadata metadata)
     {
         Guard.Against.Null(metadata, nameof(metadata));

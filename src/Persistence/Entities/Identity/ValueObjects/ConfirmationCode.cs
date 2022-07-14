@@ -1,6 +1,6 @@
 using Ardalis.GuardClauses;
 
-namespace Synword.Domain.Entities.Identity.ValueObjects;
+namespace Synword.Persistence.Entities.Identity.ValueObjects;
 
 public class ConfirmationCode
 {

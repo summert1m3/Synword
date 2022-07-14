@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Synword.Domain.Entities.Identity;
+using Synword.Persistence.Entities.Identity;
 
 namespace Synword.Persistence.Identity.Config;
 

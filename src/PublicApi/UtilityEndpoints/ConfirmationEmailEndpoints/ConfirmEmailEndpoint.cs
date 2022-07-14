@@ -3,12 +3,10 @@ using Ardalis.ApiEndpoints;
 using Ardalis.GuardClauses;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Synword.Application.Exceptions;
 using Synword.Application.Users.Commands;
-using Synword.Persistence.Identity;
 
 namespace Synword.PublicApi.UtilityEndpoints.ConfirmationEmailEndpoints;
 
@@ -17,14 +15,11 @@ public class ConfirmEmailEndpoint : EndpointBaseAsync
     .WithActionResult
 {
     private readonly IMediator _mediator;
-    private readonly UserManager<AppUser> _userManager;
-    
+
     public ConfirmEmailEndpoint(
-        IMediator mediator,
-        UserManager<AppUser> userManager)
+        IMediator mediator)
     {
         _mediator = mediator;
-        _userManager = userManager;
     }
     
     [HttpPost("confirmEmail")]
@@ -39,20 +34,12 @@ public class ConfirmEmailEndpoint : EndpointBaseAsync
         if (!ModelState.IsValid) return BadRequest(ModelState);
         
         string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        
-        AppUser? identityUser = 
-            await _userManager!.FindByIdAsync(userId);
-        Guard.Against.Null(identityUser);
-
-        if (identityUser.EmailConfirmed)
-        {
-            throw new AppValidationException("Email already confirmed");
-        }
+        Guard.Against.NullOrEmpty(userId);
 
         await _mediator.Send(
             new ConfirmEmailCommand(
-                request.ConfirmationCode,
-                identityUser),
+                userId,
+                request.ConfirmationCode),
             cancellationToken);
         
         return Ok("Email has been successfully confirmed");

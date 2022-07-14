@@ -50,6 +50,7 @@ public static class Dependencies
         services.AddScoped(
             typeof(IEnhancedRephraseRequestValidation), 
             typeof(EnhancedRephraseRequestValidation));
+        
         services.AddScoped(
             typeof(IAppTokenService), 
             typeof(AppTokenService));

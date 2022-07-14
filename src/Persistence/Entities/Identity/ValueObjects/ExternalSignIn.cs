@@ -1,4 +1,4 @@
-﻿namespace Synword.Domain.Entities.UserAggregate.ValueObjects;
+﻿namespace Synword.Persistence.Entities.Identity.ValueObjects;
 
 public class ExternalSignIn
 {

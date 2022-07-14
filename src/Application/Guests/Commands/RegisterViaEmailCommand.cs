@@ -1,12 +1,5 @@
-using Ardalis.GuardClauses;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
-using Synword.Application.Exceptions;
-using Synword.Application.Interfaces;
-using Synword.Domain.Entities.UserAggregate;
-using Synword.Domain.Enums;
-using Synword.Domain.Interfaces.Repository;
-using Synword.Persistence.Identity;
+using Synword.Application.Interfaces.Identity.UserIdentity;
 
 namespace Synword.Application.Guests.Commands;
 
@@ -30,63 +23,21 @@ public class RegisterViaEmailCommand : IRequest
 internal class RegisterViaEmailCommandHandler 
     : IRequestHandler<RegisterViaEmailCommand>
 {
-    private readonly ISynwordRepository<User> _userRepository;
-    private readonly UserManager<AppUser> _userManager;
-    private readonly IPasswordHasher<AppUser> _passwordHasher;
-    private readonly IEmailService _emailService;
-    
+    private readonly IUserRegistrationService _registration;
+
     public RegisterViaEmailCommandHandler(
-        ISynwordRepository<User> userRepository,
-        UserManager<AppUser> userManager,
-        IPasswordHasher<AppUser> passwordHasher,
-        IEmailService emailService
-        )
+        IUserRegistrationService registration)
     {
-        _userRepository = userRepository;
-        _userManager = userManager;
-        _passwordHasher = passwordHasher;
-        _emailService = emailService;
+        _registration = registration;
     }
-    
+
     public async Task<Unit> Handle(
         RegisterViaEmailCommand request, 
         CancellationToken cancellationToken)
     {
-        AppUser? identityUser = 
-            await _userManager!.FindByIdAsync(request.UId);
-        Guard.Against.Null(identityUser);
-        
-        if (IsUserAlreadyHaveEmail(identityUser))
-        {
-            throw new AppValidationException("UserAlreadyHaveEmail");
-        }
-
-        identityUser.Email = request.Email;
-        identityUser.PasswordHash = 
-            _passwordHasher.HashPassword(identityUser, request.Password);
-        identityUser.SecurityStamp = Guid.NewGuid().ToString();
-
-        await ChangeRole(identityUser);
-
-        await _userManager.UpdateAsync(identityUser);
+        await _registration.RegisterGuestViaEmail(
+            request.UId, request.Email, request.Password);
 
         return Unit.Value;
-    }
-
-    private bool IsUserAlreadyHaveEmail(
-        AppUser identityUser)
-    {
-        if (identityUser.Email is not null)
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    private async Task ChangeRole(AppUser identityUser)
-    {
-        await _userManager.RemoveFromRoleAsync(identityUser, Role.Guest.ToString());
-        await _userManager.AddToRoleAsync(identityUser, Role.User.ToString());
     }
 }

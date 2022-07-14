@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Http;
-using Synword.Application.Interfaces.Services.Documents;
+using Synword.Application.Interfaces.Documents;
 
 namespace Synword.Application.Utility.Documents.Services;
 

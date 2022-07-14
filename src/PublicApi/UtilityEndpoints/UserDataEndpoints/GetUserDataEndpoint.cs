@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Interfaces.Repository;
-using Synword.Persistence.Identity;
+using Synword.Persistence.Entities.Identity;
 
 namespace Synword.PublicApi.UtilityEndpoints.UserDataEndpoints;
 
@@ -16,11 +16,11 @@ public class GetUserDataEndpoint : EndpointBaseAsync
     .WithActionResult
 {
     private readonly ISynwordRepository<User> _userRepository;
-    private readonly UserManager<AppUser>? _userManager;
+    private readonly UserManager<UserIdentity>? _userManager;
     
     public GetUserDataEndpoint(
         ISynwordRepository<User> userRepository,
-        UserManager<AppUser>? userManager)
+        UserManager<UserIdentity>? userManager)
     {
         _userRepository = userRepository;
         _userManager = userManager;
@@ -36,7 +36,7 @@ public class GetUserDataEndpoint : EndpointBaseAsync
     {
         string? uId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
 
-        AppUser userIdentity = await _userManager!.FindByIdAsync(uId);
+        UserIdentity userIdentity = await _userManager!.FindByIdAsync(uId);
         Guard.Against.Null(userIdentity);
         var roles = await _userManager.GetRolesAsync(userIdentity);
 

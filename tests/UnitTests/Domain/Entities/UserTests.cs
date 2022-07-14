@@ -39,23 +39,6 @@ public class UserTests
     }
 
     [Fact]
-    public void AddExternalSignIn_ExternalSignInExist_ExternalSignInNotNull()
-    {
-        // Arrange
-        User user = User.CreateDefaultGuest
-        (DefaultUserInitialData.UserId,
-            DefaultUserInitialData.Ip,
-            DefaultUserInitialData.DateTimeNow);
-
-        // Act
-        user.AddExternalSignIn(
-            new ExternalSignIn(ExternalSignInType.Google, "google"));
-
-        // Assert
-        Assert.NotNull(user.ExternalSignIn);
-    }
-
-    [Fact]
     public void AddOrder_OrderExist_OrderNotNull()
     {
         // Arrange

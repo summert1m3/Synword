@@ -1,38 +1,29 @@
-using Ardalis.GuardClauses;
 using MediatR;
-using Synword.Application.Exceptions;
-using Synword.Application.Interfaces.Services.Email;
-using Synword.Domain.Entities.Identity;
-using Synword.Persistence.Identity;
+using Synword.Application.Interfaces.Email;
 
 namespace Synword.Application.Users.Commands;
 
 public class ConfirmEmailCommand : IRequest
 {
     public ConfirmEmailCommand(
-        string confirmationCode,
-        AppUser identityUser)
+        string uId,
+        string confirmationCode)
     {
-        Guard.Against.Null(identityUser);
-        
+        UId = uId;
         ConfirmationCode = confirmationCode;
-        IdentityUser = identityUser;
     }
     
+    public string UId { get; }
     public string ConfirmationCode { get; }
-    public AppUser IdentityUser { get; }
 }
 
 internal class ConfirmEmailCommandHandler : IRequestHandler<ConfirmEmailCommand>
 {
-    private readonly AppIdentityDbContext _identityDb;
     private readonly IConfirmEmailService _confirmEmailService;
     
     public ConfirmEmailCommandHandler(
-        AppIdentityDbContext identityDb,
         IConfirmEmailService confirmEmailService)
     {
-        _identityDb = identityDb;
         _confirmEmailService = confirmEmailService;
     }
     
@@ -40,33 +31,8 @@ internal class ConfirmEmailCommandHandler : IRequestHandler<ConfirmEmailCommand>
         ConfirmEmailCommand request, 
         CancellationToken cancellationToken)
     {
-        AppUser userIdentity = request.IdentityUser;
+        await _confirmEmailService.ConfirmEmail(request.UId, request.ConfirmationCode);
 
-        EmailConfirmationCode? code = _identityDb.EmailConfirmationCodes
-                .FirstOrDefault(
-                    e => e.Email.Value == userIdentity.Email);
-        
-        Validation(code, request);
-
-        userIdentity.EmailConfirmed = true;
-
-        await _confirmEmailService.RemoveCodeFromDb(code);
-        
         return Unit.Value;
-    }
-
-    private void Validation(
-        EmailConfirmationCode? code,
-        ConfirmEmailCommand request)
-    {
-        if (code is null)
-        {
-            throw new AppValidationException("Code not found");
-        }
-
-        if (code.ConfirmationCode.Code != request.ConfirmationCode)
-        {
-            throw new AppValidationException("Invalid code");
-        }
     }
 }

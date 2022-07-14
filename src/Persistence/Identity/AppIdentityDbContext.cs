@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Synword.Domain.Entities.Identity;
-using Synword.Domain.Entities.Identity.Token;
+using Synword.Persistence.Entities.Identity;
+using Synword.Persistence.Entities.Identity.Token;
 using Synword.Persistence.Identity.Config;
 
 namespace Synword.Persistence.Identity;
 
-public class AppIdentityDbContext : IdentityDbContext<AppUser>
+public class AppIdentityDbContext : IdentityDbContext<UserIdentity>
 {
     public AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options) 
         : base(options)
