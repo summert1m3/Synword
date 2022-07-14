@@ -7,6 +7,7 @@ WORKDIR /src
 COPY ["src/PublicApi/PublicApi.csproj", "src/PublicApi/"]
 COPY ["src/Application/Application.csproj", "src/Application/"]
 COPY ["src/Infrastructure/Infrastructure.csproj", "src/Infrastructure/"]
+COPY ["src/Persistence/Persistence.csproj", "src/Persistence/"]
 COPY ["src/Domain/Domain.csproj", "src/Domain/"]
 RUN dotnet restore "src/PublicApi/PublicApi.csproj"
 COPY . .
