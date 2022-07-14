@@ -4,8 +4,6 @@
 
 An application for checking and enhancing the uniqueness of the text.
 
-**[Website](https://synword.com)**
-
 ## Docker
 1. Execute in root directory.
 
