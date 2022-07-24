@@ -97,7 +97,7 @@ public class UserRegistrationService : IUserRegistrationService
     {
         var roles = await _userManager.GetRolesAsync(identityUser);
 
-        var role = roles.FirstOrDefault(r => r == nameof(Role.Guest));
+        var role = roles.SingleOrDefault(r => r == nameof(Role.Guest));
 
         return role is null;
     }

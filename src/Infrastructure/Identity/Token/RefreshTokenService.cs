@@ -35,7 +35,7 @@ public class RefreshTokenService : IRefreshTokenService
         string deviceId = GetDeviceIdFromJwt(encodedToken);
         
         RefreshToken? currentToken = 
-            userIdentity.RefreshTokens.FirstOrDefault(
+            userIdentity.RefreshTokens.SingleOrDefault(
                 t => t.DeviceId == deviceId);
 
         if (currentToken is null)
@@ -88,7 +88,7 @@ public class RefreshTokenService : IRefreshTokenService
             .Where(
                 u => u.Id == uId)
             .Include(u => u.RefreshTokens)
-            .FirstOrDefault();
+            .SingleOrDefault();
         Guard.Against.Null(userIdentity);
 
         return userIdentity;

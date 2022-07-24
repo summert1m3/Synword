@@ -135,7 +135,7 @@ public class UserAuthService : IUserAuthService
         CancellationToken cancellationToken = default)
     {
         UserIdentity userIdentity =
-            _userManager.Users.FirstOrDefault(
+            _userManager.Users.SingleOrDefault(
                 u => u.ExternalSignIn.Id == googleUserModel.Id);
 
         Guard.Against.Null(userIdentity, nameof(userIdentity));

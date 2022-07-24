@@ -52,7 +52,7 @@ public class ConfirmEmailService : IConfirmEmailService
         Guard.Against.Null(userIdentity);
         
         EmailConfirmationCode? code = _db.EmailConfirmationCodes
-            .FirstOrDefault(
+            .SingleOrDefault(
                 e => e.Email.Value == userIdentity.Email);
         
         if (code is null)
@@ -93,7 +93,7 @@ public class ConfirmEmailService : IConfirmEmailService
 
     private void RemoveOldCodeIfExist(string email)
     {
-        var code = _db.EmailConfirmationCodes.FirstOrDefault(
+        var code = _db.EmailConfirmationCodes.SingleOrDefault(
             e => e.Email.Value == email);
 
         if (code is not null)
