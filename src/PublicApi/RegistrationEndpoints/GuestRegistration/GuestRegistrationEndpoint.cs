@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Synword.Application.Guests.Commands;
 using Synword.Application.Guests.DTOs;
+using Synword.Application.Guests.Services;
 
 namespace Synword.PublicApi.RegistrationEndpoints.GuestRegistration;
 
@@ -12,11 +13,11 @@ public class GuestRegistrationEndpoint : EndpointBaseAsync
     .WithoutRequest
     .WithActionResult<GuestRegistrationDto>
 {
-    private readonly IMediator _mediator;
+    private readonly IGuestService _guestService;
 
-    public GuestRegistrationEndpoint(IMediator mediator)
+    public GuestRegistrationEndpoint(IGuestService guestService)
     {
-        _mediator = mediator;
+        _guestService = guestService;
     }
     
     [HttpPost("guestRegister")]
@@ -33,9 +34,8 @@ public class GuestRegistrationEndpoint : EndpointBaseAsync
             return BadRequest();
         }
 
-        GuestRegistrationDto id = 
-            await _mediator.Send(
-                new RegisterNewGuestCommand(ip), cancellationToken);
+        GuestRegistrationDto id = await _guestService.RegisterNewGuest(
+            ip.ToString(), cancellationToken);
         
         return Ok(id);
     }
