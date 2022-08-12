@@ -3,6 +3,7 @@ using Synword.Domain.Entities.RephraseAggregate;
 using Synword.Domain.Extensions;
 using Synword.Domain.Interfaces.Services;
 using Synword.Domain.Services.Rephrase;
+using UnitTests.Utils;
 using Xunit;
 
 namespace UnitTests.Domain.Services.RephraseTests;
@@ -18,47 +19,11 @@ public class RephraseServiceTests
     public void Rephrase_Text_RephraseResult()
     {
         // Arrange
-        string text = Text.GetText445Chars();
-        RephraseResult expected = new(
-            text,
-            Text.GetRephrasedText(),
-            new List<SourceWordSynonyms>
-            {
-                new(
-                    "Lorem",
-                    0,
-                    4,
-                    new List<Synonym> {new("Velit")}
-                ),
-                new(
-                    "dolor",
-                    12,
-                    16,
-                    new List<Synonym> {new("lorem")}
-                ),
-                new(
-                    "consectetur",
-                    28,
-                    31,
-                    new List<Synonym> {new("sint")}
-                ),
-                new(
-                    "aute",
-                    230,
-                    240,
-                    new List<Synonym> {new("consectetur")}
-                ),
-                new(
-                    "dolor",
-                    248,
-                    252,
-                    new List<Synonym> {new("lorem")}
-                ),
-            }
-        );
+        RephraseResult expected = PreparedResults.GetRephraseResult();
 
         // Act
-        RephraseResult actual = _rephrase.Rephrase(text, _dictionary);
+        RephraseResult actual = _rephrase.Rephrase(PreparedText.GetText445Chars(),
+            _dictionary);
 
         // Assert
         Assert.Equal(expected.ToJson(), actual.ToJson());

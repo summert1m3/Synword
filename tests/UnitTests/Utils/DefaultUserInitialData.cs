@@ -1,6 +1,6 @@
 using System;
 
-namespace UnitTests;
+namespace UnitTests.Utils;
 
 public static class DefaultUserInitialData
 {

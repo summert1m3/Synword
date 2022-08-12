@@ -58,7 +58,7 @@ public class User : BaseEntity<string>, IAggregateRoot
         
         if (Coins.Value < count)
         {
-            throw new Exception("Coins.Value < count");
+            throw new Exception("Insufficient balance");
         }
 
         Coins = new Coins(Coins.Value - count);

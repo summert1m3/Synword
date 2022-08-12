@@ -4,6 +4,7 @@ using Synword.Domain.Constants;
 using Synword.Domain.Entities.UserAggregate;
 using Synword.Domain.Entities.UserAggregate.ValueObjects;
 using Synword.Domain.Enums;
+using UnitTests.Utils;
 using Xunit;
 
 namespace UnitTests.Application.Validation;
@@ -31,7 +32,7 @@ public class RephraseRequestValidationTests
 
         //Act
         bool actual = _validation.IsValid(
-            _correctUser, Text.GetText445Chars(), ServicePricesConstants.RephrasePrice);
+            _correctUser, PreparedText.GetText445Chars(), ServicePricesConstants.RephrasePrice);
 
         //Assert
         Assert.True(actual);
@@ -44,7 +45,7 @@ public class RephraseRequestValidationTests
 
         //Act
         bool actual = _validation.IsValid(
-            _correctUser, Text.GetText11Chars(), ServicePricesConstants.RephrasePrice);
+            _correctUser, PreparedText.GetText11Chars(), ServicePricesConstants.RephrasePrice);
         
         //Assert
         Assert.False(actual);
@@ -58,7 +59,7 @@ public class RephraseRequestValidationTests
         //Act
         bool actual = _validation.IsValid(
             _correctUser, 
-            Text.GetText20470Chars(), 
+            PreparedText.GetText20470Chars(), 
             ServicePricesConstants.RephrasePrice);
 
         //Assert
@@ -85,7 +86,7 @@ public class RephraseRequestValidationTests
         
         //Act
         bool actual = _validation.IsValid(
-            incorrectUser, Text.GetText445Chars(), userBalance + 1);
+            incorrectUser, PreparedText.GetText445Chars(), userBalance + 1);
         
         //Assert
         Assert.False(actual);
