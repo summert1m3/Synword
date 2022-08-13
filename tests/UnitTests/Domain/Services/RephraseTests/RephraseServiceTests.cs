@@ -16,7 +16,7 @@ public class RephraseServiceTests
         new SynonymDictionaryServiceStub();
 
     [Fact]
-    public void Rephrase_Text_RephraseResult()
+    public void Rephrase_ValidText_ValidResult()
     {
         // Arrange
         RephraseResult expected = PreparedResults.GetRephraseResult();

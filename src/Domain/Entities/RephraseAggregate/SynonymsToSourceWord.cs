@@ -16,10 +16,6 @@ public class SourceWordSynonyms : BaseEntity
         List<Synonym> synonyms)
     {
         Guard.Against.Null(sourceWord, nameof(sourceWord));
-        Guard.Against.OutOfRange(synonymWordStartIndex, 
-            nameof(synonymWordStartIndex), 0, int.MaxValue);
-        Guard.Against.OutOfRange(synonymWordEndIndex, 
-            nameof(synonymWordEndIndex), 0, int.MaxValue);
         Guard.Against.Negative(synonymWordStartIndex, nameof(synonymWordStartIndex));
         Guard.Against.Negative(synonymWordEndIndex, nameof(synonymWordEndIndex));
         Guard.Against.Null(synonyms, nameof(synonyms));
