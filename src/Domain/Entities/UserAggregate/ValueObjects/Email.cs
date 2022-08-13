@@ -14,7 +14,12 @@ public class Email
     {
         Guard.Against.NullOrEmpty(email, nameof(email));
         
-        MailAddress.TryCreate(email, out MailAddress? validMail);
+        bool isValid = MailAddress.TryCreate(email, out MailAddress? validMail);
+
+        if (!isValid)
+        {
+            throw new Exception("Email is not valid");
+        }
         
         Value = email;
     }

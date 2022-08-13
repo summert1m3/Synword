@@ -15,13 +15,11 @@ public class Ip
         Guard.Against.NullOrEmpty(ip, nameof(ip));
         
         Regex validIp = new Regex(@"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b");
-
-#if !DEBUG
-        if (!validIp.IsMatch(ip))
+        
+        if (!validIp.IsMatch(ip) && ip != "::1")
         {
             throw new FormatException($"{ip} is Invalid IP address");
         }
-#endif
 
         Value = ip;
     }

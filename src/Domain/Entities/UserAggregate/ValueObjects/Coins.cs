@@ -12,7 +12,6 @@ public class Coins
     public Coins(int coins)
     {
         Guard.Against.Negative(coins, nameof(coins));
-        Guard.Against.OutOfRange(coins, nameof(coins), 0, int.MaxValue);
 
         Value = coins;
     }
