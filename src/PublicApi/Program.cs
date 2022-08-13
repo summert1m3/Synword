@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Data.SQLite;
+using Microsoft.AspNetCore.Identity;
 using MinimalApi.Endpoint.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -15,7 +16,7 @@ using Synword.Persistence.Synword;
 using Synword.PublicApi;
 using Synword.PublicApi.Middleware;
 
-NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,6 +51,8 @@ builder.Logging.ClearProviders();
 builder.Host.UseNLog();
 
 var app = builder.Build();
+
+await InitLogsDb();
 
 app.Logger.LogInformation("PublicApi App created...");
 
@@ -162,5 +165,55 @@ async Task InitializeDictionaries()
     catch (Exception ex)
     {
         app.Logger.LogError(ex, "An error occurred initializing dictionaries");
+    }
+}
+
+async Task InitLogsDb()
+{
+    if (!File.Exists(@"./LogsDB.sqlite"))
+    {
+        Console.WriteLine("Creating logs database...");
+        
+        SQLiteConnection.CreateFile(@"./LogsDB.sqlite");
+
+        await using var dbConnection = new SQLiteConnection(@"Data Source=LogsDB.sqlite");
+        dbConnection.Open();
+        
+        string sql = @"CREATE TABLE ""Logs"" ( 
+                `Id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, 
+                `TimestampUtc` TEXT NOT NULL, 
+                `Application` TEXT NOT NULL, 
+                `Level` TEXT NOT NULL, 
+                `Message` TEXT NOT NULL, 
+                `Logger` TEXT NOT NULL, 
+                `Exception` TEXT )";
+        
+        SQLiteCommand command = new SQLiteCommand(sql, dbConnection);
+        command.ExecuteNonQuery();
+    }
+    else
+    {
+        await using var dbConnection = new SQLiteConnection(@"Data Source=LogsDB.sqlite");
+        dbConnection.Open();
+        
+        var sqlQuery = "SELECT name FROM sqlite_master WHERE name='Logs'";
+        
+        SQLiteCommand command = new SQLiteCommand(sqlQuery, dbConnection);
+        var name = command.ExecuteScalar();
+
+        if (name is null || name.ToString() != "Logs")
+        {
+            string sqlCreate = @"CREATE TABLE ""Logs"" ( 
+                `Id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, 
+                `TimestampUtc` TEXT NOT NULL, 
+                `Application` TEXT NOT NULL, 
+                `Level` TEXT NOT NULL, 
+                `Message` TEXT NOT NULL, 
+                `Logger` TEXT NOT NULL, 
+                `Exception` TEXT )";
+        
+            SQLiteCommand createCommand = new SQLiteCommand(sqlCreate, dbConnection);
+            createCommand.ExecuteNonQuery();
+        }
     }
 }
