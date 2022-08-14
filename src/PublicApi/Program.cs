@@ -18,6 +18,8 @@ using Synword.PublicApi.Middleware;
 
 LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 
+await InitLogsDb();
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpoints();
@@ -26,10 +28,10 @@ Synword.Persistence.Dependencies
     .AddPersistence(builder.Configuration, builder.Services);
 
 Synword.Infrastructure.Dependencies
-    .AddInfrastructure(builder.Configuration, builder.Services);
+    .AddInfrastructure(builder.Services);
 
 Synword.Application.Dependencies
-    .AddApplication(builder.Configuration, builder.Services);
+    .AddApplication(builder.Services);
 
 builder.Services.AddControllers();
 
@@ -51,8 +53,6 @@ builder.Logging.ClearProviders();
 builder.Host.UseNLog();
 
 var app = builder.Build();
-
-await InitLogsDb();
 
 app.Logger.LogInformation("PublicApi App created...");
 
@@ -217,3 +217,5 @@ async Task InitLogsDb()
         }
     }
 }
+
+public partial class Program { }

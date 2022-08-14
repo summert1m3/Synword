@@ -20,7 +20,7 @@ namespace Synword.Infrastructure;
 
 public static class Dependencies
 {
-    public static void AddInfrastructure(IConfiguration configuration, IServiceCollection services)
+    public static void AddInfrastructure(IServiceCollection services)
     {
         services.AddScoped(
             typeof(IGoogleApi), typeof(GoogleApi));

@@ -15,7 +15,7 @@ namespace Synword.Application;
 
 public static class Dependencies
 {
-    public static void AddApplication(IConfiguration configuration, IServiceCollection services)
+    public static void AddApplication(IServiceCollection services)
     {
         services.AddScoped(
             typeof(IGuestService), typeof(GuestService));
