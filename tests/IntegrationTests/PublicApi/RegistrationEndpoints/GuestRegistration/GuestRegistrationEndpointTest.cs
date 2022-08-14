@@ -10,8 +10,6 @@ public class GuestRegistrationEndpointTest
     [TestMethod]
     public async Task GuestRegister_Valid_Success()
     {
-        HttpClient client = new HttpClient();
-        
         var response 
             =  await TestBase.NewClient.PostAsync("guestRegister", null);
         
@@ -19,6 +17,7 @@ public class GuestRegistrationEndpointTest
         
         var stringResponse = await response.Content.ReadAsStringAsync();
         var model = stringResponse.FromJson<GuestRegistrationDto>();
+        TestBase.GuestRegistrationDto = model;
         
         Assert.IsTrue(Guid.TryParse(model.UserId, out Guid result));
     }

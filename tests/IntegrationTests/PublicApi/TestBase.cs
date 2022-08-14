@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Synword.Application.Guests.DTOs;
 using Synword.Persistence.Identity;
 using Synword.Persistence.SynonymDictionary.EngSynonymDictionary;
 using Synword.Persistence.SynonymDictionary.RusSynonymDictionary;
@@ -15,6 +16,8 @@ namespace IntegrationTests.PublicApi;
 public class TestBase
 {
     private static WebApplicationFactory<Program> _application;
+    public static GuestRegistrationDto GuestRegistrationDto { get; set; }
+    public static GuestAuthenticateDto GuestAuthenticateDto { get; set; }
 
     public static HttpClient NewClient
     {
